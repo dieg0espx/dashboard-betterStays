@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from '../components/Sidebar'
 
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+
 function CalendarPage() {
     const [calendar, setCalendar] = useState([])
 
@@ -81,7 +84,11 @@ function CalendarPage() {
             <Sidebar />
         </div>
         <div>
-            {calendarMap}
+        <FullCalendar
+          defaultView="dayGridMonth"
+          plugins={[dayGridPlugin]}
+          events={calendar}
+        />
         </div>
     </div>
   )
