@@ -19,6 +19,10 @@ app.use(cors());
 const PORT = 3002;
 
 
+app.use(express.json()); // This will parse JSON bodies
+app.use(express.urlencoded({ extended: true })); // This will parse URL-encoded bodies
+
+
 async function getToken(){
   let token;
   const db = getFirestore(appFirebase);
@@ -50,24 +54,6 @@ for (let i = 0; i < propertiesID.length; i++) {
 }
 
 
-function getFirstDateOfTheMonth(){
-  const currentDate = new Date();
-  currentDate.setDate(1);
-  const year = currentDate.getFullYear();
-  const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding 1 because getMonth() returns 0-indexed months
-  const day = String(currentDate.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-  
-}
-function getLastDateOfTheMonth(){
-  const currentDate = new Date();
-  currentDate.setMonth(currentDate.getMonth() + 1, 1);
-  currentDate.setDate(currentDate.getDate() - 1);
-  const day = currentDate.getDate().toString().padStart(2, '0');
-  const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-  const year = currentDate.getFullYear();
-  return `${year}-${month}-${day}`
-}
 
 
 app.get("/api/multipleCalendar", async (req,res)=>{
@@ -78,8 +64,8 @@ app.get("/api/multipleCalendar", async (req,res)=>{
       authorization: 'Bearer ' + await getToken()
     }
   };
-
-  fetch('https://open-api.guesty.com/v1/availability-pricing/api/calendar/listings?listingIds=' + allIDs + '&startDate=' + getFirstDateOfTheMonth() + '&endDate=' + getLastDateOfTheMonth(), options)
+  const { start, end } = req.query;
+  fetch('https://open-api.guesty.com/v1/availability-pricing/api/calendar/listings?listingIds=' + allIDs + '&startDate=' + start + '&endDate=' + end, options)
   .then(response => response.json())
   .then(response => {
     return res.status(200).json(response);
@@ -88,9 +74,21 @@ app.get("/api/multipleCalendar", async (req,res)=>{
 });
 
 
-
-
-
+app.get("/api/getAllCustomers", async (req,res)=>{
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      authorization: 'Bearer ' + await getToken()
+    }
+  };
+  fetch('https://open-api.guesty.com/v1/guests-crud?columns=fullName%20guestEmail%20guestPhone', options)
+  .then(response => response.json())
+  .then(response => {
+    return res.status(200).json(response);
+  })
+  .catch(err => console.error(err));
+});
 
 
 
