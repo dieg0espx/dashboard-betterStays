@@ -36,7 +36,7 @@ function CalendarPage() {
   }
 
   async function getCalendar(startDate, endDate) {
-    const apiUrl = `http://localhost:3002/api/multipleCalendar?start=${encodeURIComponent(startDate)}&end=${encodeURIComponent(endDate)}`;
+    const apiUrl = `https://apis-betterstay.vercel.app/api/multipleCalendar?start=${encodeURIComponent(startDate)}&end=${encodeURIComponent(endDate)}`;
     fetch(apiUrl)
       .then(response => response.json())
       .then(response => {
@@ -82,7 +82,7 @@ function CalendarPage() {
   }, [calendar]);
 
   function getRandomColor() {
- const getRandomComponent = () => Math.floor(Math.random() * 128 + 64).toString(16).padStart(2, '0');
+  const getRandomComponent = () => Math.floor(Math.random() * 128 + 64).toString(16).padStart(2, '0');
   return `#${getRandomComponent()}${getRandomComponent()}${getRandomComponent()}`;
   }
 
@@ -119,7 +119,6 @@ function CalendarPage() {
     setSelectedOption(event.target.value);
     getCalendar(startDate, endDate);
   };
-
 
   const eventContent = (eventInfo) => {
     return (
@@ -180,7 +179,6 @@ function CalendarPage() {
         <div className='reservationPopup' style={{display: showPopUp ? "block":"none"}}>
             <p> <b> Reservation Id: </b> {currentReservation.id} </p>
             <p> <b> Full Name: </b> {currentReservation.title} </p>
-            {/* <p> <b> Check-In: </b> {currentReservation.start} </p> */}
         </div>
       </div>
     </div>
