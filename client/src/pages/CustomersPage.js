@@ -1,14 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import Sidebar from '../components/Sidebar';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { app } from '../Firebase';
+import axios from 'axios';
+import { saveAs } from 'file-saver';
+
+
 
 function CustomersPage() {
     const [customers, setCustomers] = useState([])
     const [finding, setFinding] = useState('')
     const [showSideBar, setShowSideBar] = useState(false)
     const [currentCustomer, setCurrentCustomer] = useState([])
+    const [urlToPrint, setUrlToPrint] = useState('')
 
     const storage = getStorage();
+    const db = getFirestore(app);
 
     useEffect(()=>{
         getCustomers()
@@ -34,13 +42,8 @@ function CustomersPage() {
         }
         return phoneNumber; 
     }
-    
-    function customerSelected(name, phone, email){
-      
-      setShowSideBar(true)
 
-
-
+    function getPhotoID(name, phone, email){
       getDownloadURL(ref(storage, '/customersID/' + email))
       .then((url) => {
         const xhr = new XMLHttpRequest();
@@ -55,9 +58,37 @@ function CustomersPage() {
       .catch((error) => {
         setCurrentCustomer({name: name, phone:phone, email:email, imageID:''})
       });
-
- 
     }
+
+    async function getSignedContract(email){
+      const docRef = doc(db, "documents", email);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        printContract( '/sheet1?id=' + docSnap.data().email + '&&print=false')
+      } else {
+        console.log("No such document!");
+      }
+    }
+    
+    function customerSelected(name, phone, email){
+      setShowSideBar(true)
+      getPhotoID(name, phone, email);
+      getSignedContract(email)
+    }
+
+    const iframeRef = useRef(null);
+    function printContract(url){
+      if(url == urlToPrint) {
+        iframeRef.current.contentWindow.location.reload();
+      } else {
+        setUrlToPrint(url)
+      }
+    }
+
+    function downloadPhotoID(imageURL, fileName){
+        saveAs(imageURL,fileName);
+    }
+
     
   return (
     <div className='wrapper-customersPage'>
@@ -84,7 +115,18 @@ function CustomersPage() {
                 <p id="name"> {currentCustomer.name}  </p>
                 <p id="phone"> <i className="bi bi-telephone"></i> {formatPhoneNumber(currentCustomer.phone)} </p>
                 <p id="email"> <i className="bi bi-envelope"></i> {currentCustomer.email}</p> 
+                <p id="checkPhotoID"> 
+                  <i className={currentCustomer.imageID !== "" ? "bi bi-check-circle-fill checkIcon":"bi bi-exclamation-circle-fill warningIcon"}></i> 
+                  Picture ID 
+                  <i className="bi bi-download iconDownload" onClick={()=>downloadPhotoID(currentCustomer.imageID, currentCustomer.name)}> Save </i>
+                </p> 
                 <img id="customerID" style={{display: currentCustomer.imageID !== "" ? "block":"none" }} src={currentCustomer.imageID} />     
+                <p id="checkSignedContract"> 
+                  <i className={currentCustomer.imageID !== "" ? "bi bi-check-circle-fill checkIcon":"bi bi-exclamation-circle-fill warningIcon"}></i>
+                  Signed Contract 
+                  <i className="bi bi-printer iconPrint" onClick={()=>printContract('/sheet1?id=' + currentCustomer.email + '&&print=true')}> Print </i>
+                </p> 
+                <iframe ref={iframeRef} src={urlToPrint} />
             </div>
           </div>
         </div>

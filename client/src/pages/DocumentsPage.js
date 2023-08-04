@@ -19,7 +19,8 @@ function DocumentsPage() {
       let data = []
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        data.push({id: doc.id, title:doc.data().title, name:doc.data().name, date: doc.data().date, sign: doc.data().sign })
+        console.log(doc.id);
+        data.push({id: doc.id, title:doc.data().title, name:doc.data().name, date: doc.data().date, sign: doc.data().sign, email:doc.data().email })
       });
       setDocuments(data)
       } catch (error) {
@@ -51,6 +52,7 @@ function DocumentsPage() {
             {documents.filter((application) => application.name.includes(finding)).map((application) => (
               <div className='documents-row' key={application} onClick={()=>printOrder('/sheet1?id=' + application.id)}>
                 <p> {application.name}  </p>
+                <p> {application.email}  </p>
                 <p> {application.title} </p>
                 <p> {application.date}  </p>
                 <i className="bi bi-chevron-right iconChevRight"></i>

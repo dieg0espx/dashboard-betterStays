@@ -214,7 +214,7 @@
 
 .wrapper-documentsPage .documents-row {
     display: grid;
-    grid-template-columns: auto 200px 150px 50px;
+    grid-template-columns: 250px auto 200px 150px 20px;
     border: 1px solid lightgray;
     border-radius: 10px;
     width: 90%;
@@ -496,35 +496,25 @@
   border: 1px solid lightgray;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px;
   padding: 40px;
+  overflow-y: scroll;
 }
 .customer-sideBar #name {
   font-size: 35px;
   font-weight: bold;
   color: #0089BF;
+  text-align: left;
   margin-bottom: 30px;
  }
 
-.customer-sideBar #phone {
+.customer-sideBar #phone, .customer-sideBar #email {
   display: flex;
   gap: 20px;
-  justify-content: center;
   font-size: 20px;
+  text-align: left;
   margin-bottom: 15px;
-  border-radius: 10px;
-  border: 1px solid lightgray;
-  padding: 10px;
 }
 
-.customer-sideBar #email {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  font-size: 20px;
-  margin-bottom: 15px;
-  border-radius: 10px;
-  border: 1px solid lightgray;
-  padding: 10px;
-}
+
 
 .customer-sideBar #customerID {
   width: 100%;
@@ -532,9 +522,42 @@
   border-radius: 10px;
 }
 
-.customer-sideBar #phone:hover,.customer-sideBar #email:hover {
+.customer-sideBar #checkPhotoID, .customer-sideBar #checkSignedContract {
+  font-size: 20px ;
+  text-align: left;
+  margin-top: 20px;
+  border-top: 1px solid lightgray;
+  padding-left: 5px;
+  padding-top: 20px;
+  display: grid;
+  grid-template-columns: 30px auto 100px;
+} 
+
+.customer-sideBar .checkIcon {
+  color: green;
+  font-size: 18px;
+}
+.customer-sideBar .warningIcon {
+  color: rgb(255, 174, 0);
+  font-size: 18px;
+}
+
+.customer-sideBar iframe {
+  border: 1px solid lightgray;
+  width: 100%;
+  height: 450px;
+  margin-top: 30px;
+  padding: 20px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.customer-sideBar .iconPrint, .customer-sideBar .iconDownload {
   color: white;
+  font-style: normal;
+  border-radius: 5px;
   background-color: #0089BF;
+  padding: 5px 20px;
+  font-size: 15px;
 }
 
 
@@ -546,7 +569,6 @@
 .wrapper-sheet1 .content {
   margin: auto;
   background-color: white;
-
 }
 .wrapper-sheet1 .header {
   display: grid;
@@ -589,4 +611,43 @@
   text-transform: capitalize;
 }
 
+
+@media screen and (max-width: 350px) {
+  .wrapper-sheet1 .header img { 
+    width: 60%;
+  }
+  .wrapper-sheet1 .header {
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+  }
+  .wrapper-sheet1 h2 {
+    font-size: 10px;
+    margin-bottom: 10px;
+  }
+  .wrapper-sheet1 p {
+    width: 90%;
+    font-size: 5px;
+    margin-bottom: 8px;
+  }
+  .wrapper-sheet1 .space {
+    display: none;
+  }
+  .wrapper-sheet1 .sign {
+    width: 100px;
+    margin: 20px auto 0 auto;
+    height: 300px;
+  }
+  .wrapper-sheet1 .sign img {
+    max-width: 100px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid black;
+  }
+  .wrapper-sheet1 .sign p {
+    font-size: 8px;
+    text-align: center;
+    text-transform: capitalize;
+  }
+}
 
