@@ -14,6 +14,7 @@ function CustomersPage() {
     const [showSideBar, setShowSideBar] = useState(false)
     const [currentCustomer, setCurrentCustomer] = useState([])
     const [urlToPrint, setUrlToPrint] = useState('')
+    const [haveSigned, setHaveSigned] = useState(false)
 
     const storage = getStorage();
     const db = getFirestore(app);
@@ -31,6 +32,7 @@ function CustomersPage() {
             setCustomers(sortedCustomers);
         })
     }
+    
     function formatPhoneNumber(phoneNumber) {
         const cleaned = ('' + phoneNumber).replace(/\D/g, ''); // Remove non-numeric characters
         if (cleaned.length > 10) {
@@ -65,8 +67,9 @@ function CustomersPage() {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         printContract( '/sheet1?id=' + docSnap.data().email + '&&print=false')
+        setHaveSigned(true)
       } else {
-        console.log("No such document!");
+        setHaveSigned(false)
       }
     }
     
@@ -88,6 +91,8 @@ function CustomersPage() {
     function downloadPhotoID(imageURL, fileName){
         saveAs(imageURL,fileName);
     }
+
+
 
     
   return (
@@ -126,7 +131,22 @@ function CustomersPage() {
                   Signed Contract 
                   <i className="bi bi-printer iconPrint" onClick={()=>printContract('/sheet1?id=' + currentCustomer.email + '&&print=true')}> Print </i>
                 </p> 
-                <iframe ref={iframeRef} src={urlToPrint} />
+                <iframe ref={iframeRef} src={urlToPrint} style={{display : haveSigned ? "block":"none" }}/>
+                <div className='extraInvoice'>
+                  <p> <i className="bi bi-receipt"></i> New Invoice </p>
+                  <input type='text' placeholder='Invoice Title'/>
+                  <textarea rows={10} placeholder='Description'/>
+                  <input type='tel' placeholder='Amount'/>
+                  <select> 
+                    <option selected={true} disabled={true} > Destinatary: </option>
+                    <option> DAVID </option>
+                    <option> PJ INVESTMENTS </option>
+                    <option> PHILL </option>
+                    <option> RC HOMES </option>
+                    <option> ROCK CITY HOMES </option>
+                  </select>
+                  <button> Send </button>
+                </div>
             </div>
           </div>
         </div>
