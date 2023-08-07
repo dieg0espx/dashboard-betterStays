@@ -246,10 +246,10 @@
   background-color: aliceblue;
 }
 .wrapper-document .content {
-  max-width: 1250px;
+  width: 1250px;
   margin: auto;
   background-color: white;
-  padding: 50px 40px;
+  padding: 50px 90px;
   padding-bottom: 300px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
@@ -273,7 +273,16 @@
   width: 80%;
   margin: auto;
   text-align: left;
-  text-align: justify;
+  font-size: 20px;
+}
+
+.wrapper-document input {
+  border: none;
+  border-bottom: 1px solid lightgrey;
+  padding-bottom: 3px;
+  outline: none;
+  font-size: 15px;
+  text-align: center;
 }
 
 .floatingBtns {
@@ -418,6 +427,85 @@
   margin: 0;
   padding: 0;
 }
+
+
+.wrapper-document .indent {
+  width: 70%;
+  margin-left: auto;
+}
+
+.wrapper-document .in-text {
+  font-size: 20px;
+}
+.wrapper-document .in-rad {
+  margin-right: 10px;
+}
+
+
+#in2 { width: 50px;}
+#in3 { width: 450px;}
+#in4 { width: 650px;}
+#in5 { width: 430px;}
+#in6 { width: 550px;}
+#in7 { width: 550px;}
+#in8 { width: 200px;}
+#in9 { width: 100px;}
+#in10 { width: 100px;}
+#in11 { width: 400px;}
+
+/* #in13 { width: 50px;} */
+#in14 { width: 50px;}
+#in15 { width: 50px;}
+#in16 { width: 180px;}
+#in17 { width: 50px;}
+#in18 { width: 50px;}
+#in19 { width: 50px;}
+#in20 { width: 250px;}
+#in21 { width: 50px;}
+#in22 { width: 50px;}
+#in23 { width: 50px;}
+#in24 { width: 50px;}
+#in25 { width: 50px;}
+#in26 { width: 150px;}
+#in27 { width: 150px;}
+#in28 { width: 100px;}
+#in29 { width: 700px;}
+#in30 { width: 840px;}
+#in31 { width: 150px;}
+#in32 { width: 80px;}
+#in33 { width: 80px;}
+#in34 { width: 150px;}
+#in35 { width: 50px;}
+#in36 { width: 80px;}
+#in37 { width: 550px;}
+#in38 { width: 150px;}
+#in39 { width: 150px;}
+#in40 { width: 300px;}
+#in41 { width: 150px;}
+#in42 { width: 300px;}
+#in43 { width: 150px;}
+#in44 { width: 150px;}
+#in45 { width: 700px;}
+#in46 { width: 200px;}
+#in47 { width: 200px;}
+#in48 { width: 200px;}
+#in49 { width: 200px;}
+#in50 { width: 200px;}
+#in51 { width: 200px;}
+#in52 { width: 350px;}
+#in53 { width: 200px;}
+#in54 { width: 300px;}
+#in55 { width: 370px;}
+#in56 { width: 200px;}
+#in57 { width: 300px;}
+#in58 { width: 370px;}
+#in59 { width: 200px;}
+#in60 { width: 300px;}
+
+
+
+
+
 
 
 /* ==== CUSTOMERS PAGE  ==== */
