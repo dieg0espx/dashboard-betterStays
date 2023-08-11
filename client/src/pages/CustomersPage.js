@@ -66,7 +66,7 @@ function CustomersPage() {
       const docRef = doc(db, "documents", email);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        printContract( '/sheet1?id=' + docSnap.data().email + '&&print=false')
+        printContract( '/sheet1?id=' + email + '&&print=false')
         setHaveSigned(true)
       } else {
         setHaveSigned(false)

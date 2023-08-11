@@ -1,13 +1,17 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useLocation } from 'react';
 import Sidebar from '../components/Sidebar';
-import { getFirestore, collection, query, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, query, getDocs, setDoc } from 'firebase/firestore';
 import { app } from '../Firebase';
+import { doc, getDoc } from "firebase/firestore";
 
 function DocumentsPage() {
   const db = getFirestore(app);
   const [documents, setDocuments] = useState([]);
   const [finding, setFinding] = useState('')
   const [urlToPrint, setUrlToPrint] = useState('')
+  const [showEdits, setShowEdits] = useState(false)
+
+
 
   useEffect(() => {
     getDocuments();
@@ -20,7 +24,7 @@ function DocumentsPage() {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         console.log(doc.id);
-        data.push({id: doc.id, title:doc.data().title, name:doc.data().name, date: doc.data().date, sign: doc.data().sign, email:doc.data().email })
+        data.push({id: doc.id, title:doc.data().title, nameTenant1:doc.data().nameTenant1, nameTenant2:doc.data().nameTenant2, checkIn: doc.data().input[20], date: doc.data().date, sign: doc.data().sign, email:doc.data().email })
       });
       setDocuments(data)
       } catch (error) {
@@ -37,6 +41,11 @@ function DocumentsPage() {
     }
   }
 
+
+ 
+
+
+
   return (
     <div className="wrapper-documentsPage">
       <div>
@@ -48,14 +57,22 @@ function DocumentsPage() {
           <h2> Documents </h2>
           <input type={'text'} placeholder="Find Customer" onChange={(e)=>setFinding(e.target.value)}></input>
           <button> <i className="bi bi-search searchIcon"></i> </button>
+          <i class="bi bi-sliders editIcon" onClick={()=>setShowEdits(!showEdits)}></i>
         </div>
-            {documents.filter((application) => application.name.includes(finding)).map((application) => (
-              <div className='documents-row' key={application} onClick={()=>printOrder('/sheet1?id=' + application.id)}>
-                <p> {application.name}  </p>
-                <p> {application.email}  </p>
+            {documents.map((application) => (
+              <div className='documents-row' key={application}>
+                <div id="left" onClick={()=>printOrder('/sheet1?id=' + application.id + "&&print=true")}>
+                {/* <p id="name"> {application.nameTenant1} {application.nameTenant2}   </p> */}
+                <p> <b>Check-in: </b>  {application.checkIn}  </p>
+                <p> {application.id}  </p>
                 <p> {application.title} </p>
                 <p> {application.date}  </p>
                 <i className="bi bi-chevron-right iconChevRight"></i>
+                </div>
+                <div id="right" style={{display: showEdits? "flex":"none"}}>
+                  <i className="bi bi-pencil-square writeIcon" onClick={()=> window.location.href = "/document?id=" + application.id}></i>
+                  {/* <i className="bi bi-trash3 deleteIcon"></i> */}
+                </div>
               </div>
             ))}
       </div>
