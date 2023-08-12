@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import Sidebar from '../components/Sidebar';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, collection, addDoc, query, getDocs, } from 'firebase/firestore';
 import { app } from '../Firebase';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
@@ -16,8 +16,26 @@ function CustomersPage() {
     const [urlToPrint, setUrlToPrint] = useState('')
     const [haveSigned, setHaveSigned] = useState(false)
 
+    const [myInvoices, setMyInvoices] = useState([])
+
+    const [invoiceTitle, setInvoiceTitle] = useState('')
+    const [InvoiceDescription, setInvoiceDescription] = useState('')
+    const [invoiceAmount, setInvoiceAmount] = useState('');
+    const [invoiceDestinatary, setInvoiceDestinatary] = useState('')
+
+
     const storage = getStorage();
     const db = getFirestore(app);
+
+    function formatDate(date) {
+      const formattedDate = new Intl.DateTimeFormat('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      }).format(date);
+    
+      return formattedDate;
+    }
 
     useEffect(()=>{
         getCustomers()
@@ -77,6 +95,7 @@ function CustomersPage() {
       setShowSideBar(true)
       getPhotoID(name, phone, email);
       getSignedContract(email)
+      getMyInvoices(email)
     }
 
     const iframeRef = useRef(null);
@@ -91,6 +110,49 @@ function CustomersPage() {
     function downloadPhotoID(imageURL, fileName){
         saveAs(imageURL,fileName);
     }
+
+    async function createNewInvoice(){
+      await addDoc(collection(db, "Invoices"), {
+        title: invoiceTitle, 
+        description: InvoiceDescription, 
+        email: currentCustomer.email, 
+        amount: invoiceAmount,
+        destinatary: invoiceDestinatary,
+        paid:false,
+        date:  formatDate(new Date())
+      });
+
+      alert("Invoice Sent to: " + currentCustomer.email)
+      setInvoiceTitle('');
+      setInvoiceDescription('');
+      setInvoiceAmount('');
+      setInvoiceDestinatary('')
+      getMyInvoices(currentCustomer.email)
+    }
+
+
+    async function getMyInvoices(customerEmail){
+      try {
+        const q = query(collection(db, "Invoices"));
+        let data = []
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          if(doc.data().email == customerEmail){
+            data.push({
+              title: doc.data().title, 
+              description: doc.data().description, 
+              amount: doc.data().amount, 
+              date: doc.data().date,
+              paid: doc.data().paid
+            })
+          }
+        });
+        setMyInvoices(data)
+        } catch (error) {
+          console.error('Error fetching documents:', error);
+        }
+    }
+
 
 
 
@@ -134,18 +196,27 @@ function CustomersPage() {
                 <iframe ref={iframeRef} src={urlToPrint} style={{display : haveSigned ? "block":"none" }}/>
                 <div className='extraInvoice'>
                   <p> <i className="bi bi-receipt"></i> New Invoice </p>
-                  <input type='text' placeholder='Invoice Title'/>
-                  <textarea rows={10} placeholder='Description'/>
-                  <input type='tel' placeholder='Amount'/>
-                  <select> 
-                    <option selected={true} disabled={true} > Destinatary: </option>
+                  <input type='text' placeholder='Invoice Title' onChange={(e)=>setInvoiceTitle(e.target.value)} value={invoiceTitle}/>
+                  <textarea rows={10} placeholder='Description' onChange={(e)=>setInvoiceDescription(e.target.value)} value={InvoiceDescription}/>
+                  <input type='tel' placeholder='Amount' onChange={(e)=>setInvoiceAmount(e.target.value)} value={invoiceAmount} />
+                  <select onChange={(e)=>setInvoiceDestinatary(e.target.value)} value={invoiceDestinatary}> 
+                    <option value="" disabled>Destinatary:</option>
                     <option> DAVID </option>
                     <option> PJ INVESTMENTS </option>
                     <option> PHILL </option>
                     <option> RC HOMES </option>
                     <option> ROCK CITY HOMES </option>
                   </select>
-                  <button> Send </button>
+                  <button onClick={()=>createNewInvoice()}> Send </button>
+                </div>
+                <div className='myInvoices'>
+                    {myInvoices.map(invoice => (
+                      <div className='myInvoices-row' key={invoice.id}>
+                        <i className={invoice.paid ? "bi bi-check-circle-fill checkIcon":"bi bi-exclamation-circle-fill warningIcon"}></i> 
+                        <p> {invoice.date} </p>
+                        <p id="amount"> ${invoice.amount} </p>
+                      </div>      
+                    ))}
                 </div>
             </div>
           </div>

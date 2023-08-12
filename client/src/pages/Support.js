@@ -12,6 +12,8 @@ function Support() {
   const [currentQuestion, setCurrentQuestion] = useState([])
   const [currentAnswer, setCurrentAnswer] = useState("")
 
+  const [filter, setFilter] = useState(1);
+
   useEffect(()=>{
     getQuestions()
   },[])
@@ -22,7 +24,7 @@ function Support() {
       let data = []
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-       data.push({id: doc.id, question: doc.data().question, answer: doc.data().answer});
+       data.push({id: doc.id, question: doc.data().question, answer: doc.data().answer, isAnswered: doc.data().isAnswered});
       });
       setQuestions(data)
       } catch (error) {
@@ -42,7 +44,7 @@ function Support() {
     let dataToPush = { 
      question: currentQuestion[1],
      answer: currentAnswer,
-     isAnswered : currentAnswer.length > 10 ? true : false
+     isAnswered : currentAnswer.length > 1 ? true : false
     }
     try {
       await setDoc(doc(db, "Questions", id), dataToPush);
@@ -62,14 +64,43 @@ function Support() {
         <div>
             <div className="top-nav">
               <h2> Support  </h2>
+              
+              <div className='filter'>
+                <button className={filter == 1 ? 'active':''} onClick={()=>setFilter(1)}> All </button>
+                <button className={filter == 2 ? 'active':''} onClick={()=>setFilter(2)}> Answered </button>
+                <button className={filter == 3 ? 'active':''} onClick={()=>setFilter(3)}> Not Answered</button>
+              </div>
+
             </div>
             <div className='content'>
-            {questions.map((question) => (
-              <div className='question-row' key={question.id} onClick={()=> updateQuestion(question.id, question.question, question.answer)}>
-                  <p id="question"> {question.question} </p>
-                  <p id="answer"> {question.answer} </p>
-              </div>
-            ))}
+                {filter === 1 && (
+                    questions.map((question) => (
+                      <div className='question-row' key={question.id} onClick={() => updateQuestion(question.id, question.question, question.answer)}>
+                        <p id="question"> <i className={question.isAnswered ? "bi bi-check-circle-fill checkIcon" : "bi bi-exclamation-circle-fill warningIcon"}></i> {question.question} </p>
+                        <p id="answer"> {question.answer} </p>
+                      </div>
+                    ))
+                  )}
+                {filter === 2 && (
+                  questions
+                    .filter((question) => question.isAnswered === true)
+                    .map((question) => (
+                      <div className='question-row' key={question.id} onClick={() => updateQuestion(question.id, question.question, question.answer)}>
+                        <p id="question"> <i className="bi bi-check-circle-fill checkIcon"></i> {question.question} </p>
+                        <p id="answer"> {question.answer} </p>
+                      </div>
+                    ))
+                )}
+                {filter === 3 && (
+                  questions
+                    .filter((question) => question.isAnswered === false)
+                    .map((question) => (
+                      <div className='question-row' key={question.id} onClick={() => updateQuestion(question.id, question.question, question.answer)}>
+                        <p id="question"> <i className="bi bi-exclamation-circle-fill warningIcon"></i> {question.question} </p>
+                        <p id="answer"> {question.answer} </p>
+                      </div>
+                    ))
+                )}
             </div>
             <div className='overlay' style={{display: showPopup? "block":"none"}} onClick={()=>setShowPopup(false)}></div>
             <div className='question-popup' style={{display: showPopup? "block":"none"}}>

@@ -8,6 +8,7 @@ import Document from './pages/Document';
 import CustomersPage from './pages/CustomersPage';
 import Sheet1 from './pages/Sheet1';
 import Support from './pages/Support';
+import Invoice from './pages/Invoice';
 
 function App() {
   return (
@@ -34,6 +35,9 @@ function App() {
           </Routes>
           <Routes>
             <Route path='/support'  element={<Support />} />
+          </Routes>
+          <Routes>
+            <Route path='/invoice'  element={<Invoice />} />
           </Routes>
         </div>
       </Router>
