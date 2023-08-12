@@ -7,6 +7,7 @@ import DocumentsPage from './pages/DocumentsPage';
 import Document from './pages/Document';
 import CustomersPage from './pages/CustomersPage';
 import Sheet1 from './pages/Sheet1';
+import Support from './pages/Support';
 
 function App() {
   return (
@@ -30,6 +31,9 @@ function App() {
           </Routes>
           <Routes>
             <Route path='/sheet1'  element={<Sheet1 />} />
+          </Routes>
+          <Routes>
+            <Route path='/support'  element={<Support />} />
           </Routes>
         </div>
       </Router>
