@@ -1,6 +1,8 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import axios from "axios"
 import React, { useEffect, useState } from 'react'
+import { app } from '../Firebase.js';
+import { doc, setDoc, getDoc, getFirestore, updateDoc } from "firebase/firestore"; 
 
 const CARD_OPTIONS = {
 	style: {
@@ -20,12 +22,21 @@ const CARD_OPTIONS = {
 };
 
 function PaymentForm(props) {
+    const db = getFirestore(app);
     const [success, setSuccess ] = useState(false)
     const stripe = useStripe()
     const elements = useElements()
 
     const [showBtn, setShowBtn] = useState(true);
     const [failed, setFailed] = useState(false);
+    const [error, setError] = useState('')
+
+    const [showConfirmation, setShowConfirmation] = useState(false)
+
+    useEffect(()=>{
+      setShowConfirmation(props.paid)
+      console.log(showConfirmation);
+    },[props.paid])
     
 
   const handleSubmit = async (e) => {
@@ -46,6 +57,12 @@ function PaymentForm(props) {
               })
               if (response.data.success) {
                 console.log("Payment Successfull !");
+                setShowConfirmation(true)
+                const invoiceRef = doc(db, "Invoices", props.invoiceID);
+                await updateDoc(invoiceRef, {
+                  paid: true
+                });
+
               } else {
                 // if the payment fails
               }
@@ -54,6 +71,9 @@ function PaymentForm(props) {
           }
       } else {
           console.log(error.message)
+          setError(error.message)
+          setFailed(true)
+          setShowBtn(true)
       }
   }
 
@@ -61,7 +81,6 @@ function PaymentForm(props) {
         <>
         {!success ? 
         <form onSubmit={handleSubmit}>
-            {/* <h3> Payment </h3> */}
             <div className="card-details">
                 <fieldset className="FormGroup">
                     <div className="FormRow">
@@ -70,17 +89,21 @@ function PaymentForm(props) {
                 </fieldset>
             </div>
             <div style={{display: failed? "block":"none"}}>
-                <p id="failed"> *Payment Failed </p>
+                <p id="failed"> *Payment failed, try again. </p>
+                <p id="failed"> {error} </p>
             </div>
             <div style={{display: showBtn? "block":"none"}}>
                 <button id="btnPay" onClick={()=>setShowBtn(false)}>Pay ${props.balance} USD</button>
             </div>
-        </form>
-        :
-       <div>
-            <p> Done ! </p>
-       </div> 
+        </form>:""
         }     
+          <div>
+             <div className='paymentForm-confirmation' style={{display: showConfirmation ? "flex":"none"}}>
+               <i className="bi bi-check-circle-fill iconCheck"></i>
+               <h2> Thanks !</h2>
+               <p> This invoice has been successfully paid </p>
+             </div>
+          </div> 
         </>
     )
 }

@@ -9,6 +9,8 @@ import CustomersPage from './pages/CustomersPage';
 import Sheet1 from './pages/Sheet1';
 import Support from './pages/Support';
 import Invoice from './pages/Invoice';
+import MensagesPage from './pages/MensagesPage';
+import MessagesCustomer from './pages/MessagesCustomer';
 
 function App() {
   return (
@@ -38,6 +40,12 @@ function App() {
           </Routes>
           <Routes>
             <Route path='/invoice'  element={<Invoice />} />
+          </Routes>
+          <Routes>
+            <Route path='/messages'  element={<MensagesPage />} />
+          </Routes>
+          <Routes>
+            <Route path='/messagesCustomer'  element={<MessagesCustomer />} />
           </Routes>
         </div>
       </Router>

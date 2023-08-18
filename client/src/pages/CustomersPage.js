@@ -115,6 +115,8 @@ function CustomersPage() {
       await addDoc(collection(db, "Invoices"), {
         title: invoiceTitle, 
         description: InvoiceDescription, 
+        name: currentCustomer.name, 
+        phone: currentCustomer.phone,
         email: currentCustomer.email, 
         amount: invoiceAmount,
         destinatary: invoiceDestinatary,
@@ -165,7 +167,7 @@ function CustomersPage() {
         <div>
           <div className='top-nav'>
                 <h2> Customers </h2>
-                <input type="text" placeholder='Find Customer' onChange={(e)=>setFinding(e.target.value)}></input>
+                <input type="text" placeholder='Find Customer' onChange={(e)=>setFinding(e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1).toLowerCase())}></input>
                 <button> <i className="bi bi-search searchIcon"></i> </button>
           </div>
           <div className='customers-mainGrid'  style={{display: showSideBar? "grid":"block"}}>

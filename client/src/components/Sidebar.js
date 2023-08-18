@@ -47,7 +47,7 @@ function Sidebar() {
           break;
         case 4:
           setPage(4)
-          window.location.href ='/messaages';
+          window.location.href ='/messages';
           break;
         case 5:
           setPage(5)
