@@ -168,6 +168,7 @@ function CalendarPage() {
           </select>
         </div>
         <FullCalendar
+          className="frame-calendar"
           plugins={[dayGridPlugin]}
           initialView='dayGridMonth' // Set the initial view to show a month
           events={events}

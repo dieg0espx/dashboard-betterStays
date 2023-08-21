@@ -176,7 +176,7 @@ function CustomersPage() {
                   <div className='customers-row' key={customer.id} onClick={()=>customerSelected(customer.fullName, customer.phone, customer.email)}>
                     <p id='name'>{customer.fullName}</p>
                     <p>{formatPhoneNumber(customer.phone)}</p>
-                    <p>{customer.email.length > 30 ? customer.email.substring(0, 30) + ' ...' : customer.email}</p>
+                    <p id='email'>{customer.email.length > 30 ? customer.email.substring(0, 30) + ' ...' : customer.email}</p>
                   </div>
               ))}
             </div>
