@@ -649,6 +649,11 @@
   padding: 40px;
   overflow-y: scroll;
 }
+
+.backIcon {
+  display: none;
+}
+
 .customer-sideBar #name {
   font-size: 35px;
   font-weight: bold;
@@ -1531,6 +1536,7 @@
     position: fixed;
     left: 0;
     top: 70px;
+    width: 100vw;
     height: calc(100vh - 70px);
     margin: 0;
     border-radius: 0px;
@@ -1569,6 +1575,16 @@
     font-size: 15px;
   }
 
+  .backIcon {
+    display: block;
+    margin-top: -10px;
+    margin-left: -10px;
+    margin-bottom: 10px;
+    background-color: transparent;
+    border: none;
+    color: #0089BF;
+    font-size: 15px;
+  }
 
 }
 

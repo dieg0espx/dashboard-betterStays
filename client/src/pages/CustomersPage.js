@@ -181,6 +181,7 @@ function CustomersPage() {
               ))}
             </div>
             <div className='customer-sideBar' style={{display: showSideBar? "block":"none"}}>
+                <button className='backIcon' onClick={()=>setShowSideBar(false)}> <i className="bi bi-chevron-left "></i> Back </button>
                 <p id="name"> {currentCustomer.name}  </p>
                 <p id="phone"> <i className="bi bi-telephone"></i> {formatPhoneNumber(currentCustomer.phone)} </p>
                 <p id="email"> <i className="bi bi-envelope"></i> {currentCustomer.email}</p> 
