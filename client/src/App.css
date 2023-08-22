@@ -1682,10 +1682,7 @@
     padding: 0 10px;
   }
 
-
-
   .wrapper-messagesPage .messages {
-    /* border: 1px solid red; */
     height: 100%;
   }
   .wrapper-messagesPage .buble {
@@ -1730,6 +1727,57 @@
     right: 20px;  
     font-size: 25px;
   }
+
+
+  /* ========  SUPPORT PAGE  ======== */
+  .wrapper-supportPage {
+    display: block;
+    width: 95%;
+    margin: 80px auto 0 auto;
+  }
+  .wrapper-supportPage .top-nav {
+    display: block;
+    margin: 0 auto 15px auto;
+  }
+
+  .wrapper-supportPage .top-nav h2 {
+    font-size: 40px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .wrapper-supportPage .top-nav button { 
+    font-size: 15px;
+    padding: 0 15px;
+  }
+
+  .question-row #question {
+    font-weight: bold;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+  }
+  #answer {
+    font-size: 15px;
+    font-style: italic;
+    color: gray;
+    margin: auto;
+  }
+
+  .question-popup { 
+    width: 90%;
+  }
+  .question-popup #question {
+    font-size: 20px;
+  }
+  .question-popup textarea {
+    font-size: 15px;
+  }
+  .question-popup button {
+      height: 40px;
+      font-size: 15px;
+      border-radius: 5px;
+  }
+
 
 }
 
