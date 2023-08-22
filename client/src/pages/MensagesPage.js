@@ -18,7 +18,7 @@ function MensagesPage() {
     const [contacts, setContacts] = useState([])
 
     const [strNewMesasge, setStrNewMesasge] = useState('')
-    const [conversation,setConversation] = useState('jabaraja@hotmail.com - Jorge Espinosa')
+    const [conversation,setConversation] = useState('')
 
 
     const [receivedMessages, setReceivedMessages] = useState(0);
@@ -51,8 +51,10 @@ function MensagesPage() {
 
       const [playSound] = useSound(mySound)
 
-
-        useEffect(()=>{
+      
+       useEffect(()=>{
+          console.log(conversation);
+          if(conversation.length > 0){
             console.log("Open Conversation: " + conversation);
             const messagesRef = doc(db, "Messages", conversation);
             onSnapshot(messagesRef, (doc) => {
@@ -67,17 +69,19 @@ function MensagesPage() {
                     setMessages(sortedData)
                 }
             });
-            
+          }
         },[conversation])
 
         useEffect(() => {
-          let received = 0
-          for( let i = 0; i < Object.keys(messages).length; i ++ ){
-            if(Object.keys(messages)[i].includes('customer')){
-              received ++
+          if(messages.length > 0){
+            let received = 0
+            for( let i = 0; i < Object.keys(messages).length; i ++ ){
+              if(Object.keys(messages)[i].includes('customer')){
+                received ++
+              }
             }
+            compareCount(received)
           }
-          compareCount(received)
         }, [messages]);
 
         function compareCount(num){
@@ -158,40 +162,38 @@ function MensagesPage() {
               <div className='contacts'>
                   <p id="title"> Chats </p>
                 {contacts.map((contact, i) => 
-                  <div className={contact.split('-')[0].includes(conversation.split('-')[0]) ? "selected-row":"row"} key={i} onClick={()=> openConversation(contact.split('-')[0], contact.split('-')[1])}>
+                  <div className={contact.split('-')[0].includes(conversation.split('-')[0]) && conversation.length > 0 ? "selected-row":"row"} key={i} onClick={()=> openConversation(contact.split('-')[0], contact.split('-')[1])}>
                       <div>
                           <i className="bi bi-person-circle iconPerson"></i>
                       </div>
                       <div>
                           <p id="name"> {contact.split('-')[1]} </p>
-                          {/* <p id="email"> {contact.split('-')[0]} </p> */}
+                          <p id="email"> {contact.split('-')[0]} </p>
                       </div>
                   </div>
                 )}
               </div>
               <div className='messages'>
-                  <div className='top-bar'>
+                  <div className='top-bar' style={{display: conversation.length > 0? "flex":"none"}}>
                       <p> <i className="bi bi-person-circle"></i> {conversation.split('-')[1]} </p>
                       <p>{conversation.split('-')[0]} </p>
                   </div>
                   <div className='bubles' ref={messagesContainerRef}>
-                      {Object.keys(messages).map((key) => (
-                            <div key={key}>
-                              <div className={key.includes('admin') ? 'buble admin-buble' : 'buble customer-buble'}>
-                                <p> {messages[key]} </p>
-                              </div>
-                              <img className="adminTail" style={{display:key.includes('admin') ? "block":"none" }} src={adminTail} />
-                              <img className="customerTail" style={{display:key.includes('customer') ? "block":"none" }} src={customerTail} />
+                    {Object.keys(messages).map((key) => (
+                      <div key={key}>
+                        <div className={key.includes('admin') ? 'buble admin-buble' : 'buble customer-buble'}>
+                          <p> {messages[key]} </p>
+                        </div>
+                        <img className="adminTail" style={{display:key.includes('admin') ? "block":"none" }} src={adminTail} />
+                        <img className="customerTail" style={{display:key.includes('customer') ? "block":"none" }} src={customerTail} />
 
-                              <p className={key.includes('admin') ? 'message-hour admin-hour' : 'message-hour customer-hour'} >
-                                {getTime(key)}
-                              </p>
-                            </div>
-                          )
-                          )
-                      }
+                        <p className={key.includes('admin') ? 'message-hour admin-hour' : 'message-hour customer-hour'} >
+                          {getTime(key)}
+                        </p>
+                      </div>
+                    ))}
                   </div>
-                  <div className='wrapper-newMessages'>
+                  <div className='wrapper-newMessages' style={{display: conversation.length > 0? "block":"none"}}>
                       <textarea className='new-message' value={strNewMesasge}  rows={4} onKeyDown={handleKeyDown} onChange={(e)=>setStrNewMesasge(e.target.value)} placeholder='Type your message'/>
                       <i className="bi bi-arrow-up-circle-fill arrowIcon" onClick={()=>sendMessage()}></i>
                   </div>
@@ -209,13 +211,13 @@ function MensagesPage() {
                   <div className='contacts'>
                       <p id="title"> Chats </p>
                     {contacts.map((contact, i) => 
-                      <div className={contact.split('-')[0].includes(conversation.split('-')[0]) ? "selected-row":"row"} key={i} onClick={()=> openConversation(contact.split('-')[0], contact.split('-')[1])}>
+                      <div className={contact.split('-')[0].includes(conversation.split('-')[0]) && conversation.length > 0 && showChat ? "selected-row":"row"} key={i} onClick={()=> openConversation(contact.split('-')[0], contact.split('-')[1])}>
                           <div>
                               <i className="bi bi-person-circle iconPerson"></i>
                           </div>
                           <div>
                               <p id="name"> {contact.split('-')[1]} </p>
-                              {/* <p id="email"> {contact.split('-')[0]} </p> */}
+                              <p id="email"> {contact.split('-')[0]} </p>
                           </div>
                       </div>
                     )}

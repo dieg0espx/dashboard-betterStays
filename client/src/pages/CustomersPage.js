@@ -23,6 +23,8 @@ function CustomersPage() {
     const [invoiceAmount, setInvoiceAmount] = useState('');
     const [invoiceDestinatary, setInvoiceDestinatary] = useState('')
 
+    const [isMobile, setIsMobile] = useState(false)
+
 
     const storage = getStorage();
     const db = getFirestore(app);
@@ -39,6 +41,9 @@ function CustomersPage() {
 
     useEffect(()=>{
         getCustomers()
+        if(window.innerWidth < 500){
+          setIsMobile(true)
+        }
     },[])
 
     function getCustomers(){
@@ -167,16 +172,19 @@ function CustomersPage() {
         <div>
           <div className='top-nav'>
                 <h2> Customers </h2>
-                <input type="text" placeholder='Find Customer' onChange={(e)=>setFinding(e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1).toLowerCase())}></input>
-                <button> <i className="bi bi-search searchIcon"></i> </button>
+                <div className='searchBar'>
+                  <input type="text" placeholder='Find Customer' onChange={(e)=>setFinding(e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1).toLowerCase())}></input>
+                  <button> <i className="bi bi-search searchIcon"></i> </button>
+                </div>
           </div>
           <div className='customers-mainGrid'  style={{display: showSideBar? "grid":"block"}}>
             <div className='customers-list'>
               {customers.filter((customer) => customer.fullName && customer.email && customer.phone &&customer.fullName.includes(finding)).map((customer) => (
                   <div className='customers-row' key={customer.id} onClick={()=>customerSelected(customer.fullName, customer.phone, customer.email)}>
+                    <i style={{display: isMobile? "block":"none"}} className="bi bi-person-circle iconPerson"></i>
                     <p id='name'>{customer.fullName}</p>
                     <p>{formatPhoneNumber(customer.phone)}</p>
-                    <p id='email'>{customer.email.length > 30 ? customer.email.substring(0, 30) + ' ...' : customer.email}</p>
+                    <p id='email'>{customer.email.length > 30 ? customer.email.substring(0, 30) + ' ...' : customer.email}</p>                    
                   </div>
               ))}
             </div>

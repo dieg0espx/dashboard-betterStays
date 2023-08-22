@@ -51,6 +51,7 @@
 }
 
 
+
 .wrapper-sidebar {
   position: fixed;
   left: 0; top: 0;
@@ -130,11 +131,17 @@
 
 .calendar-topNav select{
   font-size: 20px;
-  padding: 10px;
-  border: none;
+  padding: 5px 15px;
+  border: 1px solid lightgrey;
+  background-color: transparent;
   color: #072A40;
   outline: none;
+  -webkit-appearance: none;
 }
+  .fc-event-main {
+    font-size: 10px !important;
+    height: 35px !important;
+  }
 .custom-event {
   padding: 0 10px;
   border: 1px solid transparent;
@@ -181,7 +188,6 @@
 .wrapper-documentsPage {
   display: grid;
   grid-template-columns: 250px auto;
-  gap: 10px;
 }
 .wrapper-documentsPage iframe {
   display: none;
@@ -194,29 +200,35 @@
   align-items: center;
   gap: 10px;
 }
+.wrapper-documentsPage .searchBar {  
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
 .wrapper-documentsPage .top-nav h2 {
   margin-left: 0;
   margin-right: auto;
-  font-size: 50px;
+  font-size: 40px;
   color: #0089BF;
 }
 .wrapper-documentsPage .top-nav input {
-  font-size: 18px;
+  font-size: 15px;
   width: 300px;
-  height: 45px;
+  height: 35px;
   padding: 5px 20px;
   border-radius: 5px;
   border: 1px solid lightgray;
+  text-transform: capitalize;
   outline: none;
 }
 .wrapper-documentsPage .top-nav button {
   width: 80px;
-  height: 45px;
+  height: 35px;
   border-radius: 5px;
   background-color: #0089BF;
   color: white;
   border: none;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .editIcon {
@@ -232,34 +244,30 @@
   display: flex;
   width: 90%;
   margin: auto;
-  align-items: center;
+  justify-content: center;
 } 
 
 
 .wrapper-documentsPage .documents-row #left {
     display: grid;
-    grid-template-columns: auto auto auto 150px 20px;
+    grid-template-columns: 250px auto 200px 100px 20px;
     border: 1px solid lightgray;
     border-radius: 10px;
     width: 100%;
-    height: 80px;
+    height: 60px;
     align-items: center;
     padding: 0 30px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px;
-    margin: 10px auto;
+    margin: 0 auto 10px auto;
     transition: 0.3s;
 }
 
 .wrapper-documentsPage .documents-row #right {
   display: flex;
   align-items: center;
-  font-size: 30px;
-  gap: 30px;
-  justify-content: space-between;
-  width: fit-content;
-  height: 80px;
-  margin-left: 20px;
+  font-size: 25px;
   padding: 0 20px;
+  height: 60px;
 }
 .documents-row .writeIcon, .documents-row .deleteIcon {
   color: gray;
@@ -281,7 +289,7 @@
   padding-left: 40px;
 }
 .documents-row p {
-  font-size: 20px;
+  font-size: 15px;
   text-align: left;
 }
 .documents-row .iconChevRight {
@@ -573,7 +581,7 @@
 /* ==== CUSTOMERS PAGE  ==== */
 .wrapper-customersPage {
   display: grid;
-  grid-template-columns: 280px auto;
+  grid-template-columns: 250px auto;
 }
 .wrapper-customersPage .top-nav {
   width: 90%;
@@ -583,16 +591,21 @@
   align-items: center;
   gap: 10px;
 }
+
+.wrapper-customersPage .searchBar {
+  display: flex;
+  gap: 5px;
+}
 .wrapper-customersPage .top-nav h2 {
   margin-left: 0;
   margin-right: auto;
-  font-size: 50px;
+  font-size: 40px;
   color: #0089BF;
 }
 .wrapper-customersPage .top-nav input {
-  font-size: 18px;
+  font-size: 15px;
   width: 300px;
-  height: 45px;
+  height: 35px;
   padding: 5px 20px;
   border-radius: 5px;
   border: 1px solid lightgray;
@@ -601,7 +614,7 @@
 }
 .wrapper-customersPage .top-nav button {
   width: 80px;
-  height: 45px;
+  height: 35px;
   border-radius: 5px;
   background-color: #0089BF;
   color: white;
@@ -615,7 +628,7 @@
   border: 1px solid lightgray;
   border-radius: 10px;
   width: 90%;
-  height: 80px;
+  height: 60px;
   align-items: center;
   padding: 0 30px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px;
@@ -623,7 +636,7 @@
   transition: 0.3s;
 }
 .customers-row p {
-  font-size: 20px;
+  font-size: 15px;
   text-align: left;
 }
 .customers-row:hover {
@@ -638,7 +651,8 @@
 
 .customers-mainGrid{
   display: grid;
-  grid-template-columns: auto 400px ;
+  grid-template-columns: auto 300px;
+  gap: 10px;
 }
 .customer-sideBar {
   height: calc(100vh - 160px);
@@ -646,7 +660,7 @@
   border-radius: 10px;
   border: 1px solid lightgray;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px;
-  padding: 40px;
+  padding: 20px;
   overflow-y: scroll;
 }
 
@@ -655,19 +669,19 @@
 }
 
 .customer-sideBar #name {
-  font-size: 35px;
+  font-size: 30px;
   font-weight: bold;
   color: #0089BF;
   text-align: left;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
  }
 
 .customer-sideBar #phone, .customer-sideBar #email {
   display: flex;
   gap: 20px;
-  font-size: 20px;
+  font-size: 15px;
   text-align: left;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 
 
@@ -679,7 +693,7 @@
 }
 
 .customer-sideBar #checkPhotoID, .customer-sideBar #checkSignedContract {
-  font-size: 20px ;
+  font-size: 15px ;
   text-align: left;
   margin-top: 20px;
   border-top: 1px solid lightgray;
@@ -691,11 +705,11 @@
 
 .customer-sideBar .checkIcon {
   color: green;
-  font-size: 18px;
+  font-size: 15px;
 }
 .customer-sideBar .warningIcon {
   color: rgb(255, 174, 0);
-  font-size: 18px;
+  font-size: 15px;
 }
 
 .customer-sideBar iframe {
@@ -713,7 +727,8 @@
   border-radius: 5px;
   background-color: #0089BF;
   padding: 5px 20px;
-  font-size: 15px;
+  font-size: 12px;
+  text-align: center;
   cursor: pointer;
 }
 
@@ -725,10 +740,10 @@
   margin-bottom: 20px;
 }
 .extraInvoice p {
-  font-size: 20px ;
+  font-size: 15px ;
   text-align: left;
   margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   border-top: 1px solid lightgray;
   padding-left: 5px;
   padding-top: 20px;
@@ -737,16 +752,16 @@
 }
 
 .extraInvoice input, .extraInvoice select {
-  height: 45px;
+  height: 30px;
   padding: 5px 10px;
-  font-size: 18px;
+  font-size: 15px;
   border: 1px solid lightgray;
   border-radius: 5px;
   outline: none;
 }
 .extraInvoice textarea {
   padding: 5px 10px;
-  font-size: 18px;
+  font-size: 15px;
   border: 1px solid lightgray;
   border-radius: 5px;
   outline: none;
@@ -755,13 +770,13 @@
 
 .extraInvoice button {
   width: 100%;
-  height: 45px;
+  height: 35px;
   background-color: #0089BF;
   color: white;
   border: none;
   margin-top: 20px;
   border-radius: 5px;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 600;
 }
 
@@ -1244,7 +1259,7 @@
 .wrapper-messagesPage .contacts #email {
   font-weight: 400;
   text-align: left;
-  font-size: 15px;
+  font-size: 12px;
 }
 
 .wrapper-messagesPage .contacts .row  {
@@ -1394,6 +1409,14 @@
   to {
     margin-top: 60px;
   }
+}
+@keyframes mobileCustomerSidebar {
+  from {
+    right: -100vw;
+  }
+  to {
+    right: 0px;
+  }
 
 }
 
@@ -1442,13 +1465,13 @@
   .mobile-menu button {
     display: flex;
     gap: 20px;
-    height: 35px;
-    font-size: 20px;
+    height: 30px;
+    font-size: 18px;
     color: white;
     background-color: transparent;
     border: none;
     text-align: left;
-    padding-left: 20px;
+    padding-left: 25px;
     transition: 0.3s;
   }
 
@@ -1480,7 +1503,8 @@
     font-size: 10px;
   }
   .fc-view-harness {
-    height:  calc(100vh - 290px) !important;
+    height: calc(100vh - 250px) !important;
+    margin-bottom: 10px;
   }
 
   .fc-event-main {
@@ -1498,21 +1522,27 @@
   }
   .wrapper-customersPage .top-nav {
     display: block;
+    width: 100%;
     margin: 0 auto 15px auto;
   }
 
   .wrapper-customersPage .top-nav h2 {
     font-size: 40px;
-    text-align: center;
+    text-align: left;
+    margin-bottom: 0px;
   }
+  .wrapper-customersPage .searchBar {
+    margin-bottom: 20px;
+  }
+
   .wrapper-customersPage .top-nav input {
     width: 90%;
-    text-align: center;
+    text-align: left;
     height: 35px;
     font-size: 12px;
   }
   .wrapper-customersPage .top-nav button {
-   display: none;
+   height: 35px;
   }
   .customers-row {
     display: flex;
@@ -1521,9 +1551,21 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
+    padding-left: 80px;
+  }
+  .customers-row:hover {
+    padding-left: 100px;
+  }
+  .customers-row .iconPerson {
+    position: relative;
+    top: -3px;
+    right: 70px;
+    font-size: 50px;
+    color: gray;
   }
   .customers-row #name {
     font-weight: bold;
+    margin-top: -80px;
   }
   .customers-row #email {
     font-size: 13px;
@@ -1532,9 +1574,11 @@
     font-size: 15px;
     text-align: left;
   }
+
+
   .customer-sideBar {
     position: fixed;
-    left: 0;
+    right: 0px;
     top: 70px;
     width: 100vw;
     height: calc(100vh - 70px);
@@ -1543,6 +1587,7 @@
     padding: 30px 30px 200px 30px;
     overflow-y: scroll;
     background-color: white;
+    animation:mobileCustomerSidebar 0.2s;
   }
   .customer-sideBar #name {
     font-size: 25px;
@@ -1595,12 +1640,17 @@
   }
   .wrapper-documentsPage .top-nav {
     display: block;
+    width: 100%;
     margin: 0 auto 15px auto;
   }
 
   .wrapper-documentsPage .top-nav h2 {
     font-size: 40px;
-    text-align: center;
+    text-align: left;
+    margin-bottom: 0px;
+  }
+  .wrapper-documentsPage .searchBar {
+    margin-bottom: 20px; 
   }
   .wrapper-documentsPage .top-nav input {
     width: 90%;
@@ -1609,30 +1659,17 @@
     font-size: 12px;
     display: inline-block;
     margin-left: 0;
+    text-align: left;
   }
-  .wrapper-documentsPage .top-nav button {
-   display: none;
+  .wrapper-documentsPage .top-nav .editIcon {
+    position: absolute;
+    top: 85px;
+    right: 20px;
   }
-
-  .wrapper-documentsPage .iconChevRight,
-  .wrapper-documentsPage #checkIn, 
-  .wrapper-documentsPage #title {
-    display: none;
-  }
-
-  .wrapper-documentsPage .editIcon {
-    position: fixed;
-    bottom: 15px;
-    right: 15px;
-    background-color: #072A40;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px;
-    padding: 10px 18px;
-    border-radius: 50%;
-  } 
 
   .wrapper-documentsPage .documents-row {
-    height: 90px;
     width: 100%;
+    margin-bottom: 10px;
   }
   .wrapper-documentsPage .documents-row #left{
     display: flex;
@@ -1640,10 +1677,24 @@
     align-items: start;
     justify-content: center;
     width: 100%;
+    height: fit-content;
     margin: 0;
+    padding: 10px 0 10px 80px;
+  }
+  .wrapper-documentsPage .documents-row #left:hover{
+    padding-left: 100px;
+  }
+
+  .documents-row .iconDocument {
+    position: relative;
+    top: -3px;
+    right: 70px;
+    font-size: 50px;
+    color: gray;
   }
   .wrapper-documentsPage .documents-row #name {
     font-weight: bold;
+    margin-top: -80px;
   }
 
   .wrapper-documentsPage .documents-row #right{
@@ -1651,6 +1702,7 @@
     gap: 3px;
     align-items: center;
     width: 20px;
+    height: 90px;
     padding: 0;
     margin-left: 10px;
   }
@@ -1737,17 +1789,29 @@
   }
   .wrapper-supportPage .top-nav {
     display: block;
+    width: 100%;
     margin: 0 auto 15px auto;
   }
 
   .wrapper-supportPage .top-nav h2 {
     font-size: 40px;
-    text-align: center;
-    margin-bottom: 10px;
+    text-align: left;
+    margin-bottom: 0px;
+  }
+  .wrapper-supportPage .filter {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: auto auto auto;
   }
   .wrapper-supportPage .top-nav button { 
     font-size: 15px;
-    padding: 0 15px;
+    padding: 0 28px;
+    margin: 0;
+    border: none;
+  }
+
+  .wrapper-supportPage .content {
+    width: 100%;
   }
 
   .question-row #question {

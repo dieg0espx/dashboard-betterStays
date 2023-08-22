@@ -11,10 +11,15 @@ function DocumentsPage() {
   const [urlToPrint, setUrlToPrint] = useState('')
   const [showEdits, setShowEdits] = useState(false)
 
+  const [isMobile, setIsMobile] = useState(false)
+
 
 
   useEffect(() => {
     getDocuments();
+    if(window.innerWidth < 500){
+      setIsMobile(true)
+    }
   }, []);
 
   async function getDocuments(){
@@ -55,23 +60,25 @@ function DocumentsPage() {
       <div>
         <div className="top-nav">
           <h2> Documents </h2>
-          <input type={'text'} placeholder="Find Customer" onChange={(e)=>setFinding(e.target.value)}></input>
-          <button> <i className="bi bi-search searchIcon"></i> </button>
-          <i class="bi bi-sliders editIcon" onClick={()=>setShowEdits(!showEdits)}></i>
+          <div className='searchBar'>
+              <input type="text" placeholder='Find Customer' onChange={(e)=>setFinding(e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1).toLowerCase())}></input>
+              <button> <i className="bi bi-search searchIcon"></i> </button>
+              <i class="bi bi-sliders editIcon" onClick={()=>setShowEdits(!showEdits)}></i>
+          </div>
         </div>
             {documents.map((application) => (
               <div className='documents-row' key={application}>
                 <div id="left" onClick={()=>printOrder('/sheet1?id=' + application.id + "&&print=true")}>
-                <p id="checkIn"> <b>Check-in: </b>  {application.checkIn}  </p>
+                <i className="bi bi-file-text iconDocument" style={{display: isMobile? "block":"none"}}></i>
                 <p id="name"> {application.nameTenant1}  </p>
                 <p id="id"> {application.id}  </p>
-                <p id="title"> {application.title} </p>
-                <p> {application.date}  </p>
-                <i className="bi bi-chevron-right iconChevRight"></i>
+                <p id="title" style={{display: isMobile? "none":"block"}}> {application.title} </p>
+                <p id="title" style={{display: isMobile? "block":"none"}}> {application.title} - {application.date} </p>
+                <p style={{display: isMobile? "none":"block"}}> {application.date}  </p>
+                <i style={{display: isMobile? "none":"block"}} className="bi bi-chevron-right iconChevRight"></i>
                 </div>
                 <div id="right" style={{display: showEdits? "flex":"none"}}>
                   <i className="bi bi-pencil-square writeIcon" onClick={()=> window.location.href = "/document?id=" + application.id}></i>
-                  {/* <i className="bi bi-trash3 deleteIcon"></i> */}
                 </div>
               </div>
             ))}
