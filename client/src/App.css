@@ -928,7 +928,7 @@
 .wrapper-supportPage .top-nav h2 {
   margin-left: 0;
   margin-right: auto;
-  font-size: 50px;
+  font-size: 40px;
   color: #0089BF;
 }
 .wrapper-supportPage .top-nav button {
@@ -967,9 +967,9 @@
 }
 
 .wrapper-supportPage .question-row {
-  border: 2px solid lightgray;
+  border: 1px solid lightgray;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   text-align: left;
   padding:20px;
   border-radius: 10px;
@@ -982,11 +982,12 @@
 
 .question-row #question {
   font-weight: bold;
-  font-size: 25px;
+  font-size: 15px;
   display: flex;
   align-items: center;
 }
 #answer {
+  font-size: 15px;
   font-style: italic;
   color: gray;
   margin: auto;
