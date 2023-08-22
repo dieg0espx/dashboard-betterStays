@@ -1588,11 +1588,6 @@
 
 
   /* ========  DOCUMENTS PAGE  ======== */
-
-  .wrapper-documentsPage {
-    display:  block;
-  }
-
   .wrapper-documentsPage {
     display: block;
     width: 95%;
@@ -1662,6 +1657,81 @@
   .documents-row p {
     font-size: 15px;
   }
+
+  /* ========  MESSAGES PAGE  ======== */
+
+  .wrapper-messagesPage {
+    display: block;
+    width: 100%;
+    margin: 70px auto 0 auto;
+  }
+
+  .wrapper-messagesPage .contacts-window {
+    border: 1px solid red;
+    width: 100%;
+    height: 100vh;
+  }
+
+  .wrapper-messagesPage .messages-window {
+    width: 100%;
+    height: calc(100vh - 190px);
+  }
+
+  .wrapper-messagesPage .top-bar {
+    font-size: 20px;
+    height: 45px;
+    padding: 0 10px;
+  }
+
+
+
+  .wrapper-messagesPage .messages {
+    /* border: 1px solid red; */
+    height: 100%;
+  }
+  .wrapper-messagesPage .buble {
+    border: 1px solid lightgray;
+    font-size: 13px;
+  }
+  .wrapper-messagesPage .admin-buble {
+    text-align: right;
+    width: fit-content;
+    max-width: 70%;
+    margin: 3px 10px 0px auto;
+    padding:5px 20px;
+    color: white;
+    background-color: #0089BF;
+    border-radius: 10px;
+  }
+  .wrapper-messagesPage .customer-buble {
+    text-align: left;
+    width: fit-content;
+    max-width: 70%;
+    margin: 3px auto 0px 10px;
+    padding:5px 20px;
+    color: white;
+    background-color: #25c625;
+    border-radius: 10px;
+  }
+  .customer-hour {
+    text-align: left;
+    margin-left: 30px;
+    font-size: 10px;
+  }
+  .admin-hour {
+    text-align: right;
+    margin-right: 25px;
+    font-size: 10px;
+  }
+  .wrapper-newMessages textarea {
+    font-size: 12px;
+  }
+  .wrapper-newMessages .arrowIcon {
+    bottom: 30px;
+    right: 20px;  
+    font-size: 25px;
+  }
+
 }
 
 
