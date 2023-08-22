@@ -1586,6 +1586,82 @@
     font-size: 15px;
   }
 
+
+  /* ========  DOCUMENTS PAGE  ======== */
+
+  .wrapper-documentsPage {
+    display:  block;
+  }
+
+  .wrapper-documentsPage {
+    display: block;
+    width: 95%;
+    margin: 80px auto 0 auto;
+  }
+  .wrapper-documentsPage .top-nav {
+    display: block;
+    margin: 0 auto 15px auto;
+  }
+
+  .wrapper-documentsPage .top-nav h2 {
+    font-size: 40px;
+    text-align: center;
+  }
+  .wrapper-documentsPage .top-nav input {
+    width: 90%;
+    text-align: center;
+    height: 35px;
+    font-size: 12px;
+    display: inline-block;
+    margin-left: 0;
+  }
+  .wrapper-documentsPage .top-nav button {
+   display: none;
+  }
+
+  .wrapper-documentsPage .iconChevRight,
+  .wrapper-documentsPage #checkIn, 
+  .wrapper-documentsPage #title {
+    display: none;
+  }
+
+  .wrapper-documentsPage .editIcon {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    background-color: #072A40;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px;
+    padding: 10px 18px;
+    border-radius: 50%;
+  } 
+
+  .wrapper-documentsPage .documents-row {
+    height: 90px;
+    width: 100%;
+  }
+  .wrapper-documentsPage .documents-row #left{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+  }
+  .wrapper-documentsPage .documents-row #name {
+    font-weight: bold;
+  }
+
+  .wrapper-documentsPage .documents-row #right{
+    font-size: 20px;
+    gap: 3px;
+    align-items: center;
+    width: 20px;
+    padding: 0;
+    margin-left: 10px;
+  }
+  .documents-row p {
+    font-size: 15px;
+  }
 }
 
 

@@ -62,10 +62,10 @@ function DocumentsPage() {
             {documents.map((application) => (
               <div className='documents-row' key={application}>
                 <div id="left" onClick={()=>printOrder('/sheet1?id=' + application.id + "&&print=true")}>
-                {/* <p id="name"> {application.nameTenant1} {application.nameTenant2}   </p> */}
-                <p> <b>Check-in: </b>  {application.checkIn}  </p>
-                <p> {application.id}  </p>
-                <p> {application.title} </p>
+                <p id="checkIn"> <b>Check-in: </b>  {application.checkIn}  </p>
+                <p id="name"> {application.nameTenant1}  </p>
+                <p id="id"> {application.id}  </p>
+                <p id="title"> {application.title} </p>
                 <p> {application.date}  </p>
                 <i className="bi bi-chevron-right iconChevRight"></i>
                 </div>
