@@ -1955,7 +1955,7 @@
   .wrapper-document .floatingBtns {
     bottom: 0px;
     width: 100%;
-    height: 8%;
+    height: 8vh;
     left: 50%;
     transform: translate(-50%);    
     display: grid;
