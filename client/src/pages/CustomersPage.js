@@ -117,7 +117,7 @@ function CustomersPage() {
     }
 
     async function createNewInvoice(){
-      await addDoc(collection(db, "Invoices"), {
+     const docRef =  await addDoc(collection(db, "Invoices"), {
         title: invoiceTitle, 
         description: InvoiceDescription, 
         name: currentCustomer.name, 
@@ -129,7 +129,33 @@ function CustomersPage() {
         date:  formatDate(new Date())
       });
 
+  
+
+      //sending Email  
+      console.log("Sending Email ...");
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+      var urlencoded = new URLSearchParams();
+      urlencoded.append("invoiceID", docRef.id);
+      urlencoded.append("email", currentCustomer.email);
+      urlencoded.append("title", invoiceTitle);
+      urlencoded.append("description", InvoiceDescription);
+      urlencoded.append("amount", invoiceAmount);
+     
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: 'follow'
+      };
+      
+      fetch("https://better-stays-mailer.vercel.app/api/newInvoice", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log("Email Sent: " + result))
+        .catch(error => console.log('== ERROR === ', error));
+
       alert("Invoice Sent to: " + currentCustomer.email)
+
       setInvoiceTitle('');
       setInvoiceDescription('');
       setInvoiceAmount('');
