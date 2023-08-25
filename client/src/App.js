@@ -11,6 +11,7 @@ import Support from './pages/Support';
 import Invoice from './pages/Invoice';
 import MensagesPage from './pages/MensagesPage';
 import MessagesCustomer from './pages/MessagesCustomer';
+import PropertiesPage from './pages/PropertiesPage';
 
 function App() {
   return (
@@ -46,6 +47,9 @@ function App() {
           </Routes>
           <Routes>
             <Route path='/messagesCustomer'  element={<MessagesCustomer />} />
+          </Routes>
+          <Routes>
+            <Route path='/properties'  element={<PropertiesPage />} />
           </Routes>
         </div>
       </Router>

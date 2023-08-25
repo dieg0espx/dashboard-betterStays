@@ -138,10 +138,14 @@
   outline: none;
   -webkit-appearance: none;
 }
-  .fc-event-main {
-    font-size: 10px !important;
-    height: 35px !important;
-  }
+
+/* Title  */
+.fc-toolbar-chunk { 
+  font-size: 15px;
+}
+.fc-event-main {
+  font-size:13px !important;
+}
 .custom-event {
   padding: 0 10px;
   border: 1px solid transparent;
@@ -1401,6 +1405,70 @@
 }
 
 
+/*  ======== PROPERTIES PAGE ==========  */
+.wrapper-propertiesPage {
+  display: grid;
+  grid-template-columns: 280px auto;
+}
+.wrapper-propertiesPage .top-nav {
+  width: 90%;
+  margin: 40px auto;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 10px;
+}
+.wrapper-propertiesPage .top-nav h2 {
+  margin-left: 0;
+  margin-right: auto;
+  font-size: 50px;
+  color: #0089BF;
+}
+
+.wrapper-propertiesPage .properties-row {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  width: 90%;
+  margin: auto;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  border: 1px solid lightgray;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px;
+  align-items: center;
+  text-align: left;
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 60px;
+  font-size: 15px;
+  transition: 0.2s;
+}
+.wrapper-propertiesPage .properties-row:hover {
+  padding-left: 25px;
+  border: 1px solid #0089BF;
+}
+
+.wrapper-propertiesPage .properties-row #name{
+  font-weight: 500;
+}
+
+.wrapper-propertiesPage .properties-row .minMaxNights {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wrapper-propertiesPage .properties-row .minMaxNights .labelMinMax {
+  color: #0089BF;
+  font-weight: bold;
+}
+
+.wrapper-propertiesPage .properties-row .minMaxNights input{
+  text-align: center;
+  width: 70px;
+  border: none;
+  outline: none;
+  font-size: 20px;
+}
 
 
 @keyframes mobileMenu {
@@ -1843,7 +1911,40 @@
       border-radius: 5px;
   }
 
+  /*  ======== PROPERTIES PAGE ======== */
 
+  .wrapper-propertiesPage {
+    display: block;
+    width: 95%;
+    margin: 80px auto 0 auto;
+  }
+  .wrapper-propertiesPage .top-nav {
+    display: block;
+    width: 100%;
+    margin: 0 auto 15px auto;
+  }
+
+  .wrapper-propertiesPage .top-nav h2 {
+    font-size: 40px;
+    text-align: left;
+    margin-bottom: 0px;
+  }
+
+  .wrapper-propertiesPage .properties-row {
+    width: 100%;
+    display: block;
+    height: fit-content;
+    padding: 10px 20px;
+  }
+  .wrapper-propertiesPage .properties-row #name {
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  .wrapper-propertiesPage .properties-row .minMaxNights{
+    width: 100%;
+    margin: 10px auto 5px 0;
+  }
 }
 
 
