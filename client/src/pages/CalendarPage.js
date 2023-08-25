@@ -172,7 +172,7 @@ function CalendarPage() {
           plugins={[dayGridPlugin]}
           initialView='dayGridMonth' // Set the initial view to show a month
           events={events}
-          eventClick={handleEventClick}
+          // eventClick={handleEventClick}
           eventContent={eventContent}
           datesSet={handleDateChange}
         />
