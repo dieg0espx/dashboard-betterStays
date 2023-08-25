@@ -80,7 +80,7 @@ function Sidebar() {
         <button style={{color: page == 4 ? "#0089BF":"white"}} onClick={()=>onPageSelect(4)}> <i className="bi bi-chat-left-dots"></i> Messages </button>
         <button style={{color: page == 6 ? "#0089BF":"white"}} onClick={()=>onPageSelect(6)}> <i className="bi bi-person-gear"></i> Support </button>
         <button style={{color: page == 7 ? "#0089BF":"white"}} onClick={()=>onPageSelect(7)}> <i className="bi bi-houses"></i> Properties </button>
-        <button style={{color: page == 8 ? "#0089BF":"white"}} onClick={()=>onPageSelect(8)}> <i className="bi bi-sliders"></i> Others </button>           
+        <button style={{color: page == 8 ? "#0089BF":"white"}} onClick={()=>window.location.href = "https://analytics.google.com/"}> <i className="bi bi-bar-chart-line"></i> Analytics </button>           
       </div>
     </div>
     <div className='mobile-menu' style={{display: showMobileMenu? "flex":"none"}}>
@@ -90,7 +90,7 @@ function Sidebar() {
         <button style={{color: page == 4 ? "#0089BF":"white"}} onClick={()=>onPageSelect(4)}> <i className="bi bi-chat-left-dots"></i> Messages </button>
         <button style={{color: page == 6 ? "#0089BF":"white"}} onClick={()=>onPageSelect(6)}> <i className="bi bi-person-gear"></i> Support </button>
         <button style={{color: page == 7 ? "#0089BF":"white"}} onClick={()=>onPageSelect(7)}> <i className="bi bi-houses"></i> Properties </button>
-        <button style={{color: page == 8 ? "#0089BF":"white"}} onClick={()=>onPageSelect(8)}> <i className="bi bi-sliders"></i> Others </button>
+        <button style={{color: page == 8 ? "#0089BF":"white"}} onClick={()=>window.location.href = "https://analytics.google.com/"}> <i className="bi bi-bar-chart-line"></i> Analytics </button>           
       </div>
   </div>
    
