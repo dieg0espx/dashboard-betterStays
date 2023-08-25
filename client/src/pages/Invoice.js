@@ -14,6 +14,7 @@ function Invoice() {
     const [paid, setPaid] = useState(false)
     const [invoiceID, setInvoiceID] = useState('')
 
+
     useEffect(()=>{
       getData(params.get('id'));
     },[])

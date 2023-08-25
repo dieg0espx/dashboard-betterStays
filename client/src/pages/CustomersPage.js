@@ -146,6 +146,7 @@ function CustomersPage() {
         querySnapshot.forEach((doc) => {
           if(doc.data().email == customerEmail){
             data.push({
+              id:doc.id,
               title: doc.data().title, 
               description: doc.data().description, 
               amount: doc.data().amount, 
@@ -222,7 +223,7 @@ function CustomersPage() {
                 </div>
                 <div className='myInvoices'>
                     {myInvoices.map(invoice => (
-                      <div className='myInvoices-row' key={invoice.id}>
+                      <div className='myInvoices-row' key={invoice.id} onClick={()=>window.location.href="/invoice?id=" + invoice.id}>
                         <i className={invoice.paid ? "bi bi-check-circle-fill checkIcon":"bi bi-exclamation-circle-fill warningIcon"}></i> 
                         <p> {invoice.date} </p>
                         <p id="amount"> ${invoice.amount} </p>
