@@ -342,6 +342,7 @@
 
 .wrapper-document input {
   border: none;
+  border-radius: 0;
   border-bottom: 1px solid lightgrey;
   outline: none;
   font-size: 15px;
@@ -2034,6 +2035,7 @@
 
   .wrapper-invoicePage .paymentForm-confirmation {
     background-color: white;
+    height: 110%;
   }
   .wrapper-invoicePage .paymentForm-confirmation .iconCheck{
     font-size: 50px;
