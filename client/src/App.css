@@ -1963,7 +1963,7 @@
   }
   .wrapper-document .floatingBtns button{
     width: 100%;
-    font-size: 10px;
+    font-size: 0.8em;
     border-radius: 0;
     text-align: center;
   }
