@@ -1967,6 +1967,10 @@
     border-radius: 0;
     text-align: center;
   }
+  .wrapper-document .overlay {
+    width: 100%;
+    height: 100%;
+  }
 
 }
 
