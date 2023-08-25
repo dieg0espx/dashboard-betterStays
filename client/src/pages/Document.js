@@ -44,11 +44,14 @@ function Document() {
 
     const [saveNewSign, setSaveNewSign] = useState([])
 
+    const [isMobile, setIsMobile] = useState(false)
+
 
     // ==== GENERAL FUNCTIONS ===== //
     useEffect(()=>{
         setCurrentEmail(params.get('id'))
         getData()
+        if(window.innerWidth < 800){setIsMobile(true)}
     },[])
 
     function formatDate(date) {
@@ -147,30 +150,6 @@ function Document() {
         setShowPopup2(false)
         setShowPopup3(false)
     }
-
-  
-
-    // useEffect(()=>{
-    //   if(showPopup1 || showPopup2 || showPopup3) {
-    //     setShowOverlay(true)
-    //   } else if (!showPopup1 && !showPopup2 && !showPopup3){
-    //     setShowOverlay(true)
-    //   }
-    // }, [showPopup1, showPopup2, showPopup3])
-
-
-    // function isTheSignEmpty(){
-    //   if (sign) {
-    //       const isCanvasEmpty = sign.isEmpty();
-    //       setShowSave(false)
-    //       if (!isCanvasEmpty && fullName.length > 8) {
-    //         setShowSave(true)
-    //       }
-    //   }
-    // }
-
-
-
 
     // FIREBASE - UPDATE 
     async function handleSave(){
@@ -385,15 +364,15 @@ function Document() {
          </div>
            
         </div>
+
         <div className='floatingBtns'>
-            <button id="sign" onClick={()=> openSigner(1)}> <i className="bi bi-pencil-square"></i>  Sign - Tenant 1 </button>
-            <button id="sign" onClick={()=> openSigner(2)}> <i className="bi bi-pencil-square"></i>  Sign - Tenant 2 </button>
-            <button id="sign" onClick={()=> openSigner(3)}> <i className="bi bi-pencil-square"></i>  Sign - Landlord </button>
+            <button id="sign" onClick={()=> openSigner(1)}> <i className="bi bi-pencil-square"></i> {isMobile ? "Tenant 1" : "Sign - Tenant 1"} </button>
+            <button id="sign" onClick={()=> openSigner(2)}> <i className="bi bi-pencil-square"></i> {isMobile ? "Tenant 2" : "Sign - Tenant 2"} </button>
+            <button id="sign" onClick={()=> openSigner(3)}> <i className="bi bi-pencil-square"></i> {isMobile ? "Landlord" : "Sign - Landlord"} </button>
             <button id="save" onClick={()=> handleSave()}> Save <i className="bi bi-chevron-right"></i> </button>
         </div>
-        <div className='overlay'  style={{display: showOverlay? "block":"none"}} onClick={()=>closeSigners()}></div>
 
-    
+        <div className='overlay'  style={{display: showOverlay? "block":"none"}} onClick={()=>closeSigners()}></div>
         <div className='sign-pad' style={{display: showPopup1? "block":"none"}}>
             <div className='pad'>
             <SignatureCanvas 
@@ -407,7 +386,6 @@ function Document() {
                 <button id="cancel" onClick={()=>clearSign(1)}> Clear </button>
             </div>
         </div>
-
         <div className='sign-pad' style={{display: showPopup2? "block":"none"}}>
             <div className='pad'>
             <SignatureCanvas 
@@ -421,7 +399,6 @@ function Document() {
                 <button id="cancel" onClick={()=>clearSign(2)}> Clear </button>
             </div>
         </div>
-
         <div className='sign-pad' style={{display: showPopup3? "block":"none"}}>
             <div className='pad'>
             <SignatureCanvas 
@@ -435,8 +412,6 @@ function Document() {
                 <button id="cancel" onClick={()=>clearSign(3)}> Clear </button>
             </div>
         </div>
-
-
         <div className='confirmation' style={{display: showConfirmation? "flex":"none"}}>
             <div className='confirmation-content'>
                 <i className="bi bi-check2-circle checkIcon"></i>
