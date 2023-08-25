@@ -90,9 +90,9 @@ function PropertiesPage() {
                         <p> {property.title}</p>
                         <div className='minMaxNights'>
                             <p className='labelMinMax'> Min: </p>
-                            <input type='text' placeholder={getMin(property.nickname)} onChange={(e)=>updateMinMax('min', property.nickname, e.target.value)}/>
+                            <input type='tel' placeholder={getMin(property.nickname)} onChange={(e)=>updateMinMax('min', property.nickname, e.target.value)}/>
                             <p className='labelMinMax'> Max: </p>
-                            <input type='text' placeholder={getMax(property.nickname)} onChange={(e)=>updateMinMax('max', property.nickname, e.target.value)}/>
+                            <input type='tel' placeholder={getMax(property.nickname)} onChange={(e)=>updateMinMax('max', property.nickname, e.target.value)}/>
                         </div>
                     </div>
                 );
