@@ -1979,6 +1979,73 @@
     height: 100%;
   }
 
+  /*  ======= INVOICE =======  */
+  .wrapper-invoicePage {
+
+  }
+  .wrapper-invoicePage .content {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    border: none;
+    position: unset;
+    left: 0;
+    top: 0;
+    transform: translate(0,0);
+    padding: 0;
+    box-shadow: none;
+  }
+
+  .wrapper-invoicePage img {
+    width: 60%;
+    margin: 30px auto 0 auto;
+  }
+
+  .wrapper-invoicePage .horizontal-divider { display: none;}
+
+  .wrapper-invoicePage .details {
+    display: block;
+  }
+  .wrapper-invoicePage .details  #title, .wrapper-invoicePage .details  #description, .wrapper-invoicePage .details  #date{
+    font-size: 15px;
+    text-align: center;
+    text-align: justify;
+  }
+  .wrapper-invoicePage #amount {
+    margin-top: 0;
+    font-size: 25px;
+  }
+  .wrapper-invoicePage .bulletIcon {
+    margin-left: 20%;
+  }
+  .wrapper-invoicePage #name, .wrapper-invoicePage #phone, .wrapper-invoicePage #email {
+    margin: 0;
+    width: 100%;
+    font-size: 15px;
+  }
+  .wrapper-invoicePage  .card-details {
+    width: 95%;
+    margin:30px  auto;
+  }
+  .wrapper-invoicePage button {
+    width: 90%;
+    margin-bottom: 40px;
+  }
+
+  .wrapper-invoicePage .paymentForm-confirmation {
+    background-color: white;
+  }
+  .wrapper-invoicePage .paymentForm-confirmation .iconCheck{
+    font-size: 50px;
+  }
+  .wrapper-invoicePage .paymentForm-confirmation h2{
+    font-size: 35px;
+  }
+  .wrapper-invoicePage .paymentForm-confirmation p{
+    font-size: 20px;
+    width: 80%;
+  }
+
 }
 
 

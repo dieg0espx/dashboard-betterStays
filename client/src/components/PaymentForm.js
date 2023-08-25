@@ -20,6 +20,22 @@ const CARD_OPTIONS = {
         },
     },
 };
+const MOBILE_CARD_OPTIONS = {
+	style: {
+        base: {
+          color: "#32325d",
+          fontFamily: "Arial, sans-serif",
+          fontSmoothing: "antialiased",
+          fontSize: "15px",
+          "::placeholder": {
+            color: "#aab7c4",
+          },
+        },
+        icon: {
+          color: "#0089BF",
+        },
+    },
+};
 
 function PaymentForm(props) {
     const db = getFirestore(app);
@@ -32,10 +48,12 @@ function PaymentForm(props) {
     const [error, setError] = useState('')
 
     const [showConfirmation, setShowConfirmation] = useState(false)
+    const [isMobile, setIsMobile] = useState(false)
 
     useEffect(()=>{
       setShowConfirmation(props.paid)
       console.log(showConfirmation);
+      if(window.innerWidth < 800){setIsMobile(true)}
     },[props.paid])
     
 
@@ -84,7 +102,7 @@ function PaymentForm(props) {
             <div className="card-details">
                 <fieldset className="FormGroup">
                     <div className="FormRow">
-                        <CardElement options={CARD_OPTIONS}/>
+                        <CardElement options={isMobile? MOBILE_CARD_OPTIONS:CARD_OPTIONS}/>
                     </div>
                 </fieldset>
             </div>
