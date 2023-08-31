@@ -2116,7 +2116,7 @@
 
   /*  ======= INVOICE =======  */
   .wrapper-invoicePage {
-
+    
   }
   .wrapper-invoicePage .content {
     width: 100%;
@@ -2127,14 +2127,14 @@
     left: 0;
     top: 0;
     transform: translate(0,0);
-    padding: 0;
+    padding: 20px;
     box-shadow: none;
   }
 
 
   .wrapper-invoicePage img {
     width: 60%;
-    margin: 30px auto 0 auto;
+    margin: 30px auto 40px auto;
   }
 
   .wrapper-invoicePage .horizontal-divider { display: none;}
@@ -2142,11 +2142,21 @@
   .wrapper-invoicePage .details {
     display: block;
   }
-  .wrapper-invoicePage .details  #title, .wrapper-invoicePage .details  #description, .wrapper-invoicePage .details  #date{
+  .wrapper-invoicePage .details  #title, .wrapper-invoicePage .details  #description {
     font-size: 15px;
     text-align: center;
     text-align: justify;
   }
+  
+  .wrapper-invoicePage .details  #date{
+    font-size: 15px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .wrapper-invoicePage .bulletIcon {
+    display: none;
+  }
+
   .wrapper-invoicePage #amount {
     margin-top: 0;
     font-size: 25px;
@@ -2158,6 +2168,7 @@
     margin: 0;
     width: 100%;
     font-size: 15px;
+    text-align: center;
   }
   .wrapper-invoicePage  .card-details {
     width: 95%;
@@ -2165,7 +2176,7 @@
   }
   .wrapper-invoicePage button {
     width: 90%;
-    margin-bottom: 40px;
+    margin-bottom: 100px;
   }
 
   .wrapper-invoicePage .paymentForm-confirmation {
@@ -2182,6 +2193,30 @@
     font-size: 20px;
     width: 80%;
   }
+
+  .wrapper-invoicePage .floatingBtns {
+    left: 0;
+    bottom: 0;
+    width: 100vw;
+    background-color: #0089BF;
+    flex-direction: row;
+  }
+  .wrapper-invoicePage .floatingBtns button {
+    width: 50%;
+    height: 40px;
+    border-radius: 0;
+    box-shadow: none ;
+    font-size: 20px;
+  }
+  .wrapper-invoicePage .forward-popup {
+    width: 90%;
+    height: 280px;
+  }
+  .wrapper-invoicePage .forward-popup input {
+    width: 95% !important;
+  }
+
+
 }
 
 
