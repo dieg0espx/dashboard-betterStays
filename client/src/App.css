@@ -1163,6 +1163,9 @@
   border-radius: 10px;
   margin-top: 20px;
 }
+.wrapper-invoicePage .floatingBtns iframe{
+  display: none !important;
+}
 
 .wrapper-invoicePage #failed {
   width: 70%;
@@ -1197,6 +1200,74 @@
   color: gray;
 }
 
+.wrapper-invoicePage .floatingBtns {
+  position: fixed;
+  bottom: 30px;
+  right: 15px;
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+}
+.wrapper-invoicePage .floatingBtns button{
+  width: 80px;
+  height: 80px;
+  margin: 0px;
+  border-radius: 50%;
+  font-size: 30px;
+  border: 2px solid transparent;
+  color: white;
+}
+.wrapper-invoicePage .floatingBtns button:hover{
+  background: white;
+  border: 2px solid #0089BF;
+  color: #0089BF;
+}
+
+
+.wrapper-invoicePage .forward-popup {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 10px;
+  width: 600px;
+  height: 300px;
+  z-index: 999;
+}
+.wrapper-invoicePage .forward-popup .form {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+}
+.wrapper-invoicePage .forward-popup  h2 {
+  font-size: 30px;
+  margin:20px;
+  color: #0089BF;
+}
+.wrapper-invoicePage .forward-popup p {
+  color: gray;
+  text-align: center;
+}
+.wrapper-invoicePage .forward-popup .form input {
+  width: calc(100% - 120px);
+  height: 50px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 18px;
+  border: 1px solid lightgray;
+  margin-top: 10px;
+  outline: none;
+} 
+.wrapper-invoicePage .forward-popup .form button { 
+  width: 50%;
+  height: 40px;
+  margin-top: 20px;
+  border-radius: 10px;
+}
 
 /*  ========= MESSAGES  ========= */
 
@@ -1492,6 +1563,69 @@
   }
 
 }
+
+/* ====== SHEET INVOICE ======== */
+.wrapper-sheetInvoice {
+
+}
+.wrapper-sheetInvoice img {
+  display: block;
+  height: 60px;
+  margin: 0 auto 10px 0;
+}
+.wrapper-sheetInvoice h2 {
+  text-align: left;
+  font-size: 30px;
+  margin-top: 50px;
+}
+
+.wrapper-sheetInvoice .two-col {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.wrapper-sheetInvoice #name,
+.wrapper-sheetInvoice #phone,
+.wrapper-sheetInvoice #email {
+  text-align: right;
+  font-size: 20px;
+}
+
+.wrapper-sheetInvoice #id {
+  text-align: left;
+  color: #0089BF;
+  font-size: 20px;
+  margin-bottom: 60px;
+}
+.wrapper-sheetInvoice #title {
+  text-align: left;
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+.wrapper-sheetInvoice #description {
+  text-align: left;
+  font-size: 20px;
+  margin-bottom: 50px;
+}
+.wrapper-sheetInvoice #date {
+  text-align: left;
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+
+.wrapper-sheetInvoice #amount {
+  text-align: right;
+  font-size: 20px;
+  margin-top: 80px;
+  background-color: #0089BF;
+  color: white;
+  padding:5px 20px;
+}
+
+
+
+
 
 
 @media screen and (max-width:800px) {
@@ -1997,6 +2131,7 @@
     box-shadow: none;
   }
 
+
   .wrapper-invoicePage img {
     width: 60%;
     margin: 30px auto 0 auto;
@@ -2047,7 +2182,6 @@
     font-size: 20px;
     width: 80%;
   }
-
 }
 
 
