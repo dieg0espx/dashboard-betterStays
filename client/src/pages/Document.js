@@ -7,8 +7,6 @@ import { useLocation, useSearchParams } from 'react-router-dom';
 
 function Document() {
     const db = getFirestore(app);
-    // const [sign, setSign] = useState(null)
-    // const [mySign, setMySign] = useState()
     
     const [fullName, setFullName] = useState("")
     const [showSave, setShowSave] = useState(false)
