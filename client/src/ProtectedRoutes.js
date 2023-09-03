@@ -1,14 +1,18 @@
 import { Outlet, useSearchParams } from "react-router-dom";
 import Login from "./pages/Login";
+import Cookies from 'js-cookie';
 import { useEffect, useState } from "react";
 
 
 function ProtectedRoutes() {
 
     const [access, setAccess] = useState(false)
+    useEffect(()=>{
+        console.log(Cookies.get('access'));
+    },[Cookies.get('access')])
 
     const useAuth = () => {
-        const user = {loggedIn: access};
+        const user = {loggedIn: true};
        
         return user && user.loggedIn;
     };

@@ -3,6 +3,7 @@ import Sidebar from '../components/Sidebar'
 import { getFirestore, collection, query, getDocs, setDoc } from 'firebase/firestore';
 import { app } from '../Firebase';
 import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
+
 import adminTail from '../components/adminTail.png'
 import customerTail from '../components/customerTail.png'
 
@@ -27,31 +28,33 @@ function MensagesPage() {
     const [isMobile, setIsMobile] = useState(false)
     const [showChat, setShowChat] = useState(false)
 
+    const [playSound] = useSound(mySound)
 
     useEffect(() => {
-        getContacts();
         if (window.innerWidth  <= 500){
           setIsMobile(true)
         }
+        getLatMessages()
       }, []);
     
-      async function getContacts(){
-        try {
-          const q = query(collection(db, "Messages"));
-          let contactsArray = []
-          const querySnapshot = await getDocs(q);
+      async function getLatMessages() {
+        const q = query(collection(db, 'LastMessages')); 
+        onSnapshot(q, (querySnapshot) => {
+          let contactsArray = [];
           querySnapshot.forEach((doc) => {
-            contactsArray.push(doc.id)
+            contactsArray.push({
+              name: doc.data().user.split('-')[1],
+              email: doc.data().user.split('-')[0],
+              lastMessage: doc.data().message,
+              status: doc.data().status
+            });
+          });
+          setContacts(contactsArray);
+          playSound()
         });
-        setContacts(contactsArray);
-          } catch (error) {
-            console.error('Error fetching documents:', error);
-          }         
       }
 
-      const [playSound] = useSound(mySound)
-
-      
+  
        useEffect(()=>{
           console.log(conversation);
           if(conversation.length > 0){
@@ -70,33 +73,8 @@ function MensagesPage() {
                 }
             });
           }
+          
         },[conversation])
-
-        useEffect(() => {
-          if(messages.length > 0){
-            let received = 0
-            for( let i = 0; i < Object.keys(messages).length; i ++ ){
-              if(Object.keys(messages)[i].includes('customer')){
-                received ++
-              }
-            }
-            compareCount(received)
-          }
-        }, [messages]);
-
-        function compareCount(num){
-          console.log(firstCount);
-          if(num > receivedMessages){
-            if(firstCount == false){
-              playSound()
-            }
-          } 
-          setFirstCount(false)
-          setReceivedMessages(num)
-        }
-
-
-
 
 
         async function sendMessage() {
@@ -125,11 +103,16 @@ function MensagesPage() {
             return(formattedTime);
         }
 
-        function openConversation(email, name){
+        async function openConversation(email, name, lastMesage){
             let str = email + '-' + name;
             setConversation(str)
             setFirstCount(true)
             setShowChat(true)
+
+            const chatRef = doc(db, "LastMessages", str);
+            await updateDoc(chatRef, {
+              status: 'seen' 
+            });
         }
 
         const handleKeyDown = (event) => {
@@ -141,12 +124,12 @@ function MensagesPage() {
     
 
 
-  useEffect(() => {
-    // Scroll to the bottom of the messages container
+      useEffect(() => {
     if (messagesContainerRef.current) {
       messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
     }
-  }, [messages]);
+      }, [messages]);
+
 
   return (
     <div>
@@ -155,20 +138,20 @@ function MensagesPage() {
               <Sidebar />
           </div>
           <div>
-            {/* <div className='top-nav'>
-                  <h2> Messages </h2>
-            </div> */}
             <div className='chats'>
               <div className='contacts'>
                   <p id="title"> Chats </p>
                 {contacts.map((contact, i) => 
-                  <div className={contact.split('-')[0].includes(conversation.split('-')[0]) && conversation.length > 0 ? "selected-row":"row"} key={i} onClick={()=> openConversation(contact.split('-')[0], contact.split('-')[1])}>
+                  <div className={contact.email.includes(conversation.split('-')[0]) && conversation.length > 0 ? "selected-row":"row"} key={i} onClick={()=> openConversation(contact.email, contact.name, contact.lastMessage)}>
                       <div>
                           <i className="bi bi-person-circle iconPerson"></i>
                       </div>
                       <div>
-                          <p id="name"> {contact.split('-')[1]} </p>
-                          <p id="email"> {contact.split('-')[0]} </p>
+                          <p id="name"> {contact.name} </p>
+                          <p id="lastMesage"> {contact.lastMessage.length <= 80 ? contact.lastMessage : contact.lastMessage.slice(0, 77) + ' ...'} </p>
+                      </div>
+                      <div style={{display: contact.status == 'seen' ? "none":"block"}}>
+                        <i className="bi bi-circle-fill iconStatus"></i>
                       </div>
                   </div>
                 )}
@@ -211,14 +194,17 @@ function MensagesPage() {
                   <div className='contacts'>
                       <p id="title"> Chats </p>
                     {contacts.map((contact, i) => 
-                      <div className={contact.split('-')[0].includes(conversation.split('-')[0]) && conversation.length > 0 && showChat ? "selected-row":"row"} key={i} onClick={()=> openConversation(contact.split('-')[0], contact.split('-')[1])}>
-                          <div>
-                              <i className="bi bi-person-circle iconPerson"></i>
-                          </div>
-                          <div>
-                              <p id="name"> {contact.split('-')[1]} </p>
-                              <p id="email"> {contact.split('-')[0]} </p>
-                          </div>
+                      // <div className={contact.split('-')[0].includes(conversation.split('-')[0]) && conversation.length > 0 && showChat ? "selected-row":"row"} key={i} onClick={()=> openConversation(contact.split('-')[0], contact.split('-')[1])}>
+                      //     <div>
+                      //         <i className="bi bi-person-circle iconPerson"></i>
+                      //     </div>
+                      //     <div>
+                      //         <p id="name"> {contact.split('-')[1]} </p>
+                      //         <p id="email"> {contact.split('-')[0]} </p>
+                      //     </div>
+                      // </div>
+                      <div>
+                        sidebar
                       </div>
                     )}
                   </div>
@@ -255,7 +241,6 @@ function MensagesPage() {
           </div>
       </div>
     </div>
-
   )
 }
 export default MensagesPage

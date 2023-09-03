@@ -4,6 +4,8 @@ import {signInWithPopup} from "firebase/auth"
 import { getFirestore, collection, query, getDocs, setDoc } from 'firebase/firestore';
 import { app } from '../Firebase';
 import { doc, getDoc } from "firebase/firestore";
+import Cookies from 'js-cookie';
+
 
 function Login(props) {
     
@@ -30,7 +32,7 @@ function Login(props) {
               const querySnapshot = await getDocs(q);
               querySnapshot.forEach((doc) => {
                 if(doc.data().email == data.user.email){
-                    localStorage.setItem('user', doc.id)
+                    Cookies.set('access', true);
                     props.var(true)
                 }
               });

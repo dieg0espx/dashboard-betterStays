@@ -10,7 +10,6 @@ import Sheet1 from './pages/Sheet1';
 import Support from './pages/Support';
 import Invoice from './pages/Invoice';
 import MensagesPage from './pages/MensagesPage';
-import MessagesCustomer from './pages/MessagesCustomer';
 import PropertiesPage from './pages/PropertiesPage';
 import SheetInvoice from './pages/SheetInvoice';
 import ProtectedRoutes from './ProtectedRoutes';
@@ -63,11 +62,6 @@ function App() {
           <Routes>
             <Route element={<ProtectedRoutes />}>
               <Route path='/messages'  element={<MensagesPage />} />
-            </Route>
-          </Routes>
-          <Routes>
-            <Route element={<ProtectedRoutes />}>
-              <Route path='/messagesCustomer'  element={<MessagesCustomer />} />
             </Route>
           </Routes>
           <Routes>
