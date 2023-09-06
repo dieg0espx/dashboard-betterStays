@@ -76,7 +76,7 @@ function Sidebar() {
       <div className='menu'>
         <button style={{color: page == 0 ? "#0089BF":"white"}} onClick={()=>onPageSelect(0)}> <i className="bi bi-calendar2-week"></i> Calendar </button>
         <button style={{color: page == 2 ? "#0089BF":"white"}} onClick={()=>onPageSelect(2)}> <i className="bi bi-people"></i> Customers </button>
-        <button style={{color: page == 3 ? "#0089BF":"white"}} onClick={()=>onPageSelect(3)}> <i className="bi bi-archive"></i> Documents </button>
+        <button style={{color: page == 3 ? "#0089BF":"white"}} onClick={()=>onPageSelect(3)}> <i className="bi bi-file-earmark-text"></i> Documents </button>
         <button style={{color: page == 4 ? "#0089BF":"white"}} onClick={()=>onPageSelect(4)}> <i className="bi bi-chat-left-dots"></i> Messages </button>
         <button style={{color: page == 6 ? "#0089BF":"white"}} onClick={()=>onPageSelect(6)}> <i className="bi bi-person-gear"></i> Support </button>
         <button style={{color: page == 7 ? "#0089BF":"white"}} onClick={()=>onPageSelect(7)}> <i className="bi bi-houses"></i> Properties </button>
@@ -86,7 +86,7 @@ function Sidebar() {
     <div className='mobile-menu' style={{display: showMobileMenu? "flex":"none"}}>
         <button style={{color: page == 0 ? "#0089BF":"white"}} onClick={()=>onPageSelect(0)}> <i className="bi bi-calendar2-week"></i> Calendar </button>
         <button style={{color: page == 2 ? "#0089BF":"white"}} onClick={()=>onPageSelect(2)}> <i className="bi bi-people"></i> Customers </button>
-        <button style={{color: page == 3 ? "#0089BF":"white"}} onClick={()=>onPageSelect(3)}> <i className="bi bi-archive"></i> Documents </button>
+        <button style={{color: page == 3 ? "#0089BF":"white"}} onClick={()=>onPageSelect(3)}> <i className="bi bi-file-earmark-text"></i> Documents </button>
         <button style={{color: page == 4 ? "#0089BF":"white"}} onClick={()=>onPageSelect(4)}> <i className="bi bi-chat-left-dots"></i> Messages </button>
         <button style={{color: page == 6 ? "#0089BF":"white"}} onClick={()=>onPageSelect(6)}> <i className="bi bi-person-gear"></i> Support </button>
         <button style={{color: page == 7 ? "#0089BF":"white"}} onClick={()=>onPageSelect(7)}> <i className="bi bi-houses"></i> Properties </button>

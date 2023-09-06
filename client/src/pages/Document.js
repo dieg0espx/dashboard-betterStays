@@ -11,7 +11,7 @@ function Document() {
     const [fullName, setFullName] = useState("")
     const [showSave, setShowSave] = useState(false)
     const [showConfirmation, setShowConfirmation] = useState(false)
-    const [currentEmail, setCurrentEmail] = useState("");
+    const [docID, setDocID] = useState("");
 
     const [inputs, setInputs] = useState(Array(60).fill(''));
     const [radios, setRadios] = useState(Array(42).fill(false));
@@ -47,7 +47,7 @@ function Document() {
 
     // ==== GENERAL FUNCTIONS ===== //
     useEffect(()=>{
-        setCurrentEmail(params.get('id'))
+        setDocID(params.get('id'))
         getData()
         if(window.innerWidth < 800){setIsMobile(true)}
     },[])
@@ -161,11 +161,11 @@ function Document() {
             nameLandlord : nameLandlord,
             signLandlord: saveNewSign.includes(3) ? signLandlord.getTrimmedCanvas().toDataURL('image/png').toString() : data.signLandlord,
             input: inputs, 
-            radios, radios
+            radios, radios, 
+            status:'available'
         }
         try {
-            await setDoc(doc(db, "documents", currentEmail), dataToPush);
-            // await addDoc(collection(db, "documents"), data);
+            await setDoc(doc(db, "Documents", docID), dataToPush);
             setShowConfirmation(true)
             console.log("Document Saved");
           } 
@@ -177,7 +177,7 @@ function Document() {
     // FIREBASE - GET 
     async function getData() {
         try {
-          const docRef = doc(db, "documents", params.get('id'));
+          const docRef = doc(db, "Documents", params.get('id'));
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
             // console.log(docSnap.data());

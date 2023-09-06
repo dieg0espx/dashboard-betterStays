@@ -50,7 +50,7 @@ function Sheet1() {
 
     async function getData() {
         try {
-          const docRef = doc(db, "documents", params.get('id'));
+          const docRef = doc(db, "Documents", params.get('id'));
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
             setData(docSnap.data());
