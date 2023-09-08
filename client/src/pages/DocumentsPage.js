@@ -134,7 +134,7 @@ function DocumentsPage() {
                   <i style={{ display: isMobile ? 'none' : 'block' }} className="bi bi-chevron-right iconChevRight"></i>
                 </div>
                 <div id="right" style={{ display: showEdits ? 'flex' : 'none' }}>
-                  <i className="bi bi-pencil-square writeIcon" onClick={() => window.location.href = '/document?id=' + application.id}></i>
+                  <i className="bi bi-pencil-square writeIcon" onClick={() => window.location.href = '/document?id=' + application.id + "&&adminAccess=true"}></i>
                   <i style={{display: docStatus == 'archive' ?  "none":"block"}}className="bi bi-archive writeIcon" onClick={() => setDocToArchive(application.id)}></i>
                   <i style={{display: docStatus == 'archive' ?  "block":"none"}}className="bi bi-recycle writeIcon" onClick={() => setArchiveToDoc(application.id)}></i>
                   <i className="bi bi-trash writeIcon" onClick={()=>deleteDocument(application.id)}></i>

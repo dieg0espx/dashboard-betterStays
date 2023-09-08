@@ -43,6 +43,7 @@ function Document() {
     const [saveNewSign, setSaveNewSign] = useState([])
 
     const [isMobile, setIsMobile] = useState(false)
+    const [adminAccess, setAdminAccess] = useState(false)
 
 
     // ==== GENERAL FUNCTIONS ===== //
@@ -50,6 +51,12 @@ function Document() {
         setDocID(params.get('id'))
         getData()
         if(window.innerWidth < 800){setIsMobile(true)}
+        
+        if(params.get('adminAccess')){
+          setAdminAccess(true)
+        }
+        
+
     },[])
 
     function formatDate(date) {
@@ -203,6 +210,27 @@ function Document() {
         setCurrentLandlordSign(data.signLandlord)
         setSignLandlord(data.signLandlord)
     }, [data])
+
+    useEffect(()=>{
+      console.log(adminAccess);
+      if(!adminAccess){
+        for (let i = 1; i <= 51; i++) {
+          const inputElement = document.getElementById(`in${i}`);
+          
+          if (inputElement) {
+            inputElement.disabled = true;
+          }
+        }
+      } else {
+        for (let i = 1; i <= 51; i++) {
+          const inputElement = document.getElementById(`in${i}`);
+          
+          if (inputElement) {
+            inputElement.disabled = false;
+          }
+        }
+      }
+    },[adminAccess])
 
 
     
@@ -366,7 +394,7 @@ function Document() {
         <div className='floatingBtns'>
             <button id="sign" onClick={()=> openSigner(1)}> <i className="bi bi-pencil-square"></i> {isMobile ? "Tenant 1" : "Sign - Tenant 1"} </button>
             <button id="sign" onClick={()=> openSigner(2)}> <i className="bi bi-pencil-square"></i> {isMobile ? "Tenant 2" : "Sign - Tenant 2"} </button>
-            <button id="sign" onClick={()=> openSigner(3)}> <i className="bi bi-pencil-square"></i> {isMobile ? "Landlord" : "Sign - Landlord"} </button>
+            <button id="sign" onClick={()=> openSigner(3)} style={{display: adminAccess? "block":"none"}}> <i className="bi bi-pencil-square"></i> {isMobile ? "Landlord" : "Sign - Landlord"} </button>
             <button id="save" onClick={()=> handleSave()}> Save <i className="bi bi-chevron-right"></i> </button>
         </div>
 
