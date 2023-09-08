@@ -40,7 +40,7 @@ function Login(props) {
                 console.error('Error fetching documents:', error);
             }
       })
-      alert("User Not Found")
+    //   alert("User Not Found")
 
     }
 
@@ -48,7 +48,7 @@ function Login(props) {
     <div className='wrapper-login'>
         <div className='content'>
             <img src='https://res.cloudinary.com/dxfi1vj6q/image/upload/v1683933526/Final_Logo_1_byrdtx_m9colt.png'/>
-            <button onClick={()=>googleAuth()}> Log In </button>
+            <button onClick={()=>googleAuth()}> Access </button>
         </div>
     </div>
   )

@@ -12,7 +12,7 @@ function ProtectedRoutes() {
     },[Cookies.get('access')])
 
     const useAuth = () => {
-        const user = {loggedIn: true};
+        const user = {loggedIn:Cookies.get('access')};
        
         return user && user.loggedIn;
     };

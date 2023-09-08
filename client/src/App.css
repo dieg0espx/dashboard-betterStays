@@ -296,7 +296,7 @@
 
 .wrapper-documentsPage .documents-row #left {
     display: grid;
-    grid-template-columns: 250px auto 200px 100px 20px;
+    grid-template-columns: 250px auto 200px 180px 20px;
     border: 1px solid lightgray;
     border-radius: 10px;
     width: 100%;
