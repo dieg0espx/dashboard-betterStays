@@ -36,9 +36,9 @@ function App() {
             </Route>
           </Routes>
           <Routes>
-            <Route element={<ProtectedRoutes />}>
+            
               <Route path='/document'  element={<Document />} />
-            </Route>
+            
           </Routes>
           <Routes>
             <Route element={<ProtectedRoutes />}>
