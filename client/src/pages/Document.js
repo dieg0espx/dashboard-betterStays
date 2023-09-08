@@ -213,13 +213,16 @@ function Document() {
 
     useEffect(()=>{
       console.log(adminAccess);
+      var radioButtons = document.querySelectorAll('input[type="radio"]');
       if(!adminAccess){
         for (let i = 1; i <= 51; i++) {
           const inputElement = document.getElementById(`in${i}`);
-          
           if (inputElement) {
             inputElement.disabled = true;
           }
+        }
+        for (var i = 0; i < radioButtons.length; i++) {
+            radioButtons[i].disabled = true;
         }
       } else {
         for (let i = 1; i <= 51; i++) {
@@ -228,6 +231,9 @@ function Document() {
           if (inputElement) {
             inputElement.disabled = false;
           }
+        }
+        for (var i = 0; i < radioButtons.length; i++) {
+          radioButtons[i].disabled = false;
         }
       }
     },[adminAccess])
