@@ -39,6 +39,7 @@ function Document() {
     const [nameLandlord, setNameLandlord] = useState('')
     const [signLandlord, setSignLandlord] = useState(null)
     const [currentLandlordSign, setCurrentLandlordSign] = useState()
+    const [propertyName, setPropertyName] = useState('')
 
     const [saveNewSign, setSaveNewSign] = useState([])
 
@@ -169,12 +170,14 @@ function Document() {
             signLandlord: saveNewSign.includes(3) ? signLandlord.getTrimmedCanvas().toDataURL('image/png').toString() : data.signLandlord,
             input: inputs, 
             radios, radios, 
+            propertyName: propertyName,
             status:'available'
         }
         try {
             await setDoc(doc(db, "Documents", docID), dataToPush);
             setShowConfirmation(true)
             console.log("Document Saved");
+            
           } 
         catch (error) {
             alert("You are missing some fields.")
@@ -191,6 +194,7 @@ function Document() {
             setData(docSnap.data());
             setInputs(docSnap.data().input)
             setRadios(docSnap.data().radios)
+            setPropertyName(docSnap.data().propertyName)
           }
         } catch (error) {
           console.error("Error fetching data:", error);
@@ -364,16 +368,6 @@ function Document() {
             <p> 26. <b> GOVERNING LAW. </b> This Agreement shall be governed and subject to the laws located in the jurisdiction of Premise’s location. </p>
             <br></br>
 
-            {/* <p> <b> Landlord Signature:</b> <input id="in52"  className="in-text" value={inputs[52]} onChange={(e) => handleInputChange(52, e.target.value)} type='text'/> Date: <input id="in53"  className="in-text" value={inputs[53]} onChange={(e) => handleInputChange(53, e.target.value)} type='text'/></p>
-            <p> Print Name: <input id="in54"  className="in-text" value={inputs[54]}onChange={(e) => handleInputChange(54, e.target.value)} type='text'/></p>
-            <br></br>
-            <p> <b> Tenant Signature:</b> <input id="in55"  className="in-text" value={inputs[55]} onChange={(e) => handleInputChange(55, e.target.value)} type='text'/> Date: <input id="in56"  className="in-text" value={inputs[56]} onChange={(e) => handleInputChange(56, e.target.value)} type='text'/></p>
-            <p> Print Name: <input id="in57"  className="in-text" value={inputs[57]} onChange={(e) => handleInputChange(57, e.target.value)} type='text'/></p>
-            <br></br>
-            <p> <b> Tenant Signature:</b> <input id="in58"  className="in-text" value={inputs[58]} onChange={(e) => handleInputChange(58, e.target.value)} type='text'/> Date: <input id="in59"  className="in-text" value={inputs[59]} onChange={(e) => handleInputChange(59, e.target.value)} type='text'/></p>
-            <p> Print Name: <input id="in60"  className="in-text" value={inputs[60]} onChange={(e) => handleInputChange(60, e.target.value)} type='text'/></p> */}
-
-
 
         <div className='grid-tenant-signs'>
           <div>
@@ -398,8 +392,8 @@ function Document() {
         </div>
 
         <div className='floatingBtns'>
-            <button id="sign" onClick={()=> openSigner(1)}> <i className="bi bi-pencil-square"></i> {isMobile ? "Tenant 1" : "Sign - Tenant 1"} </button>
-            <button id="sign" onClick={()=> openSigner(2)}> <i className="bi bi-pencil-square"></i> {isMobile ? "Tenant 2" : "Sign - Tenant 2"} </button>
+            <button id="sign" onClick={()=> openSigner(1)} style={{display: adminAccess? "none":"block"}}>> <i className="bi bi-pencil-square"></i> {isMobile ? "Tenant 1" : "Sign - Tenant 1"} </button>
+            <button id="sign" onClick={()=> openSigner(2)} style={{display: adminAccess? "none":"block"}}>> <i className="bi bi-pencil-square"></i> {isMobile ? "Tenant 2" : "Sign - Tenant 2"} </button>
             <button id="sign" onClick={()=> openSigner(3)} style={{display: adminAccess? "block":"none"}}> <i className="bi bi-pencil-square"></i> {isMobile ? "Landlord" : "Sign - Landlord"} </button>
             <button id="save" onClick={()=> handleSave()}> Save <i className="bi bi-chevron-right"></i> </button>
         </div>

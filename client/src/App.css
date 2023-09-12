@@ -506,6 +506,8 @@
 }
 .sign img {
   width: 100%;
+  max-width: 100px;
+  max-height: 100px;
   border-bottom: 2px solid black;
   padding-bottom: 10px;
 }
