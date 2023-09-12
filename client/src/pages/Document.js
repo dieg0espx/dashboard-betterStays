@@ -392,10 +392,10 @@ function Document() {
         </div>
 
         <div className='floatingBtns'>
-            <button id="sign" onClick={()=> openSigner(1)} style={{display: adminAccess? "none":"block"}}>> <i className="bi bi-pencil-square"></i> {isMobile ? "Tenant 1" : "Sign - Tenant 1"} </button>
-            <button id="sign" onClick={()=> openSigner(2)} style={{display: adminAccess? "none":"block"}}>> <i className="bi bi-pencil-square"></i> {isMobile ? "Tenant 2" : "Sign - Tenant 2"} </button>
-            <button id="sign" onClick={()=> openSigner(3)} style={{display: adminAccess? "block":"none"}}> <i className="bi bi-pencil-square"></i> {isMobile ? "Landlord" : "Sign - Landlord"} </button>
-            <button id="save" onClick={()=> handleSave()}> Save <i className="bi bi-chevron-right"></i> </button>
+            <button id="sign" onClick={()=> openSigner(1)} style={{display: adminAccess? "none":"block"}}> <i className="bi bi-pencil-square"></i></button>
+            <button id="sign" onClick={()=> openSigner(2)} style={{display: adminAccess? "none":"block"}}> <i className="bi bi-pencil-square"></i></button>
+            <button id="sign" onClick={()=> openSigner(3)} style={{display: adminAccess? "block":"none"}}> <i className="bi bi-pencil-square"></i></button>
+            <button id="save" onClick={()=> handleSave()}> <i className="bi bi-check-lg"></i> </button>
         </div>
 
         <div className='overlay'  style={{display: showOverlay? "block":"none"}} onClick={()=>closeSigners()}></div>
