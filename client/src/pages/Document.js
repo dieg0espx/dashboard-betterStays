@@ -55,8 +55,6 @@ function Document() {
     useEffect(()=>{
         setDocID(params.get('id'))
         getData()
-
-        sendBookingConfirmation()
         if(window.innerWidth < 800){setIsMobile(true)}
         if(params.get('adminAccess')){setAdminAccess(true)}
     },[])
@@ -174,6 +172,10 @@ function Document() {
             await setDoc(doc(db, "Documents", docID), dataToPush);
             setShowConfirmation(true)
             console.log("Document Saved");
+            if(!adminAccess){
+              sendBookingConfirmation()
+            }
+            
           } 
         catch (error) {
             alert(error)
