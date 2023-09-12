@@ -40,33 +40,32 @@ function Document() {
     const [signLandlord, setSignLandlord] = useState(null)
     const [currentLandlordSign, setCurrentLandlordSign] = useState()
     const [propertyName, setPropertyName] = useState('')
+    const [customerEmail, setCustomerEmail] = useState('')
+    const [customerName, setCustomerName] = useState('')
+    const [customerLastName, setCustomerLastName] = useState('')
 
     const [saveNewSign, setSaveNewSign] = useState([])
 
     const [isMobile, setIsMobile] = useState(false)
     const [adminAccess, setAdminAccess] = useState(false)
+    const [reservationID, setReservationID] = useState('')
 
 
     // ==== GENERAL FUNCTIONS ===== //
     useEffect(()=>{
         setDocID(params.get('id'))
         getData()
+
+        sendBookingConfirmation()
         if(window.innerWidth < 800){setIsMobile(true)}
-        
-        if(params.get('adminAccess')){
-          setAdminAccess(true)
-        }
-        
-
+        if(params.get('adminAccess')){setAdminAccess(true)}
     },[])
-
     function formatDate(date) {
       const month = String(date.getMonth() + 1).padStart(2, '0');
       const day = String(date.getDate()).padStart(2, '0');
       const year = date.getFullYear();
       return `${month}/${day}/${year}`;
     }
-
     // ====  STORING INPUTS AND RADIOS ==== // 
     const handleInputChange = (index, value) => {
         const newInputs = [...inputs];
@@ -78,8 +77,6 @@ function Document() {
       newRadios[index] = !newRadios[index];
       setRadios(newRadios);
     };
-
-    
     //  ==== SIGNATURES ====  // 
     function clearSign(signID){
       switch (signID) {
@@ -97,7 +94,6 @@ function Document() {
           break;
       }
     }
-
     function openSigner(signID){
       setShowOverlay(true)
       switch (signID) {
@@ -120,7 +116,6 @@ function Document() {
           break;
       }
     }
-
     function storeSign(signID){
         setShowOverlay(false)  
         setShowPopup1(false)
@@ -149,7 +144,6 @@ function Document() {
             break;
         }
     }
-
     function closeSigners() {
         setShowOverlay(false)
         setShowPopup1(false)
@@ -171,16 +165,18 @@ function Document() {
             input: inputs, 
             radios, radios, 
             propertyName: propertyName,
+            customerEmail: customerEmail, 
+            customerName: customerName, 
+            customerLastName: customerLastName,
             status:'available'
         }
         try {
             await setDoc(doc(db, "Documents", docID), dataToPush);
             setShowConfirmation(true)
             console.log("Document Saved");
-            
           } 
         catch (error) {
-            alert("You are missing some fields.")
+            alert(error)
         }
     }
   
@@ -190,15 +186,67 @@ function Document() {
           const docRef = doc(db, "Documents", params.get('id'));
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
-            // console.log(docSnap.data());
             setData(docSnap.data());
             setInputs(docSnap.data().input)
             setRadios(docSnap.data().radios)
             setPropertyName(docSnap.data().propertyName)
+            setCustomerEmail(docSnap.data().customerEmail)
+            setCustomerName(docSnap.data().customerName)
+            setCustomerLastName(docSnap.data().customerLastName)
           }
         } catch (error) {
           console.error("Error fetching data:", error);
         }
+    }
+
+    function formatDateStr(dateString) {
+      const options = { day: 'numeric', month: 'long', year: 'numeric' };
+      const date = new Date(dateString);
+    
+      return date.toLocaleDateString('en-US', options);
+    }
+    
+    async function sendBookingConfirmation(){
+      await fetch('http://apis-betterstay.vercel.app/api/getReservations')
+      .then(response => response.json())
+      .then(response => {
+        let reservations = response.results
+        for(let i = 0; i < reservations.length; i ++){
+          if(reservations[i].guest.fullName == customerName + ' ' + customerLastName){
+            console.log(reservations[i].fullName);
+            let findingDate = inputs[12].split(', ')[1] + ' ' + inputs[12].split(', ')[0] + ', 20' + inputs[13];
+            if(formatDateStr(reservations[i].checkIn) == findingDate){
+              console.log(reservations[i]);
+              setReservationID(reservations[i]._id)
+            }
+          }
+        }
+      })
+
+    
+      console.log("Sending Confirmation ...");
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+      
+      var urlencoded = new URLSearchParams();
+      urlencoded.append("name", customerName);
+      urlencoded.append("lastName", customerLastName);
+      urlencoded.append("email", customerEmail);
+      urlencoded.append("reservationID", reservationID);
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: 'follow'
+      };
+      
+      fetch("https://better-stays-mailer.vercel.app/api/bookingConfirmation", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log("Email Sent: " + result))
+        .catch(error => console.log('== ERROR === ', error));
+
+
     }
 
     useEffect(()=>{
@@ -243,6 +291,7 @@ function Document() {
     },[adminAccess])
 
 
+  
     
   return (
     <div className='wrapper-document'>
