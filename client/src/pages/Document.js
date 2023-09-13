@@ -209,7 +209,7 @@ function Document() {
     
     async function sendBookingConfirmation(){
       let reservationID = '';
-      await fetch('http://apis-betterstay.vercel.app/api/getReservations')
+      await fetch('https://apis-betterstay.vercel.app/api/getReservations')
       .then(response => response.json())
       .then(response => {
         let reservations = response.results
