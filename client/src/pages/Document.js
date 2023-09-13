@@ -243,12 +243,10 @@ function Document() {
         redirect: 'follow'
       };
       
-      fetch("https://better-stays-mailer.vercel.app/api/bookingConfirmation", requestOptions)
+      await fetch("https://better-stays-mailer.vercel.app/api/bookingConfirmation", requestOptions)
         .then(response => response.text())
         .then(result => console.log("Email Sent: " + result))
         .catch(error => console.log('== ERROR === ', error));
-
-
     }
 
     useEffect(()=>{
