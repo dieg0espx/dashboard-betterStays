@@ -48,7 +48,6 @@ function Document() {
 
     const [isMobile, setIsMobile] = useState(false)
     const [adminAccess, setAdminAccess] = useState(false)
-    const [reservationID, setReservationID] = useState('')
 
 
     // ==== GENERAL FUNCTIONS ===== //
@@ -209,6 +208,7 @@ function Document() {
     }
     
     async function sendBookingConfirmation(){
+      let reservationID = '';
       await fetch('http://apis-betterstay.vercel.app/api/getReservations')
       .then(response => response.json())
       .then(response => {
@@ -219,7 +219,7 @@ function Document() {
             let findingDate = inputs[12].split(', ')[1] + ' ' + inputs[12].split(', ')[0] + ', 20' + inputs[13];
             if(formatDateStr(reservations[i].checkIn) == findingDate){
               console.log(reservations[i]);
-              setReservationID(reservations[i]._id)
+              reservationID = reservations[i]._id;
             }
           }
         }
