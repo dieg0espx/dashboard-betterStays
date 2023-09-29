@@ -1562,8 +1562,6 @@
 }
 
 .wrapper-propertiesPage .properties-row {
-  display: grid;
-  grid-template-columns: 1fr 3fr 1fr 0.3fr;
   width: 90%;
   margin: auto;
   margin-bottom: 10px;
@@ -1572,11 +1570,14 @@
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px;
   align-items: center;
   text-align: left;
-  padding-left: 20px;
-  padding-right: 20px;
-  height: 60px;
+  padding: 15px 20px;
+  height: fit-content;
   font-size: 15px;
   transition: 0.2s;
+}
+.wrapper-propertiesPage .properties-row .firstRow{
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 0.3fr ;
 }
 .wrapper-propertiesPage .properties-row:hover {
   padding-left: 25px;
@@ -1605,6 +1606,30 @@
   outline: none;
   font-size: 20px;
 }
+
+.wrapper-propertiesPage .properties-row .rules {
+  display: block;
+  position: relative;
+  overflow-x: auto;
+  white-space: nowrap;
+  max-width: 70vw;
+  margin-top: 5px;
+}
+.wrapper-propertiesPage .properties-row .rule {
+  display: inline-flex;
+  border: 1px solid #0089BF;
+  color: #0089BF;
+  border-radius: 5px;
+  width: fit-content;
+  margin-right: 10px;
+  gap: 10px;
+  padding: 5px 10px;
+}
+.wrapper-propertiesPage .properties-row .rule:hover {
+  background-color: #0089BF;
+  color: white;
+}
+
 
 .wrapper-propertiesPage .iconCalendarPlus {
   font-size: 25px;
