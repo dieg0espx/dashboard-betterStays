@@ -12,8 +12,6 @@ function Login(props) {
     const [signedIn, setSignedIn] = useContext(Context)
     const db = getFirestore(app);
   
-
-
     async function googleAuth(){
       signInWithPopup(auth, provider).then(async (data)=>{
         try {

@@ -30,8 +30,9 @@ function DocumentsPage() {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         data.push({id: doc.id, title:doc.data().title, nameTenant1:doc.data().input[3], nameTenant2:doc.data().nameTenant2, checkIn: doc.data().input[1] + ', 20' + doc.data().input[2] , date: doc.data().date, sign: doc.data().sign, email:doc.data().email, status:doc.data().status, address:doc.data().input[6], propertyName: doc.data().propertyName })
-        console.log(data);
+        // console.log(doc.data());
       });
+
       setDocuments(data)
       } catch (error) {
         console.error('Error fetching documents:', error);
@@ -53,6 +54,7 @@ function DocumentsPage() {
       status: 'archive'
     });
     getDocuments()
+    alert("Document Archived Successfully !")
   }
 
   async function setArchiveToDoc(id){
@@ -61,6 +63,7 @@ function DocumentsPage() {
       status: 'available'
     });
     getDocuments()
+    alert("Document Recovered Successfully !")
   }
 
   async function createContract(){

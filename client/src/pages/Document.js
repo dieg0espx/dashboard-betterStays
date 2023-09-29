@@ -180,7 +180,7 @@ function Document() {
             alert(error)
         }
     }
-  
+
     // FIREBASE - GET 
     async function getData() {
         try {
