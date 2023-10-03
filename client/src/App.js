@@ -1,49 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
-import { BrowserRouter as Router, Route, Routes, useActionData } from "react-router-dom";
-import Home from './pages/Home';
-import CalendarPage from './pages/CalendarPage';
-import DocumentsPage from './pages/DocumentsPage';
-import Document from './pages/Document';
-import CustomersPage from './pages/CustomersPage';
-import Sheet1 from './pages/Sheet1';
-import Support from './pages/Support';
-import Invoice from './pages/Invoice';
-import MensagesPage from './pages/MensagesPage';
-
-import PropertiesPage from './pages/PropertiesPage';
-import SheetInvoice from './pages/SheetInvoice';
-import ProtectedRoutes from './ProtectedRoutes';
-import React, { useState } from 'react';
-
-
-export const Context = React.createContext()
+import logo from "./logo.svg";
+import "./App.css";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useActionData,
+} from "react-router-dom";
+import Home from "./pages/Home";
+import CalendarPage from "./pages/CalendarPage";
+import DocumentsPage from "./pages/DocumentsPage";
+import Document from "./pages/Document";
+import CustomersPage from "./pages/CustomersPage";
+import Sheet1 from "./pages/Sheet1";
+import Support from "./pages/Support";
+import Invoice from "./pages/Invoice";
+import MensagesPage from "./pages/MensagesPage";
+import Login from "./pages/Login";
+import PropertiesPage from "./pages/PropertiesPage";
+import SheetInvoice from "./pages/SheetInvoice";
+import ProtectedRoutes from "./ProtectedRoutes";
+import React, { useState } from "react";
 
 function App() {
-  const[signedIn, setSignedIn] = useState(false)
-
   return (
-  
-      <div className="App">
-      <Router>
+    <div className="App">
+      
+        <Router>
           <Routes>
-            <Route path='/' element={<ProtectedRoutes  />}>
+            <Route path="/" element={<ProtectedRoutes />}>
               <Route index element={<CalendarPage />} />
-              <Route path='/calendar' element={<CalendarPage />} />
-              <Route path='/documents' element={<DocumentsPage />} />
-              <Route path='/document' element={<Document />} />
-              <Route path='/customers' element={<CustomersPage />} />
-              <Route path='/sheet1' element={<Sheet1 />} />
-              <Route path='/support' element={<Support />} />
-              <Route path='/invoice' element={<Invoice />} />
-              <Route path='/messages' element={<MensagesPage />} />
-              <Route path='/properties' element={<PropertiesPage />} />
-              <Route path='/printInvoice' element={<SheetInvoice />} />
+              <Route path="/calendar" element={<CalendarPage />} />
+              <Route path="/documents" element={<DocumentsPage />} />
+              <Route path="/document" element={<Document />} />
+              <Route path="/customers" element={<CustomersPage />} />
+              <Route path="/sheet1" element={<Sheet1 />} />
+              <Route path="/support" element={<Support />} />
+              <Route path="/invoice" element={<Invoice />} />
+              <Route path="/messages" element={<MensagesPage />} />
+              <Route path="/properties" element={<PropertiesPage />} />
+              <Route path="/printInvoice" element={<SheetInvoice />} />
             </Route>
+            <Route path="/login" element={<Login />} />
           </Routes>
         </Router>
-      </div>
-  
+      
+    </div>
   );
 }
 
