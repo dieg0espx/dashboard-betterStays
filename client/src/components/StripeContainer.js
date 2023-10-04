@@ -19,8 +19,12 @@ function StripeContainer(props) {
     <Elements stripe={stripeTestPromise}>
         <PaymentForm 
           balance={props.balance} 
-          paid={props.paid}
-          invoiceID={props.invoiceID}
+          paid={props.paid} 
+          invoiceID={props.invoiceID} 
+          title={props.title}
+          description={props.description}
+          name={props.name}
+          email={props.email}
         />
     </Elements>
   )

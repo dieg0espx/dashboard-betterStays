@@ -57,6 +57,41 @@ function PaymentForm(props) {
     },[props.paid])
     
 
+    // SENDING EMAIL NOTIFICATION AFTER IT HAS BEEN PAID
+    async function sendNotificationInvoicePaid(){
+      let id= props.invoiceID
+      let title = props.title
+      let description = props.description
+      let amount = props.balance
+      let name = props.name
+      let email = props.email    
+      
+       //sending Email  
+       console.log("Sending Email ...");
+       var myHeaders = new Headers();
+       myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+       var urlencoded = new URLSearchParams();
+       urlencoded.append("id", id);
+       urlencoded.append("title", title);
+       urlencoded.append("description", description);
+       urlencoded.append("amount", amount);
+       urlencoded.append("name", name);
+       urlencoded.append("email", email);
+      
+      
+       var requestOptions = {
+         method: 'POST',
+         headers: myHeaders,
+         body: urlencoded,
+         redirect: 'follow'
+       };
+       
+       fetch("https://better-stays-mailer.vercel.app/api/paidInvoice", requestOptions)
+         .then(response => response.text())
+         .then(result => console.log("Email Sent: " + result))
+         .catch(error => console.log('== ERROR === ', error));
+    }
+
   const handleSubmit = async (e) => {
       // PROCESSING PAYMENT WITH STRPE
       e.preventDefault()
@@ -76,6 +111,7 @@ function PaymentForm(props) {
               if (response.data.success) {
                 console.log("Payment Successfull !");
                 setShowConfirmation(true)
+                await sendNotificationInvoicePaid()
                 const invoiceRef = doc(db, "Invoices", props.invoiceID);
                 await updateDoc(invoiceRef, {
                   paid: true
@@ -94,7 +130,6 @@ function PaymentForm(props) {
           setShowBtn(true)
       }
   }
-
     return (
         <>
         {!success ? 

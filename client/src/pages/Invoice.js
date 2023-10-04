@@ -99,7 +99,16 @@ function Invoice() {
                   <p id="name">  <i className="bi bi-check-circle-fill bulletIcon"></i> {invoice.name} </p>
                   <p id="phone"> <i className="bi bi-check-circle-fill bulletIcon"></i> {invoice.phone} </p>
                   <p id="email"> <i className="bi bi-check-circle-fill bulletIcon"></i> {invoice.email} </p>
-                  <StripeContainer className="stripeContainer" balance={invoice.amount} paid={paid} invoiceID={invoiceID} />
+                  <StripeContainer 
+                    className="stripeContainer" 
+                    balance={invoice.amount} 
+                    paid={paid} 
+                    invoiceID={invoiceID} 
+                    title={invoice.title}
+                    description={invoice.description}
+                    name={invoice.name}
+                    email={invoice.email}
+                  />
               </div>
             </div>
         </div>
