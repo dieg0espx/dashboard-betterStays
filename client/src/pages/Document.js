@@ -53,6 +53,7 @@ function Document() {
     const [checkIn, setCheckIn] = useState('')
     const [checkOut, setCheckOut] = useState('')
     const [pricesBreakdown, setPricesBreakdown] = useState([])
+    const [adddress, setAddress] = useState('')
     
 
 
@@ -204,8 +205,9 @@ function Document() {
             setCustomerName(docSnap.data().customerName)
             setCustomerLastName(docSnap.data().customerLastName)
 
-            setCheckIn(docSnap.data().radios[12] + ', 20' + docSnap.data().radios[13])
-            setCheckIn(docSnap.data().radios[16] + ', 20' + docSnap.data().radios[17])
+            setCheckIn(docSnap.data().inputs[12] + ', 20' + docSnap.data().inputs[13])
+            setCheckIn(docSnap.data().inputs[16] + ', 20' + docSnap.data().inputs[17])
+            setAddress(docSnap.data().inputs[7])
 
           }
         } catch (error) {
@@ -254,8 +256,9 @@ function Document() {
       urlencoded.append("reservationID", reservationID);
       urlencoded.append("checkIn", checkIn);
       urlencoded.append("checkOut", checkOut);
+      urlencoded.append("address", adddress);
 
-      
+
       var requestOptions = {
         method: 'POST',
         headers: myHeaders,
