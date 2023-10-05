@@ -49,6 +49,15 @@ function Document() {
     const [isMobile, setIsMobile] = useState(false)
     const [adminAccess, setAdminAccess] = useState(false)
 
+    // VARIABLES TO SEND ON THE EMAIL CONFIRMATION
+    const [checkIn, setCheckIn] = useState('')
+    const [checkOut, setCheckOut] = useState('')
+    const [pricesBreakdown, setPricesBreakdown] = useState([])
+    
+
+
+
+
 
     // ==== GENERAL FUNCTIONS ===== //
     useEffect(()=>{
@@ -194,6 +203,10 @@ function Document() {
             setCustomerEmail(docSnap.data().customerEmail)
             setCustomerName(docSnap.data().customerName)
             setCustomerLastName(docSnap.data().customerLastName)
+
+            setCheckIn(docSnap.data().radios[12] + ', 20' + docSnap.data().radios[13])
+            setCheckIn(docSnap.data().radios[16] + ', 20' + docSnap.data().radios[17])
+
           }
         } catch (error) {
           console.error("Error fetching data:", error);
@@ -208,7 +221,10 @@ function Document() {
     }
     
     async function sendBookingConfirmation(){
+
       let reservationID = '';
+
+      // FINDING RESERVATION ID 
       await fetch('https://apis-betterstay.vercel.app/api/getReservations')
       .then(response => response.json())
       .then(response => {
@@ -226,6 +242,7 @@ function Document() {
       })
 
     
+      // SENDING CONFIRMATION EMAIL
       console.log("Sending Confirmation ...");
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
@@ -235,7 +252,10 @@ function Document() {
       urlencoded.append("lastName", customerLastName);
       urlencoded.append("email", customerEmail);
       urlencoded.append("reservationID", reservationID);
+      urlencoded.append("checkIn", checkIn);
+      urlencoded.append("checkOut", checkOut);
 
+      
       var requestOptions = {
         method: 'POST',
         headers: myHeaders,
