@@ -20,6 +20,7 @@ import PropertiesPage from "./pages/PropertiesPage";
 import SheetInvoice from "./pages/SheetInvoice";
 import ProtectedRoutes from "./ProtectedRoutes";
 import React, { useState } from "react";
+import Overview from "./pages/Overview";
 
 function App() {
   return (
@@ -28,7 +29,8 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<ProtectedRoutes />}>
-              <Route index element={<CalendarPage />} />
+              <Route index element={<Overview />} />
+              <Route path="/overview" element={<Overview />} />
               <Route path="/calendar" element={<CalendarPage />} />
               <Route path="/documents" element={<DocumentsPage />} />
               <Route path="/document" element={<Document />} />
@@ -38,7 +40,6 @@ function App() {
               <Route path="/invoice" element={<Invoice />} />
               <Route path="/messages" element={<MensagesPage />} />
               <Route path="/properties" element={<PropertiesPage />} />
-              <Route path="/printInvoice" element={<SheetInvoice />} />
             </Route>
             <Route path="/login" element={<Login />} />
           </Routes>
