@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useLocation, PureComponent } from 'react';
 import Sidebar from '../components/Sidebar';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Line, LineChart, Area, AreaChart } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Line, LineChart, Area, AreaChart, RadialBarChart, RadialBar, PieChart, Pie, Cell } from 'recharts';
 
 
 function Overview() {
@@ -9,10 +9,14 @@ function Overview() {
     const [totReservations, setTotReservations] = useState(0)
     const [reservationsPerProperty, setReservationPerProperty] = useState([])
     const [reservationsPerMonth, setReservationsPerMonth] = useState([])
+    const [averageNightsPerProperty, setAverageNightsPerProperty] = useState([])
+    const [monthlyIncome,setMonthlyIncome] = useState([])
+    const [platforms, setPlatforms] = useState([])
+    const [currentMonth, setCurrentMonth] = useState([])
 
     let properties = [
         {name: "The Pool House",     id:"638a965985cf74003f7b34e6"},
-        {name: "Mariogold",          id:"627c1ef89d63b2003223d578"},
+        {name: "Marigold",          id:"627c1ef89d63b2003223d578"},
         {name: "Golfers Retreat",    id:"63670920fe8aa4007565c9d2"},
         {name: "The Lake House",     id:"63f03e1ce78efd003ec4d7de"},
         {name: "Sentinel",           id:"62a297f98d4ca500310bf165"},
@@ -31,14 +35,19 @@ function Overview() {
     },[])
 
     useEffect(()=>{
-        console.log(data);
         if(data.length > 0 ){
             getTotReservations()
             getReservationsPerProperty()
             getReservationsPerMonth()
+            getAverageNightsPerProperty()
+            getMonthlyIncome()
+            getPlatforms()
         }
     },[data])
 
+    useEffect(()=>{
+        getCurrentMonth()
+    },[reservationsPerMonth])
 
     async function getCalendar() {
         let startDate = '2023-01-01'
@@ -57,9 +66,8 @@ function Overview() {
           const countReservations = data.filter(
             (item) => item.status === 'booked' && item.listingId === property.id
           ).length;
-          return { propertyName: property.name, reservations: countReservations};
+          return { propertyName: property.name, Reservations: countReservations};
         });
-        console.log(reservations);
         setReservationPerProperty(reservations);
     }
     async function getReservationsPerMonth(){
@@ -74,63 +82,177 @@ function Overview() {
                     }
                 }
             }
-            reservations.push({month: monthNames[i-1], reservations: reservationsCount})
+            reservations.push({month: monthNames[i-1], Reservations: reservationsCount})
         }
         setReservationsPerMonth(reservations)
+    }   
+    async function getAverageNightsPerProperty(){
+        let reservations = [];
+        for (let i = 0; i < properties.length; i++) {
+          let nightsCount = [];
+          for (let j = 0; j < data.length; j++) {
+            if (data[j].status === "booked" && data[j].listingId === properties[i].id) {
+              if (data[j].reservation && data[j].reservation.nightsCount) {
+                nightsCount.push(data[j].reservation.nightsCount);
+              }
+            }
+          }
+          let sum = 0;
+          for(let k = 0; k < nightsCount.length; k ++){
+            sum = sum + nightsCount[k]
+          }
+          reservations.push({property: properties[i].name, average: (sum/nightsCount.length).toFixed(1)})
+        }
+        setAverageNightsPerProperty(reservations)
+    }
+    async function getMonthlyIncome() {
+        let incomes = [];
+        for (let i = 1; i <= 12; i++) {
+            let amount = 0;
+            for (let j = 0; j < data.length; j++) {
+                if (data[j].status == "booked") {
+                    let currentMonth = data[j].date.split('-')[1];
+                    if (currentMonth == i) {
+                        amount += parseFloat(data[j].reservation.money.totalPaid);
+                    }
+                }
+            }
+            amount = parseFloat(amount.toFixed(2));
+            incomes.push({ month: monthNames[i - 1], USD: amount });
+        }
+        setMonthlyIncome(incomes);
+    }
+    async function getPlatforms(){
+        let platforms = []
+        for(let i = 0; i < data.length; i ++){
+            if(data[i].status == 'booked'){
+                platforms.push(data[i].reservation.integration.platform)
+            }
+        }
+        function countOccurrences(arr) {
+            let platfoms = []
+            const countMap = {}
+            arr.forEach(function (element) {
+              if (countMap[element]) {
+                countMap[element]++;
+              } else {
+                countMap[element] = 1;
+              }
+            });
+            for (const element in countMap) {
+              platfoms.push({name: element.toLocaleUpperCase(), Reservations:countMap[element] })
+            }
+            return platfoms
+        }
+        setPlatforms(countOccurrences(platforms))
+    }
+    async function getCurrentMonth(){
+        const currentDate = new Date();
+        const currentMonth = monthNames[currentDate.getMonth()];
+        const currentMonthNumber = currentDate.getMonth();
+
+        let amount = 0
+        let reservations = 0;
+        for(let i = 0; i < reservationsPerMonth.length; i ++){
+            if(reservationsPerMonth[i].month == currentMonth){
+                reservations = reservationsPerMonth[i].Reservations
+            }
+        }
+
+        for(let i = 0;i < monthlyIncome.length; i ++){
+            if(monthlyIncome[i].month == currentMonth){
+                amount = monthlyIncome[i].USD
+            }
+        }
+
+        let currentReservations = {
+            reservations: reservations,
+            income: amount.toLocaleString()
+          };
+        setCurrentMonth(currentReservations)
     }
 
 
-   
 
-      
   return (
     <div className="wrapper-overview">
       <div>
         <Sidebar />
       </div>
-      <div id="right">
-        
+      <div className='content'>
         <div className='graph'>
-            <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={reservationsPerProperty}
-                  margin={{
-                    top: 5,
-                    right: 30,
-                    left: 20,
-                    bottom: 5,
-                  }}
-                  barSize={35}
-                >
-                  <XAxis dataKey="propertyName" scale="band" padding={{ left: 10, right: 10 }} />
+            <ResponsiveContainer width="95%" height="90%">
+                <BarChart data={reservationsPerProperty} barSize={35}  margin={{left: -10}}>
+                  <XAxis dataKey="propertyName" scale="band" padding={{ left: 3, right: 3}} />
                   <YAxis />
                   <Tooltip />
-                  
-                  <Bar dataKey="reservations" fill="#0089BF" background={{ fill: 'white' }} />
+                  <Bar dataKey="Reservations" fill="#0089BF" background={{ fill: 'white' }} />
                 </BarChart>
             </ResponsiveContainer>
+            <p> Property Reservations </p>
         </div>
         <div className='graph'>
-            <ResponsiveContainer width="100%" height="100%">
-                <AreaChart
-                  width={500}
-                  height={400}
-                  data={reservationsPerMonth}
-                  margin={{
-                    top: 10,
-                    right: 30,
-                    left: 20,
-                    bottom: 5,
-                  }}
-                >
+            <ResponsiveContainer width="100%" height="90%">
+                <AreaChart width={500} height={400} data={reservationsPerMonth} margin={{left: -10}}>
                   <XAxis dataKey="month" />
                   <YAxis />
                   <Tooltip />
-                  <Area type="monotone" dataKey="reservations" stroke="#0089BF" fill="#0089BF" />
+                  <Area type="monotone" dataKey="Reservations" stroke="#0089BF" fill="#0089BF" />
                 </AreaChart>
             </ResponsiveContainer>
+            <p> Monthly Reservations</p>
         </div>
-
+        <div className='graph'>
+            <ResponsiveContainer width="95%" height="90%">
+                <BarChart data={averageNightsPerProperty} barSize={35}  margin={{left: -10}}>
+                  <XAxis dataKey="property" scale="band" padding={{ left: 3, right: 3}} />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="average" fill="#0089BF" background={{ fill: 'white' }} />
+                </BarChart>
+            </ResponsiveContainer>
+            <p> Average Nights </p>
+        </div>
+        <div className='graph'>
+            <ResponsiveContainer width="100%" height="90%">
+                <LineChart data={monthlyIncome}margin={{left: 20}}>
+                    <XAxis dataKey="month" />
+                    <Tooltip />
+                    <Line type="monotone" dataKey="USD" stroke="#0089BF" strokeWidth={2} />
+                </LineChart>
+            </ResponsiveContainer>
+            <p> Monthly Income</p>
+        </div>
+        <div className='graph'>
+            <ResponsiveContainer width="100%" height="90%">
+                <PieChart>
+                <Pie
+                    dataKey="Reservations"
+                    isAnimationActive={false}
+                    data={platforms}
+                    cx="50%"
+                    cy="50%"
+                    // outerRadius={100}
+                    fill="#0089BF"
+                    label
+                    margin={{left: 50}}
+                />
+                <Tooltip />
+                </PieChart>
+            </ResponsiveContainer>
+            <p> Platform Used </p>
+        </div>
+        <div className='graph'>
+            <div className='detail'>
+                <h1>{currentMonth.reservations}</h1> 
+                <h2> Nights Booked </h2>
+            </div>
+            <div className='detail'>
+                <h3>${currentMonth.income}</h3>
+                <h2> USD </h2>
+            </div>
+            <p> Current Month </p>
+        </div>
       </div>
     </div>
   );
