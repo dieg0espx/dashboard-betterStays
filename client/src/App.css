@@ -325,7 +325,7 @@
 
 .wrapper-documentsPage .documents-row{
     display: grid;
-    grid-template-columns: 250px auto 200px 180px 160px;
+    grid-template-columns: 80px 250px auto 200px 180px 160px;
     border: 1px solid lightgray;
     border-radius: 10px;
     width: 90%;
@@ -374,7 +374,12 @@
   color: gray;
 }
 
-
+.signed {
+  color: #25c625;
+}
+.notSigned {
+  color: orange;
+}
 
 
 /* ===== DOCUMENT ====  */

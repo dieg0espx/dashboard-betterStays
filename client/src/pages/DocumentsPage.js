@@ -29,8 +29,22 @@ function DocumentsPage() {
       let data = []
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        data.push({id: doc.id, title:doc.data().title, nameTenant1:doc.data().input[3], nameTenant2:doc.data().nameTenant2, checkIn: doc.data().input[1] + ', 20' + doc.data().input[2] , date: doc.data().date, sign: doc.data().sign, email:doc.data().email, status:doc.data().status, address:doc.data().input[6], propertyName: doc.data().propertyName })
-        // console.log(doc.data());
+        data.push({
+          id: doc.id, 
+          title:doc.data().title, 
+          nameTenant1:doc.data().input[3], 
+          nameTenant2:doc.data().nameTenant2, 
+          checkIn: doc.data().input[1] + ', 20' + doc.data().input[2] , 
+          date: doc.data().date, 
+          sign: doc.data().sign, 
+          email:doc.data().email, 
+          status:doc.data().status, 
+          address:doc.data().input[6], 
+          propertyName: doc.data().propertyName,
+          signTenant1: doc.data().signTenant1,
+          signTenant2: doc.data().signTenant2,
+          signLandlord: doc.data().signLandlord, 
+        })
       });
 
       setDocuments(data)
@@ -128,8 +142,8 @@ function DocumentsPage() {
             .map((application) => (
               <>
               <div className="documents-row" key={application.id} style={{display: isMobile? "none":"grid"}}>
-                    {/* <i className="bi bi-file-text iconDocument" style={{ display: isMobile ? 'block' : 'none' }}></i> */}
-                    <p id="name">{application.title}</p>
+              <p>{application.signTenant1 == '' ? <i className="bi bi-check-circle-fill notSigned"></i>: <i className="bi bi-check-circle-fill signed"></i>} {application.signTenant2 == '' ? <i className="bi bi-check-circle-fill notSigned"></i>: <i className="bi bi-check-circle-fill signed"></i>} {application.signLandlord == '' ? <i className="bi bi-check-circle-fill notSigned"></i>: <i className="bi bi-check-circle-fill signed"></i>}</p>
+                    <p id="name">{application.title} </p>
                     <p id="id">{application.propertyName}</p>
                     <p id="title" style={{ display: isMobile ? 'none' : 'block' }}>{application.nameTenant1}</p>
                     <p id="title" style={{ display: isMobile ? 'block' : 'none' }}>{`${application.title} - ${application.date}`}</p>
@@ -147,7 +161,10 @@ function DocumentsPage() {
                     <i className="bi bi-file-text iconDocument" style={{ display: isMobile ? 'block' : 'none' }}></i>
                   </div>
                   <div className='details'>
-                      <p>{application.propertyName}</p>
+                      <div style={{display: 'flex', justifyContent:'space-between', alignItems:'center'}}>
+                        <p>{application.propertyName} </p>
+                        <p>{application.signTenant1 == '' ? <i className="bi bi-check-circle-fill notSigned"></i>: <i className="bi bi-check-circle-fill signed"></i>} {application.signTenant2 == '' ? <i className="bi bi-check-circle-fill notSigned"></i>: <i className="bi bi-check-circle-fill signed"></i>} {application.signLandlord == '' ? <i className="bi bi-check-circle-fill notSigned"></i>: <i className="bi bi-check-circle-fill signed"></i>}</p>
+                      </div>  
                       <p>{application.nameTenant1}</p>
                       <p>{`${application.title} - ${application.date}`}</p>
                       <div className='actionBtns'>
