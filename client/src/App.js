@@ -42,6 +42,7 @@ function App() {
               <Route path="/properties" element={<PropertiesPage />} />
             </Route>
             <Route path="/login" element={<Login />} />
+            <Route path="/document" element={<Document />} />
           </Routes>
         </Router>
       
