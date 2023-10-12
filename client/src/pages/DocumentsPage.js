@@ -116,33 +116,50 @@ function DocumentsPage() {
         <div className="top-nav">
           <h2> {docStatus == 'archive' ? "Archive":"Documents"} </h2>
           <div className='searchBar'>
-              <input type="text" placeholder='Find Customer' onChange={(e)=>setFinding(e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1).toLowerCase())}></input>
-              <button> <i className="bi bi-search searchIcon"></i> </button>
-              <i class="bi-file-earmark-plus editIcon" onClick={()=>createContract()}></i>
+              <div className={isMobile? "findBar":""}>
+                <input type="text" placeholder='Find Customer' onChange={(e)=>setFinding(e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1).toLowerCase())}></input>
+                <button> <i className="bi bi-search searchIcon"></i> </button>
+              </div>
               <i class="bi bi-archive editIcon" onClick={docStatus =='available' ? ()=>setDocStatus('archive'):()=>setDocStatus('available')}></i>
-              <i class="bi bi-sliders editIcon" onClick={()=>setShowEdits(!showEdits)}></i>
           </div>
         </div>
           {documents
             .filter((application) => application.status === docStatus)
             .map((application) => (
-              <div className='documents-row' key={application.id}>
-                <div id="left" onClick={() => printOrder('/sheet1?id=' + application.id + '&&print=true')}>
-                  <i className="bi bi-file-text iconDocument" style={{ display: isMobile ? 'block' : 'none' }}></i>
-                  <p id="name">{application.title}</p>
-                  <p id="id">{application.propertyName}</p>
-                  <p id="title" style={{ display: isMobile ? 'none' : 'block' }}>{application.nameTenant1}</p>
-                  <p id="title" style={{ display: isMobile ? 'block' : 'none' }}>{application.title} - {application.date}</p>
-                  <p style={{ display: isMobile ? 'none' : 'block' }}>{application.checkIn}</p>
-                  <i style={{ display: isMobile ? 'none' : 'block' }} className="bi bi-chevron-right iconChevRight"></i>
-                </div>
-                <div id="right" style={{ display: showEdits ? 'flex' : 'none' }}>
-                  <i className="bi bi-pencil-square writeIcon" onClick={() => window.location.href = '/document?id=' + application.id + "&&adminAccess=true"}></i>
-                  <i style={{display: docStatus == 'archive' ?  "none":"block"}}className="bi bi-archive writeIcon" onClick={() => setDocToArchive(application.id)}></i>
-                  <i style={{display: docStatus == 'archive' ?  "block":"none"}}className="bi bi-recycle writeIcon" onClick={() => setArchiveToDoc(application.id)}></i>
-                  <i className="bi bi-trash writeIcon" onClick={()=>deleteDocument(application.id)}></i>
-                </div>
+              <>
+              <div className="documents-row" key={application.id} style={{display: isMobile? "none":"grid"}}>
+                    {/* <i className="bi bi-file-text iconDocument" style={{ display: isMobile ? 'block' : 'none' }}></i> */}
+                    <p id="name">{application.title}</p>
+                    <p id="id">{application.propertyName}</p>
+                    <p id="title" style={{ display: isMobile ? 'none' : 'block' }}>{application.nameTenant1}</p>
+                    <p id="title" style={{ display: isMobile ? 'block' : 'none' }}>{`${application.title} - ${application.date}`}</p>
+                    <p style={{ display: isMobile ? 'none' : 'block' }}>{application.checkIn}</p>
+                    <div className='actionBtns'>
+                      <i className="bi bi-pencil-square writeIcon" onClick={() => window.location.href = `/document?id=${application.id}&&adminAccess=true`}></i>
+                      <i style={{ display: docStatus === 'archive' ? 'none' : 'block' }} className="bi bi-archive writeIcon" onClick={() => setDocToArchive(application.id)}></i>
+                      <i style={{ display: docStatus === 'archive' ? 'block' : 'none' }} className="bi bi-recycle writeIcon" onClick={() => setArchiveToDoc(application.id)}></i>
+                      <i className="bi bi-trash writeIcon" onClick={() => deleteDocument(application.id)}></i>
+                      <i className="bi bi-printer writeIcon" onClick={() => printOrder(`/sheet1?id=${application.id}&&print=true`)}></i>
+                    </div>
               </div>
+               <div className="mobile-documents-row" key={application.id} style={{display: isMobile? "grid":"none"}}>
+                  <div>
+                    <i className="bi bi-file-text iconDocument" style={{ display: isMobile ? 'block' : 'none' }}></i>
+                  </div>
+                  <div className='details'>
+                      <p>{application.propertyName}</p>
+                      <p>{application.nameTenant1}</p>
+                      <p>{`${application.title} - ${application.date}`}</p>
+                      <div className='actionBtns'>
+                        <i className="bi bi-pencil-square writeIcon" onClick={() => window.location.href = `/document?id=${application.id}&&adminAccess=true`}></i>
+                        <i style={{ display: docStatus === 'archive' ? 'none' : 'block' }} className="bi bi-archive writeIcon" onClick={() => setDocToArchive(application.id)}></i>
+                        <i style={{ display: docStatus === 'archive' ? 'block' : 'none' }} className="bi bi-recycle writeIcon" onClick={() => setArchiveToDoc(application.id)}></i>
+                        <i className="bi bi-trash writeIcon" onClick={() => deleteDocument(application.id)}></i>
+                        <i className="bi bi-printer writeIcon" onClick={() => printOrder(`/sheet1?id=${application.id}&&print=true`)}></i>
+                      </div>
+                  </div>
+              </div>
+              </>
             ))
           }
       </div>
