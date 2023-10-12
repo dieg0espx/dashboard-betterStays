@@ -56,14 +56,11 @@ function Login() {
       })
     }
 
-
-
-
   return (
     <div className='wrapper-login'>
         <div className='content'>
             <img src='https://res.cloudinary.com/dxfi1vj6q/image/upload/v1683933526/Final_Logo_1_byrdtx_m9colt.png'/>
-            <button onClick={()=>googleAuth()}> Access </button>
+            <button onClick={()=>googleAuth()}> Login </button>
         </div>
     </div>
   )
