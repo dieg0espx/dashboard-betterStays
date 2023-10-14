@@ -2529,8 +2529,33 @@ abbr[title] {
     font-size: 12px;
   }
 
+  .wrapper-propertiesPage .newRule-popup {
+    width: 100%;
+    height: calc(100vh - 120px);
+    top: 120px;
+    left: 0;
+    transform: none;
+  }
+  .wrapper-propertiesPage .newRule-popup .content{
+    display: block;
+    overflow-y: scroll;
+  }
+  .wrapper-propertiesPage .newRule-popup h2{
+    font-size: 20px;
+  }
 
 
+  .react-calendar {
+    min-width: 350px;
+    width: 350px;
+    max-width: 350px;
+    left: 0;
+  }
+
+
+  .newRule-popup .btnSave {
+    margin-bottom: 100px;
+  }
 
   /* ========  DOCUMENT   ======== */
   
