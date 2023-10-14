@@ -152,8 +152,9 @@ function PropertiesPage() {
             <div className='content'>
             {properties.map((property) => {
                 return (
-                    <div className='properties-row' key={property._id} >
-                        <div className='firstRow'>
+                    <div className='properties-row' key={property._id}>
+                        <div className='details'>
+                            <i className="bi bi-calendar-plus iconCalendarPlus" onClick={()=>openPopup(property._id, property.nickname)}></i>
                             <p id="name">{property.nickname}</p>
                             <p> {property.title}</p>
                             <div className='minMaxNights'>
@@ -162,7 +163,6 @@ function PropertiesPage() {
                                 <p className='labelMinMax'> Max: </p>
                                 <input type='tel' placeholder={getMax(property.nickname)} onChange={(e)=>updateMinMax('max', property.nickname, e.target.value)}/>
                             </div>
-                            <i className="bi bi-calendar-plus iconCalendarPlus" onClick={()=>openPopup(property._id, property.nickname)}></i>
                         </div>
                         <div className='rules'>
                              {getRules(property.nickname)}

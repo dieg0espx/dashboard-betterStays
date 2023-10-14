@@ -1614,23 +1614,27 @@ border: 2px solid #0089BF;
 }
 
 .wrapper-propertiesPage .properties-row {
+  display: block;
   width: 90%;
   margin: auto;
   margin-bottom: 10px;
   border-radius: 10px;
   border: 1px solid lightgray;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px;
-  align-items: center;
   text-align: left;
-  padding: 15px 20px;
-  height: fit-content;
-  font-size: 15px;
-  transition: 0.2s;
+  padding: 15px;
+  transition: 0.3s;
 }
-.wrapper-propertiesPage .properties-row .firstRow{
+.wrapper-propertiesPage .properties-row .details {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr 0.3fr ;
+  grid-template-columns: 0.5fr 2fr 3fr 1fr;
+  align-items: center;
 }
+
+
+
+
+
 .wrapper-propertiesPage .properties-row:hover {
   padding-left: 25px;
   border: 1px solid #0089BF;
@@ -1685,9 +1689,10 @@ border: 2px solid #0089BF;
 
 .wrapper-propertiesPage .iconCalendarPlus {
   font-size: 25px;
+  margin-top: 5px;
   color: gray;
-  margin-left: auto;
 }
+
 .wrapper-propertiesPage .iconCalendarPlus:hover {
   color: #0089BF;
 }
@@ -2361,7 +2366,7 @@ abbr[title] {
 
   /* ========  MESSAGES PAGE  ======== */
 
-  .wrapper-messagesPage {
+  .wrapper-mobile-messagesPage {
     display: block;
     width: 100%;
     margin: 70px auto 0 auto;
@@ -2503,30 +2508,26 @@ abbr[title] {
     width: 100%;
     margin: 0 auto 15px auto;
   }
-
   .wrapper-propertiesPage .top-nav h2 {
     font-size: 40px;
     text-align: left;
     margin-bottom: 0px;
+    margin-left: 20px;
   }
 
-  .wrapper-propertiesPage .properties-row {
-    width: 100%;
+  .wrapper-propertiesPage .properties-row .details {
     display: block;
-    height: fit-content;
-    padding: 10px 20px;
-  }
-  .wrapper-propertiesPage .properties-row #name {
-    font-weight: bold;
-    font-size: 18px;
   }
 
-  .wrapper-propertiesPage .properties-row .minMaxNights{
-    width: 200px;
-    margin: 10px auto 5px auto;
+  .wrapper-propertiesPage .properties-row .details  #name {
+    display: inline;
+    margin-left: 15px;
+    position: relative;
+    top: -5px;
   }
-
-
+  .wrapper-propertiesPage .properties-row .rule {
+    font-size: 12px;
+  }
 
 
 

@@ -186,60 +186,56 @@ function MensagesPage() {
           </div>
       </div>
       <div className='wrapper-messagesPage' style={{display: isMobile? "block":"none"}} >
+
           <div>
-              <Sidebar />
-          </div>
-          <div>
-              <div className='contacts-window' style={{display: showChat? "none":"block"}}>
-                  <div className='contacts'>
-                      <p id="title"> Chats </p>
-                    {contacts.map((contact, i) => 
-                      // <div className={contact.split('-')[0].includes(conversation.split('-')[0]) && conversation.length > 0 && showChat ? "selected-row":"row"} key={i} onClick={()=> openConversation(contact.split('-')[0], contact.split('-')[1])}>
-                      //     <div>
-                      //         <i className="bi bi-person-circle iconPerson"></i>
-                      //     </div>
-                      //     <div>
-                      //         <p id="name"> {contact.split('-')[1]} </p>
-                      //         <p id="email"> {contact.split('-')[0]} </p>
-                      //     </div>
-                      // </div>
+            <div className='chats'>
+              <div className='contacts'>
+                  <p id="title"> Chats </p>
+                {contacts.map((contact, i) => 
+                  <div className={contact.email.includes(conversation.split('-')[0]) && conversation.length > 0 ? "selected-row":"row"} key={i} onClick={()=> openConversation(contact.email, contact.name, contact.lastMessage)}>
                       <div>
-                        sidebar
+                          <i className="bi bi-person-circle iconPerson"></i>
                       </div>
-                    )}
+                      <div>
+                          <p id="name"> {contact.name} </p>
+                          <p id="lastMesage"> {contact.lastMessage.length <= 80 ? contact.lastMessage : contact.lastMessage.slice(0, 77) + ' ...'} </p>
+                      </div>
+                      <div style={{display: contact.status == 'seen' ? "none":"block"}}>
+                        <i className="bi bi-circle-fill iconStatus"></i>
+                      </div>
+                  </div>
+                )}
+              </div>
+              <div className='messages'>
+                  <div className='top-bar' style={{display: conversation.length > 0? "flex":"none"}}>
+                      <p> <i className="bi bi-person-circle"></i> {conversation.split('-')[1]} </p>
+                      <p>{conversation.split('-')[0]} </p>
+                  </div>
+                  <div className='bubles' ref={messagesContainerRef}>
+                    {Object.keys(messages).map((key) => (
+                      <div key={key}>
+                        <div className={key.includes('admin') ? 'buble admin-buble' : 'buble customer-buble'}>
+                          <p> {messages[key]} </p>
+                        </div>
+                        <img className="adminTail" style={{display:key.includes('admin') ? "block":"none" }} src={adminTail} />
+                        <img className="customerTail" style={{display:key.includes('customer') ? "block":"none" }} src={customerTail} />
+
+                        <p className={key.includes('admin') ? 'message-hour admin-hour' : 'message-hour customer-hour'} >
+                          {getTime(key)}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className='wrapper-newMessages' style={{display: conversation.length > 0? "block":"none"}}>
+                      <textarea className='new-message' value={strNewMesasge}  rows={4} onKeyDown={handleKeyDown} onChange={(e)=>setStrNewMesasge(e.target.value)} placeholder='Type your message'/>
+                      <i className="bi bi-arrow-up-circle-fill arrowIcon" onClick={()=>sendMessage()}></i>
                   </div>
               </div>
-              <div className='messages-window' style={{display: showChat? "block":"none"}}>
-                  <div className='messages'>
-                      <div className='top-bar'>
-                          <p>  <i style={{display: isMobile? "inline":"none"}} className="bi bi-chevron-left" onClick={()=>setShowChat(false)}></i> <i className="bi bi-person-circle"></i> {conversation.split('-')[1]} </p>
-                          <p style={{display: isMobile? "none":"block"}}>{conversation.split('-')[0]} </p>
-                      </div>
-                      <div className='bubles' ref={messagesContainerRef}>
-                          {Object.keys(messages).map((key) => (
-                                <div key={key}>
-                                  <div className={key.includes('admin') ? 'buble admin-buble' : 'buble customer-buble'}>
-                                    <p> {messages[key]} </p>
-                                  </div>
-                                  <img className="adminTail" style={{display:key.includes('admin') ? "block":"none" }} src={adminTail} />
-                                  <img className="customerTail" style={{display:key.includes('customer') ? "block":"none" }} src={customerTail} />
-                          
-                                  <p className={key.includes('admin') ? 'message-hour admin-hour' : 'message-hour customer-hour'} >
-                                    {getTime(key)}
-                                  </p>
-                                </div>
-                              )
-                              )
-                          }
-                      </div>
-                      <div className='wrapper-newMessages'>
-                          <textarea className='new-message' value={strNewMesasge}  rows={4} onKeyDown={handleKeyDown} onChange={(e)=>setStrNewMesasge(e.target.value)} placeholder='Type your message'/>
-                          <i className="bi bi-arrow-up-circle-fill arrowIcon" onClick={()=>sendMessage()}></i>
-                      </div>
-                  </div>
-              </div>    
+            </div>
+                    
           </div>
       </div>
+     
     </div>
   )
 }
