@@ -110,6 +110,7 @@ function Invoice() {
                     description={invoice.description}
                     name={invoice.name}
                     email={invoice.email}
+                    destinatary={invoice.destinatary}
                   />
               </div>
             </div>

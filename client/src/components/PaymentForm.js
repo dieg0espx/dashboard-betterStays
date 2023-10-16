@@ -108,8 +108,7 @@ function PaymentForm(props) {
               const response = await axios.post(stripeURL + "/payment", {
                 id, 
                 amount: Math.floor(props.balance*100),
-                description: "EXTRA INVOICE" , 
-                propertyName: "Tuneberg"
+                description: "EXTRA INVOICE"
               })
               if (response.data.success) {
                 console.log("Payment Successfull !");
