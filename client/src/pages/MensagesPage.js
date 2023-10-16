@@ -30,6 +30,8 @@ function MensagesPage() {
 
     const [playSound] = useSound(mySound)
 
+    const [chatURL, setChatURL] = useState('')
+
     useEffect(() => {
         if (window.innerWidth  <= 500){
           setIsMobile(true)
@@ -45,9 +47,11 @@ function MensagesPage() {
             contactsArray.push({
               name: doc.data().user.split('-')[1],
               email: doc.data().user.split('-')[0],
+              property: doc.data().user.split('-')[2], 
               lastMessage: doc.data().message,
               status: doc.data().status
             });
+            setChatURL(doc.data().user.split('-')[0] + '-' + doc.data().user.split('-')[1] + '-' + doc.data().user.split('-')[2])
           });
           setContacts(contactsArray);
           playSound()
@@ -83,6 +87,7 @@ function MensagesPage() {
             updateData[generateKey()] = strNewMesasge;
             await updateDoc(newMessageRef, updateData);
             setStrNewMesasge('')
+            updateLastMessage()
         }
 
         function generateKey(){
@@ -103,8 +108,8 @@ function MensagesPage() {
             return(formattedTime);
         }
 
-        async function openConversation(email, name, lastMesage){
-            let str = email + '-' + name;
+        async function openConversation(email, name, lastMesage, property){
+            let str = email + '-' + name + '-' + property;
             setConversation(str)
             setFirstCount(true)
             setShowChat(true)
@@ -121,14 +126,22 @@ function MensagesPage() {
               sendMessage()
             }
         };
-    
+  
+    useEffect(() => {
+      if (messagesContainerRef.current) {
+        messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+      }
+    }, [messages]);
 
 
-      useEffect(() => {
-    if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    async function updateLastMessage(){
+      await setDoc(doc(db, "LastMessages", chatURL), {
+        message: strNewMesasge,
+        status: 'sent',
+        date : generateKey(), 
+        user: chatURL
+      });
     }
-      }, [messages]);
 
 
   return (
@@ -141,8 +154,11 @@ function MensagesPage() {
             <div className='chats'>
               <div className='contacts'>
                   <p id="title"> Chats </p>
+                  <select>
+                    <option> Tunerberg </option>
+                  </select>
                 {contacts.map((contact, i) => 
-                  <div className={contact.email.includes(conversation.split('-')[0]) && conversation.length > 0 ? "selected-row":"row"} key={i} onClick={()=> openConversation(contact.email, contact.name, contact.lastMessage)}>
+                  <div className={contact.email.includes(conversation.split('-')[0]) && conversation.length > 0 ? "selected-row":"row"} key={i} onClick={()=> openConversation(contact.email, contact.name, contact.lastMessage, contact.property)}>
                       <div>
                           <i className="bi bi-person-circle iconPerson"></i>
                       </div>
