@@ -31,6 +31,7 @@ function StripeContainer(props) {
       stripeTestPromise = loadStripe(RockCity)
       break;
     default:
+      console.log("money goes to diego");
       stripeTestPromise = loadStripe("pk_test_51NJ0hELJsUTWMJlYFPcEXiY8E43Kfrj5ecnpYpKIACSLxPCqsdPhYPaaT0knoPmt4wFQERjyolMHJIPrkvnAH1VI00VHrT8oeq");
       break;
   }
