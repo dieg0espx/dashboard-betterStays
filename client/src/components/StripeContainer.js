@@ -14,6 +14,26 @@ const RockCity = process.env.REACT_APP_ROCKCITY_API_KEY;
 function StripeContainer(props) {
 
   let stripeTestPromise = loadStripe("pk_test_51NJ0hELJsUTWMJlYFPcEXiY8E43Kfrj5ecnpYpKIACSLxPCqsdPhYPaaT0knoPmt4wFQERjyolMHJIPrkvnAH1VI00VHrT8oeq");
+  switch (props.destinatary) {
+    case 'DAVID':
+      stripeTestPromise = loadStripe(David)
+      break;
+    case 'PJ INVESTMENTS':
+      stripeTestPromise = loadStripe(PJInvestments)
+      break;
+    case 'PHILL':
+      stripeTestPromise = loadStripe(Phill)
+      break;
+    case 'RC HOMES':
+      stripeTestPromise = loadStripe(RCHomes)
+      break;
+    case 'ROCK CITY HOMES':
+      stripeTestPromise = loadStripe(RockCity)
+      break;
+    default:
+      stripeTestPromise = loadStripe("pk_test_51NJ0hELJsUTWMJlYFPcEXiY8E43Kfrj5ecnpYpKIACSLxPCqsdPhYPaaT0knoPmt4wFQERjyolMHJIPrkvnAH1VI00VHrT8oeq");
+      break;
+  }
 
   return (
     <Elements stripe={stripeTestPromise}>
