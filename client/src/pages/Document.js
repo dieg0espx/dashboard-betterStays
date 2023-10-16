@@ -269,7 +269,7 @@ function Document() {
         redirect: 'follow'
       };
       
-      await fetch(mailerURL + "/api/paidInvoice", requestOptions)
+      await fetch(mailerURL + "/api/bookingConfirmation", requestOptions)
         .then(response => response.text())
         .then(result => console.log("Email Sent: " + result))
         .catch(error => console.log('== ERROR === ', error));

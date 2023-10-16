@@ -16,8 +16,6 @@ function CalendarPage() {
   const [currentReservation, setCurrentReservation] = useState([]);
 
 
-
-
   useEffect(() => {
     getCalendar();
   }, []);

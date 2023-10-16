@@ -6,7 +6,6 @@ import { app } from '../Firebase';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 
-
 function CustomersPage() {
     const apiURL = process.env.REACT_APP_APIURL;
     const mailerURL = process.env.REACT_APP_MAILERURL;
@@ -26,7 +25,6 @@ function CustomersPage() {
     const [invoiceDestinatary, setInvoiceDestinatary] = useState('')
 
     const [isMobile, setIsMobile] = useState(false)
-
 
     const storage = getStorage();
     const db = getFirestore(app);
@@ -131,8 +129,6 @@ function CustomersPage() {
         date:  formatDate(new Date())
       });
 
-  
-
       //sending Email  
       console.log("Sending Email ...");
       var myHeaders = new Headers();
@@ -189,10 +185,6 @@ function CustomersPage() {
         }
     }
 
-
-
-
-    
   return (
     <div className='wrapper-customersPage'>
         <div>
