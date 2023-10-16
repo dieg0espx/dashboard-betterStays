@@ -9,6 +9,7 @@ import { saveAs } from 'file-saver';
 
 function CustomersPage() {
     const apiURL = process.env.REACT_APP_APIURL;
+    const mailerURL = process.env.REACT_APP_MAILERURL;
 
     const [customers, setCustomers] = useState([])
     const [finding, setFinding] = useState('')
@@ -150,7 +151,7 @@ function CustomersPage() {
         redirect: 'follow'
       };
       
-      fetch(apiURL + "/api/newInvoice", requestOptions)
+      fetch(mailerURL + "/api/newInvoice", requestOptions)
         .then(response => response.text())
         .then(result => console.log("Email Sent: " + result))
         .catch(error => console.log('== ERROR === ', error));

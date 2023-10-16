@@ -6,6 +6,7 @@ import StripeContainer from '../components/StripeContainer.js';
 
 function Invoice() {
     const apiURL = process.env.REACT_APP_APIURL;
+    const mailerURL = process.env.REACT_APP_MAILERURL;
     const db = getFirestore(app);
     const location = useLocation();
     const {search } = location;
@@ -73,7 +74,7 @@ function Invoice() {
         redirect: 'follow'
       };
       
-      fetch(apiURL + "/api/newInvoice", requestOptions)
+      fetch(mailerURL + "/api/newInvoice", requestOptions)
         .then(response => response.text())
         .then(result => console.log("Email Sent: " + result))
         .catch(error => console.log('== ERROR === ', error));
@@ -116,7 +117,7 @@ function Invoice() {
        <div className='floatingBtns'>
           <iframe src={sheetURL} ref={iframeRef}/>
           <button onClick={()=>setShowPopup(true)}> <i className="bi bi-send"></i>  </button>  
-          <button onClick={()=>printInvoice('/printInvoice?id=' + invoiceID)}> <i className="bi bi-printer"></i> </button>
+          <button onClick={()=>printInvoice('/sheetInvoice?id=' + invoiceID)}> <i className="bi bi-printer"></i> </button>
        </div>
        <div className='overlay' style={{display: showPopup? "block":"none"}} onClick={()=>setShowPopup(false)}></div>
        <div className='forward-popup' style={{display: showPopup? "block":"none"}}>

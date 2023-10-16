@@ -38,7 +38,10 @@ const MOBILE_CARD_OPTIONS = {
 };
 
 function PaymentForm(props) {
+    const mailerURL = process.env.REACT_APP_MAILERURL;
     const apiURL = process.env.REACT_APP_APIURL;
+    const stripeURL = process.env.REACT_APP_STRIPEURL
+
     const db = getFirestore(app);
     const [success, setSuccess ] = useState(false)
     const stripe = useStripe()
@@ -79,7 +82,6 @@ function PaymentForm(props) {
        urlencoded.append("name", name);
        urlencoded.append("email", email);
       
-      
        var requestOptions = {
          method: 'POST',
          headers: myHeaders,
@@ -87,7 +89,7 @@ function PaymentForm(props) {
          redirect: 'follow'
        };
        
-       fetch(apiURL + "/api/paidInvoice", requestOptions)
+       fetch(mailerURL + "/api/paidInvoice", requestOptions)
          .then(response => response.text())
          .then(result => console.log("Email Sent: " + result))
          .catch(error => console.log('== ERROR === ', error));
@@ -103,11 +105,10 @@ function PaymentForm(props) {
       if(!error) {
           try {
               const {id} = paymentMethod
-              const response = await axios.post("https://seccond-stripe-payments.vercel.app/payment", {
+              const response = await axios.post(stripeURL + "/payment", {
                 id, 
                 amount: Math.floor(props.balance*100),
-                description: "EXTRA INVOICE" , 
-                propertyName: "Tuneberg"
+                description: "EXTRA INVOICE" 
               })
               if (response.data.success) {
                 console.log("Payment Successfull !");

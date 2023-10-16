@@ -6,7 +6,9 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useLocation, useSearchParams } from 'react-router-dom';
 
 function Document() {
+    const mailerURL = process.env.REACT_APP_MAILERURL;
     const apiURL = process.env.REACT_APP_APIURL;
+
     const db = getFirestore(app);
     
     const [fullName, setFullName] = useState("")
@@ -267,7 +269,7 @@ function Document() {
         redirect: 'follow'
       };
       
-      await fetch(apiURL + "/api/bookingConfirmation", requestOptions)
+      await fetch(mailerURL + "/api/paidInvoice", requestOptions)
         .then(response => response.text())
         .then(result => console.log("Email Sent: " + result))
         .catch(error => console.log('== ERROR === ', error));

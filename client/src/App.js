@@ -41,6 +41,8 @@ function App() {
             </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/document" element={<Document />} />
+            <Route path="/invoice" element={<Invoice />} />
+            <Route path="/sheetInvoice" element={<SheetInvoice />} />
           </Routes>
         </Router>
       
