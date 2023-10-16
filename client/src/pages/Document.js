@@ -6,6 +6,7 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useLocation, useSearchParams } from 'react-router-dom';
 
 function Document() {
+    const apiURL = process.env.REACT_APP_APIURL;
     const db = getFirestore(app);
     
     const [fullName, setFullName] = useState("")
@@ -227,7 +228,7 @@ function Document() {
       let reservationID = '';
 
       // FINDING RESERVATION ID 
-      await fetch('https://apis-betterstay.vercel.app/api/getReservations')
+      await fetch(apiURL + '/api/getReservations')
       .then(response => response.json())
       .then(response => {
         let reservations = response.results
@@ -266,7 +267,7 @@ function Document() {
         redirect: 'follow'
       };
       
-      await fetch("https://better-stays-mailer.vercel.app/api/bookingConfirmation", requestOptions)
+      await fetch(apiURL + "/api/bookingConfirmation", requestOptions)
         .then(response => response.text())
         .then(result => console.log("Email Sent: " + result))
         .catch(error => console.log('== ERROR === ', error));

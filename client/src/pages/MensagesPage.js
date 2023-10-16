@@ -17,20 +17,28 @@ function MensagesPage() {
 
     const [messages, setMessages] = useState([])
     const [contacts, setContacts] = useState([])
-
     const [strNewMesasge, setStrNewMesasge] = useState('')
     const [conversation,setConversation] = useState('')
-
-
     const [receivedMessages, setReceivedMessages] = useState(0);
     const [firstCount, setFirstCount] = useState(true)
-
     const [isMobile, setIsMobile] = useState(false)
     const [showChat, setShowChat] = useState(false)
-
     const [playSound] = useSound(mySound)
-
     const [chatURL, setChatURL] = useState('')
+    const [showChats, setShowChats] = useState('')
+    const [openChat, setOpenChat] = useState(false)
+
+    let properties = [
+      "The Pool House",   
+      "Marigold",         
+      "Golfers Retreat",  
+      "The Lake House",   
+      "Sentinel",         
+      "Oak Park Game Room",
+      "Landstrom",        
+      "Tuneberg",         
+      "Mario's Pad",      
+    ]
 
     useEffect(() => {
         if (window.innerWidth  <= 500){
@@ -58,7 +66,6 @@ function MensagesPage() {
         });
       }
 
-  
        useEffect(()=>{
           console.log(conversation);
           if(conversation.length > 0){
@@ -80,24 +87,21 @@ function MensagesPage() {
           
         },[conversation])
 
-
-        async function sendMessage() {
-            const newMessageRef = doc(db, "Messages", conversation);
-            const updateData = {};
-            updateData[generateKey()] = strNewMesasge;
-            await updateDoc(newMessageRef, updateData);
-            setStrNewMesasge('')
-            updateLastMessage()
-        }
-
-        function generateKey(){
+      async function sendMessage() {
+          const newMessageRef = doc(db, "Messages", conversation);
+          const updateData = {};
+          updateData[generateKey()] = strNewMesasge;
+          await updateDoc(newMessageRef, updateData);
+          setStrNewMesasge('')
+          updateLastMessage()
+      }
+      function generateKey(){
             const currentDate = new Date();
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZoneName: 'short' };
             const dateTimeString = currentDate.toLocaleString('en-US', options);
             return (dateTimeString + ' admin');
-        }
-
-        function getTime(str){
+      }
+      function getTime(str){
             const timeRegex = /\d{1,2}:\d{2}:\d{2}\s[APap][Mm]/;
             const extractedTime = str.match(timeRegex)[0];
             const timeParts = extractedTime.split(":");
@@ -106,9 +110,8 @@ function MensagesPage() {
             const period = timeParts[2].split(" ")[1];
             const formattedTime = `${hour}:${minute.toString().padStart(2, '0')} ${period}`;
             return(formattedTime);
-        }
-
-        async function openConversation(email, name, lastMesage, property){
+      }
+      async function openConversation(email, name, lastMesage, property){
             let str = email + '-' + name + '-' + property;
             setConversation(str)
             setFirstCount(true)
@@ -118,14 +121,14 @@ function MensagesPage() {
             await updateDoc(chatRef, {
               status: 'seen' 
             });
-        }
-
-        const handleKeyDown = (event) => {
+            setOpenChat(true)
+      }
+      const handleKeyDown = (event) => {
             if (event.key === 'Enter' && !event.shiftKey) {
               event.preventDefault();
               sendMessage()
             }
-        };
+      };
   
     useEffect(() => {
       if (messagesContainerRef.current) {
@@ -134,45 +137,53 @@ function MensagesPage() {
     }, [messages]);
 
 
-    async function updateLastMessage(){
+  async function updateLastMessage(){
       await setDoc(doc(db, "LastMessages", chatURL), {
         message: strNewMesasge,
         status: 'sent',
         date : generateKey(), 
         user: chatURL
       });
-    }
+  }
+
 
 
   return (
-    <div>
-      <div className='wrapper-messagesPage' style={{display: isMobile? "none":"block"}} >
+      <div className='wrapper-messagesPage'>
           <div>
               <Sidebar />
           </div>
           <div>
             <div className='chats'>
-              <div className='contacts'>
-                  <p id="title"> Chats </p>
-                  <select>
-                    <option> Tunerberg </option>
-                  </select>
-                {contacts.map((contact, i) => 
-                  <div className={contact.email.includes(conversation.split('-')[0]) && conversation.length > 0 ? "selected-row":"row"} key={i} onClick={()=> openConversation(contact.email, contact.name, contact.lastMessage, contact.property)}>
+              <div className='contacts' style={{display: isMobile && openChat ? "none" : "block"}}>
+              <p id="title"> Chats </p>
+              <select onChange={(e)=>setShowChats(e.target.value)}>
+                <option value={''}> Show all </option>
+                {properties.map((property) =>
+                  <option value={property}> {property} </option>
+                )}
+              </select>
+              {contacts.map((contact, i) => {
+                if (contact.property.includes(showChats)) {
+                  return (
+                    <div className={contact.email.includes(conversation.split('-')[0]) && conversation.length > 0 ? "selected-row" : "row"} key={i} onClick={() => openConversation(contact.email, contact.name, contact.lastMessage, contact.property)}>
                       <div>
-                          <i className="bi bi-person-circle iconPerson"></i>
+                        <i className="bi bi-person-circle iconPerson"></i>
                       </div>
                       <div>
-                          <p id="name"> {contact.name} </p>
-                          <p id="lastMesage"> {contact.lastMessage.length <= 80 ? contact.lastMessage : contact.lastMessage.slice(0, 77) + ' ...'} </p>
+                        <p id="name"> {contact.name} - {contact.property} </p>
+                        <p id="lastMesage"> {contact.lastMessage.length <= 80 ? contact.lastMessage : contact.lastMessage.slice(0, 77) + ' ...'} </p>
                       </div>
-                      <div style={{display: contact.status == 'seen' ? "none":"block"}}>
+                      <div style={{ display: contact.status === 'seen' ? "none" : "block" }}>
                         <i className="bi bi-circle-fill iconStatus"></i>
                       </div>
-                  </div>
-                )}
+                    </div>
+                  );
+                }
+                return null; 
+              })}
               </div>
-              <div className='messages'>
+              <div className='messages' style={{display: isMobile? "none":"block"}}>
                   <div className='top-bar' style={{display: conversation.length > 0? "flex":"none"}}>
                       <p> <i className="bi bi-person-circle"></i> {conversation.split('-')[1]} </p>
                       <p>{conversation.split('-')[0]} </p>
@@ -197,34 +208,10 @@ function MensagesPage() {
                       <i className="bi bi-arrow-up-circle-fill arrowIcon" onClick={()=>sendMessage()}></i>
                   </div>
               </div>
-            </div>
-                    
-          </div>
-      </div>
-      <div className='wrapper-messagesPage' style={{display: isMobile? "block":"none"}} >
-
-          <div>
-            <div className='chats'>
-              <div className='contacts'>
-                  <p id="title"> Chats </p>
-                {contacts.map((contact, i) => 
-                  <div className={contact.email.includes(conversation.split('-')[0]) && conversation.length > 0 ? "selected-row":"row"} key={i} onClick={()=> openConversation(contact.email, contact.name, contact.lastMessage)}>
-                      <div>
-                          <i className="bi bi-person-circle iconPerson"></i>
-                      </div>
-                      <div>
-                          <p id="name"> {contact.name} </p>
-                          <p id="lastMesage"> {contact.lastMessage.length <= 80 ? contact.lastMessage : contact.lastMessage.slice(0, 77) + ' ...'} </p>
-                      </div>
-                      <div style={{display: contact.status == 'seen' ? "none":"block"}}>
-                        <i className="bi bi-circle-fill iconStatus"></i>
-                      </div>
-                  </div>
-                )}
-              </div>
-              <div className='messages'>
-                  <div className='top-bar' style={{display: conversation.length > 0? "flex":"none"}}>
-                      <p> <i className="bi bi-person-circle"></i> {conversation.split('-')[1]} </p>
+              <div className='messages'  style={{display: isMobile && openChat ? "block" : "none"}}>
+                  <div className='top-bar' style={{display: conversation.length > 0? "grid":"none"}}>
+                      
+                      <p className='left'>  <i className="bi bi-chevron-compact-left left" onClick={()=>setOpenChat(false)}></i> {conversation.split('-')[1]} </p>
                       <p>{conversation.split('-')[0]} </p>
                   </div>
                   <div className='bubles' ref={messagesContainerRef}>
@@ -248,11 +235,8 @@ function MensagesPage() {
                   </div>
               </div>
             </div>
-                    
           </div>
       </div>
-     
-    </div>
   )
 }
 export default MensagesPage

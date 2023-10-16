@@ -4,6 +4,8 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 
 function CalendarPage() {
+  const apiURL = process.env.REACT_APP_APIURL;
+
   const [calendar, setCalendar] = useState([]);
   const [events, setEvents] = useState([]);
   const [selectedOption, setSelectedOption] = useState('');
@@ -12,6 +14,8 @@ function CalendarPage() {
   const [showPopUp, setShowPopup] = useState(false)
 
   const [currentReservation, setCurrentReservation] = useState([]);
+
+
 
 
   useEffect(() => {
@@ -36,7 +40,7 @@ function CalendarPage() {
   }
 
   async function getCalendar(startDate, endDate) {
-    const apiUrl = `https://apis-betterstay.vercel.app/api/multipleCalendar?start=${encodeURIComponent(startDate)}&end=${encodeURIComponent(endDate)}`;
+    const apiUrl = `${apiURL}/api/multipleCalendar?start=${encodeURIComponent(startDate)}&end=${encodeURIComponent(endDate)}`;
     fetch(apiUrl)
       .then(response => response.json())
       .then(response => {

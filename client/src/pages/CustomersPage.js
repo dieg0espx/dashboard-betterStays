@@ -7,9 +7,9 @@ import axios from 'axios';
 import { saveAs } from 'file-saver';
 
 
-
-
 function CustomersPage() {
+    const apiURL = process.env.REACT_APP_APIURL;
+
     const [customers, setCustomers] = useState([])
     const [finding, setFinding] = useState('')
     const [showSideBar, setShowSideBar] = useState(false)
@@ -48,7 +48,7 @@ function CustomersPage() {
     },[])
 
     function getCustomers(){
-        fetch('https://apis-betterstay.vercel.app/api/getAllCustomers')
+        fetch(apiURL + '/api/getAllCustomers')
         .then(response => response.json())
         .then(response => {
             const sortedCustomers = response.results
@@ -150,7 +150,7 @@ function CustomersPage() {
         redirect: 'follow'
       };
       
-      fetch("https://better-stays-mailer.vercel.app/api/newInvoice", requestOptions)
+      fetch(apiURL + "/api/newInvoice", requestOptions)
         .then(response => response.text())
         .then(result => console.log("Email Sent: " + result))
         .catch(error => console.log('== ERROR === ', error));

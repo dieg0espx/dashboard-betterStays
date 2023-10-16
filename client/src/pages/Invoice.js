@@ -5,6 +5,7 @@ import { useLocation, useSearchParams } from 'react-router-dom';
 import StripeContainer from '../components/StripeContainer.js';
 
 function Invoice() {
+    const apiURL = process.env.REACT_APP_APIURL;
     const db = getFirestore(app);
     const location = useLocation();
     const {search } = location;
@@ -72,7 +73,7 @@ function Invoice() {
         redirect: 'follow'
       };
       
-      fetch("https://better-stays-mailer.vercel.app/api/newInvoice", requestOptions)
+      fetch(apiURL + "/api/newInvoice", requestOptions)
         .then(response => response.text())
         .then(result => console.log("Email Sent: " + result))
         .catch(error => console.log('== ERROR === ', error));

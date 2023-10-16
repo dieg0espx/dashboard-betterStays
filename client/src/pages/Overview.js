@@ -4,6 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 
 
 function Overview() {
+    const apiURL = process.env.REACT_APP_APIURL;
 
     const [data, setData] = useState([])
     const [totReservations, setTotReservations] = useState(0)
@@ -52,7 +53,7 @@ function Overview() {
     async function getCalendar() {
         let startDate = '2023-01-01'
         let endDate = '2023-12-30'
-        const apiUrl = `https://apis-betterstay.vercel.app/api/multipleCalendar?start=${encodeURIComponent(startDate)}&end=${encodeURIComponent(endDate)}`;
+        const apiUrl = `${apiURL}/api/multipleCalendar?start=${encodeURIComponent(startDate)}&end=${encodeURIComponent(endDate)}`;
         fetch(apiUrl)
           .then(response => response.json())
           .then(response => setData(response.data.days));

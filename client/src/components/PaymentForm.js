@@ -38,6 +38,7 @@ const MOBILE_CARD_OPTIONS = {
 };
 
 function PaymentForm(props) {
+    const apiURL = process.env.REACT_APP_APIURL;
     const db = getFirestore(app);
     const [success, setSuccess ] = useState(false)
     const stripe = useStripe()
@@ -86,7 +87,7 @@ function PaymentForm(props) {
          redirect: 'follow'
        };
        
-       fetch("https://better-stays-mailer.vercel.app/api/paidInvoice", requestOptions)
+       fetch(apiURL + "/api/paidInvoice", requestOptions)
          .then(response => response.text())
          .then(result => console.log("Email Sent: " + result))
          .catch(error => console.log('== ERROR === ', error));

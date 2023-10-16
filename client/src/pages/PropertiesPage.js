@@ -6,6 +6,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { Calendar } from 'react-calendar';
 
 function PropertiesPage() {
+    const apiURL = process.env.REACT_APP_APIURL;
     const db = getFirestore(app);
     const [properties, setProperties] = useState([])
     const [propertyData, setPropertyData] = useState([])
@@ -29,7 +30,7 @@ function PropertiesPage() {
     },[])
 
     function getProperties() {
-        fetch('https://apis-betterstay.vercel.app/api/getProperties')
+        fetch(apiURL + '/api/getProperties')
         .then(response => response.json())
         .then(response => setProperties(response.results))
     }

@@ -10,12 +10,13 @@ import { doc, getDoc } from "firebase/firestore";
 
 
 function Login() {  
+  const apiURL = process.env.REACT_APP_APIURL;
   const db = getFirestore(app);
   const [token, setToken] = useState('')
 
     async function checkUser(username){
       try {
-        fetch('https://apis-betterstay.vercel.app/api/login',{
+        fetch(apiURL + '/api/login',{
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
