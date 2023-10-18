@@ -20,8 +20,6 @@ function Overview() {
     const [platforms, setPlatforms] = useState([])
     const [currentMonth, setCurrentMonth] = useState([])
     const [graphSizes, setGraphSizes] = useState([])
-    // const [selectedProperty, setSelectedProperty] = useState('')
-
     let graphs = [false, false, false, false, false, false]
 
 
@@ -56,6 +54,7 @@ function Overview() {
             getMonthlyIncomePerProperty('')
             getMonthlyReservationsPerProperty('')
             getPlatformPerProperty('')
+            getCurrentMonthPerProperty('Tuneberg')
         }
     },[data])
 
@@ -185,7 +184,6 @@ function Overview() {
           };
         setCurrentMonth(currentReservations)
     }
-
     async function getMonthlyIncomePerProperty(propertyName) {
         let listingId ='';
         for(let a = 0; a < properties.length; a ++){
@@ -209,11 +207,8 @@ function Overview() {
             amount = parseFloat(amount.toFixed(2));
             incomes.push({ month: monthNames[i - 1], USD: amount });
         }
-        console.log("Montly Income per Property: " +  propertyName);
-        console.log(incomes);
         setMonthlyIncomePerProperty(incomes);
     }
-
     async function getMonthlyReservationsPerProperty(propertyName) {
         let listingId ='';
         for(let a = 0; a < properties.length; a ++){
@@ -237,7 +232,6 @@ function Overview() {
         }
         setMonthlyReservationsPerProperty(reservations)
     }
-
     async function getPlatformPerProperty(propertyName){
         let listingId ='';
         for(let a = 0; a < properties.length; a ++){
@@ -270,6 +264,39 @@ function Overview() {
         }
         setPlatformsPerProperty(countOccurrences(platforms))
     }
+
+    async function getCurrentMonthPerProperty(propertyName){
+        let listingId ='';
+        for(let a = 0; a < properties.length; a ++){
+            if(properties[a].name ==  propertyName){
+                listingId = properties[a].id
+                break
+            }
+        }
+
+        const currentDate = new Date();
+        const currentMonthNumber = currentDate.getMonth() + 1; // Adding 1 to get the month number (0-based index to 1-based)
+        const currentMonth = currentMonthNumber < 10 ? `0${currentMonthNumber}` : currentMonthNumber.toString();
+        
+        let reservations = 0;
+        let income = 0;
+        for(let i = 0; i < data.length; i ++){
+            if(data[i].status == 'booked' && data[i].listingId.includes(listingId)){
+                
+                if(data[i].date.split('-')[1] == currentMonthNumber){
+                    console.log(data[i]);
+                    reservations ++;
+                    income = income + data[i].reservation.money.hostPayout
+                }
+            }
+        }
+        let currentReservations = {
+            reservations: reservations,
+            income: income.toLocaleString()
+          };
+        setCurrentMonth(currentReservations)
+    }
+
 
     function resizeGraph(graph) {
         setGraphSizes(prevGraphSizes => {
@@ -359,8 +386,8 @@ function Overview() {
             <p>Monthly Income</p>
         </div>
         <div className={graphSizes[4] ? 'extended-graph':'graph'}>
-        <div className="top-nav"> 
-            <select onChange={(e)=>getPlatformPerProperty(e.target.value)} className='selectProperty'>
+            <div className="top-nav"> 
+                <select onChange={(e)=>getPlatformPerProperty(e.target.value)} className='selectProperty'>
                     <option> All Properties </option>
                     {properties.map((property) => (
                         <option key={property.id}>{property.name}</option>
@@ -386,7 +413,15 @@ function Overview() {
             <p> Platform Used </p>
         </div>
         <div className={graphSizes[5] ? 'extended-graph':'graph'}>
-            <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(5)}></i>
+            <div className="top-nav"> 
+                <select onChange={(e)=>getCurrentMonthPerProperty(e.target.value)} className='selectProperty'>
+                    <option> All Properties </option>
+                    {properties.map((property) => (
+                        <option key={property.id}>{property.name}</option>
+                    ))}
+                </select>
+                <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(4)}></i>
+            </div>
             <div className='detail'>
                 <h1>{currentMonth.reservations}</h1> 
                 <h2> Nights Booked </h2>
