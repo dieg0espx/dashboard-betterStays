@@ -230,7 +230,7 @@ function Document() {
       let reservationID = '';
 
       // FINDING RESERVATION ID 
-      await fetch(apiURL + '/api/getReservations')
+      await fetch(mailerURL + '/api/getReservations')
       .then(response => response.json())
       .then(response => {
         let reservations = response.results
