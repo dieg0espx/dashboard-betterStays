@@ -269,8 +269,8 @@ function Overview() {
         </div>
         <div className={graphSizes[3] ? 'extended-graph':'graph'}>
             <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(3)}></i>
-            <ResponsiveContainer width="100%" height="83 %">
-                <LineChart data={monthlyIncome} margin={{ left: 20 }}>
+            <ResponsiveContainer width="100%" height="83%">
+                <LineChart data={monthlyIncomePerProperty} margin={{ left: 20 }}>
                     <XAxis dataKey="month" tickFormatter={(value) => `$${value.toLocaleString()}`} />
                     <Tooltip formatter={(value) => `$${value.toLocaleString()}`} />
                     <Line type="monotone" dataKey="USD" stroke="#0089BF" strokeWidth={2} />
