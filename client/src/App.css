@@ -1021,20 +1021,31 @@ border: 2px solid #0089BF;
 }
 
 .wrapper-overview .content .top-nav{
-  /* border: 1px solid red; */
   width: 100%;
-  margin-left: 10px;
+  height: 30px;
+  margin: 0px auto 10px 10px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   background-color: transparent;
+}
+.wrapper-overview .content .top-nav p {
+  font-size: 15px;
+  color: gray;
+  margin: 0;
 }
 
 .wrapper-overview .content .selectProperty {
-  -webkit-appearance: none;
-  border: none;
+  -webkit-appearance: none; 
   font-weight: 500;
+  font-size: 15px;
   outline: none;
   background-color: white;
+  border: none;
+  color: gray;
+}
+.wrapper-overview .content .selectProperty:hover {
+  color: #0089BF;
 }
 .wrapper-overview .content .resizeIcon {
   color: gray;

@@ -14,6 +14,9 @@ function Overview() {
     const [monthlyIncome,setMonthlyIncome] = useState([])
     const [monthlyIncomePerProperty,setMonthlyIncomePerProperty] = useState([])
     const [monthlyReservationsPerProperty, setMonthlyReservationsPerProperty] = useState([])
+    const [platformPerProperty, setPlatformsPerProperty] = useState([])
+
+
     const [platforms, setPlatforms] = useState([])
     const [currentMonth, setCurrentMonth] = useState([])
     const [graphSizes, setGraphSizes] = useState([])
@@ -52,6 +55,7 @@ function Overview() {
             getPlatforms()
             getMonthlyIncomePerProperty('')
             getMonthlyReservationsPerProperty('')
+            getPlatformPerProperty('')
         }
     },[data])
 
@@ -234,6 +238,39 @@ function Overview() {
         setMonthlyReservationsPerProperty(reservations)
     }
 
+    async function getPlatformPerProperty(propertyName){
+        let listingId ='';
+        for(let a = 0; a < properties.length; a ++){
+            if(properties[a].name ==  propertyName){
+                listingId = properties[a].id
+                break
+            }
+        }
+
+        let platforms = []
+        for(let i = 0; i < data.length; i ++){
+            if(data[i].status == 'booked' && data[i].listingId.includes(listingId)){
+                platforms.push(data[i].reservation.integration.platform)
+            }
+        }
+        function countOccurrences(arr) {
+            let platfoms = []
+            const countMap = {}
+            arr.forEach(function (element) {
+              if (countMap[element]) {
+                countMap[element]++;
+              } else {
+                countMap[element] = 1;
+              }
+            });
+            for (const element in countMap) {
+              platfoms.push({name: element.toLocaleUpperCase(), Reservations:countMap[element] })
+            }
+            return platfoms
+        }
+        setPlatformsPerProperty(countOccurrences(platforms))
+    }
+
     function resizeGraph(graph) {
         setGraphSizes(prevGraphSizes => {
           const newGraphSizes = [...prevGraphSizes];
@@ -252,7 +289,10 @@ function Overview() {
       </div>
       <div className='content'>
         <div className={graphSizes[0] ? 'extended-graph':'graph'}>
-            <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(0)}></i>
+            <div className="top-nav"> 
+                <p> All Properties </p>
+                <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(0)}></i>
+            </div>
             <ResponsiveContainer width="95%" height="85%">
                 <BarChart data={reservationsPerProperty} barSize={35}  margin={{left: -10}}>
                   <XAxis dataKey="propertyName" scale="band" padding={{ left: 3, right: 3}} />
@@ -268,7 +308,7 @@ function Overview() {
                 <select onChange={(e)=>getMonthlyReservationsPerProperty(e.target.value)} className='selectProperty'>
                     <option> All Properties </option>
                     {properties.map((property) => (
-                        <option key={property.id}>{property.name}</option>
+                        <option key={property.id}> {property.name}</option>
                     ))}
                 </select>
                 <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(1)}></i>
@@ -284,8 +324,11 @@ function Overview() {
             <p> Monthly Reservations</p>
         </div>
         <div className={graphSizes[2] ? 'extended-graph':'graph'}>
-            <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(2)}></i>
-            <ResponsiveContainer width="95%" height="85%">
+            <div className="top-nav"> 
+                <p> All Properties </p>
+                <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(2)}></i>
+            </div>
+            <ResponsiveContainer width="95%" height="83%">
                 <BarChart data={averageNightsPerProperty} barSize={35}  margin={{left: -10}}>
                   <XAxis dataKey="property" scale="band" padding={{ left: 3, right: 3}} />
                   <YAxis />
@@ -296,7 +339,16 @@ function Overview() {
             <p> Average Nights </p>
         </div>
         <div className={graphSizes[3] ? 'extended-graph':'graph'}>
-            <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(3)}></i>
+            <div className="top-nav"> 
+                <select onChange={(e)=>getMonthlyIncomePerProperty(e.target.value)} className='selectProperty'>
+                    <option> All Properties </option>
+                    {properties.map((property) => (
+                        <option key={property.id}>{property.name}</option>
+                    ))}
+                </select>
+                <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(3)}></i>
+            </div>
+           
             <ResponsiveContainer width="100%" height="83%">
                 <LineChart data={monthlyIncomePerProperty} margin={{ left: 20 }}>
                     <XAxis dataKey="month" tickFormatter={(value) => `$${value.toLocaleString()}`} />
@@ -305,24 +357,25 @@ function Overview() {
                 </LineChart>
             </ResponsiveContainer>
             <p>Monthly Income</p>
-            <select onChange={(e)=>getMonthlyIncomePerProperty(e.target.value)} className='selectProperty'>
-                <option> All Properties </option>
-                {properties.map((property) => (
-                    <option key={property.id}>{property.name}</option>
-                ))}
-            </select>
         </div>
         <div className={graphSizes[4] ? 'extended-graph':'graph'}>
-            <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(4)}></i>
-            <ResponsiveContainer width="100%" height="85%">
+        <div className="top-nav"> 
+            <select onChange={(e)=>getPlatformPerProperty(e.target.value)} className='selectProperty'>
+                    <option> All Properties </option>
+                    {properties.map((property) => (
+                        <option key={property.id}>{property.name}</option>
+                    ))}
+                </select>
+                <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(4)}></i>
+            </div>
+            <ResponsiveContainer width="100%" height="83%">
                 <PieChart>
                 <Pie
                     dataKey="Reservations"
                     isAnimationActive={false}
-                    data={platforms}
+                    data={platformPerProperty}
                     cx="50%"
                     cy="50%"
-                    // outerRadius={100}
                     fill="#0089BF"
                     label
                     margin={{left: 50}}
