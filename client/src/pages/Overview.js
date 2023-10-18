@@ -264,7 +264,15 @@ function Overview() {
             <p> Property Reservations </p>
         </div>
         <div className={graphSizes[1] ? 'extended-graph':'graph'}>
-            <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(1)}></i>
+            <div className="top-nav"> 
+                <select onChange={(e)=>getMonthlyReservationsPerProperty(e.target.value)} className='selectProperty'>
+                    <option> All Properties </option>
+                    {properties.map((property) => (
+                        <option key={property.id}>{property.name}</option>
+                    ))}
+                </select>
+                <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(1)}></i>
+            </div>
             <ResponsiveContainer width="100%" height="83%">
                 <AreaChart width={500} height={400} data={monthlyReservationsPerProperty} margin={{left: -10}}>
                   <XAxis dataKey="month" />
@@ -274,12 +282,6 @@ function Overview() {
                 </AreaChart>
             </ResponsiveContainer>
             <p> Monthly Reservations</p>
-            <select onChange={(e)=>getMonthlyReservationsPerProperty(e.target.value)} className='selectProperty'>
-                <option> All Properties </option>
-                {properties.map((property) => (
-                    <option key={property.id}>{property.name}</option>
-                ))}
-            </select>
         </div>
         <div className={graphSizes[2] ? 'extended-graph':'graph'}>
             <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(2)}></i>
