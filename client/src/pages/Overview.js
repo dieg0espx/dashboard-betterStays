@@ -13,6 +13,7 @@ function Overview() {
     const [averageNightsPerProperty, setAverageNightsPerProperty] = useState([])
     const [monthlyIncome,setMonthlyIncome] = useState([])
     const [monthlyIncomePerProperty,setMonthlyIncomePerProperty] = useState([])
+    const [monthlyReservationsPerProperty, setMonthlyReservationsPerProperty] = useState([])
     const [platforms, setPlatforms] = useState([])
     const [currentMonth, setCurrentMonth] = useState([])
     const [graphSizes, setGraphSizes] = useState([])
@@ -50,6 +51,7 @@ function Overview() {
             getMonthlyIncome()
             getPlatforms()
             getMonthlyIncomePerProperty('')
+            getMonthlyReservationsPerProperty('')
         }
     },[data])
 
@@ -208,6 +210,30 @@ function Overview() {
         setMonthlyIncomePerProperty(incomes);
     }
 
+    async function getMonthlyReservationsPerProperty(propertyName) {
+        let listingId ='';
+        for(let a = 0; a < properties.length; a ++){
+            if(properties[a].name ==  propertyName){
+                listingId = properties[a].id
+                break
+            }
+        }
+        let reservations = []
+        for(let i = 1; i <= 12; i ++){
+            let reservationsCount = 0;
+            for(let j = 0; j < data.length; j++){
+                if(data[j].status == "booked" &&  data[j].listingId.includes(listingId)){
+                    let month = data[j].date.split('-')[1]
+                    if(month == i){
+                        reservationsCount ++
+                    }
+                }
+            }
+            reservations.push({month: monthNames[i-1], Reservations: reservationsCount})
+        }
+        setMonthlyReservationsPerProperty(reservations)
+    }
+
     function resizeGraph(graph) {
         setGraphSizes(prevGraphSizes => {
           const newGraphSizes = [...prevGraphSizes];
@@ -239,8 +265,8 @@ function Overview() {
         </div>
         <div className={graphSizes[1] ? 'extended-graph':'graph'}>
             <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(1)}></i>
-            <ResponsiveContainer width="100%" height="85%">
-                <AreaChart width={500} height={400} data={reservationsPerMonth} margin={{left: -10}}>
+            <ResponsiveContainer width="100%" height="83%">
+                <AreaChart width={500} height={400} data={monthlyReservationsPerProperty} margin={{left: -10}}>
                   <XAxis dataKey="month" />
                   <YAxis />
                   <Tooltip />
@@ -248,12 +274,12 @@ function Overview() {
                 </AreaChart>
             </ResponsiveContainer>
             <p> Monthly Reservations</p>
-            {/* <select onChange={(e)=>getMonthlyIncomePerProperty(e.target.value)} className='selectProperty'>
+            <select onChange={(e)=>getMonthlyReservationsPerProperty(e.target.value)} className='selectProperty'>
                 <option> All Properties </option>
                 {properties.map((property) => (
                     <option key={property.id}>{property.name}</option>
                 ))}
-            </select> */}
+            </select>
         </div>
         <div className={graphSizes[2] ? 'extended-graph':'graph'}>
             <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(2)}></i>
