@@ -420,7 +420,7 @@ function Overview() {
                         <option key={property.id}>{property.name}</option>
                     ))}
                 </select>
-                <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(4)}></i>
+                <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(5)}></i>
             </div>
             <div className='detail'>
                 <h1>{currentMonth.reservations}</h1> 

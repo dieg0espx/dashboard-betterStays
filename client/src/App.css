@@ -538,14 +538,14 @@
 }
 
 .sign {
-  width: 200px;
+  width: 180px;
   margin: 0px auto 0 auto;
   /* height: 200px; */
 }
 .sign img {
   width: 100%;
-  max-width: 200px;
-  max-height: 200px;
+  max-width: 180px;
+  max-height: 180px;
   border-bottom: 2px solid black;
   padding-bottom: 10px;
 }
@@ -931,7 +931,8 @@
   height: 100px;
 }
 .wrapper-sheet1 .sign img {
-  max-width: 200px;
+  max-width: 180px;
+  max-height: 180px;
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 10px;
@@ -2088,7 +2089,7 @@ abbr[title] {
   .wrapper-sheet1 .sign {
     width: 100px;
     margin: 20px auto 0 auto;
-    height: 120px;
+    height: 100px;
   }
   .wrapper-sheet1 .sign img {
     max-width: 100px;
