@@ -972,11 +972,23 @@
   margin: 0px;
   transition: 0.3s;
 }
+.extended-graph {
+  width:100%;
+  height: calc(97vh/2);
+  display: block;
+  padding:  30px 35px 30px 0;
+  border: 2px solid lightgray;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.127) 0px 3px 8px;
+  margin: 0px;
+  transition: 0.3s;
+}
 
-.graph:hover {
+
+.graph:hover, .extended-graph:hover {
 border: 2px solid #0089BF;
 } 
-.graph p {
+.graph p, .extended-graph p {
   font-size: 18px;
   font-weight: 500;
   display: block;
@@ -984,7 +996,7 @@ border: 2px solid #0089BF;
   margin: 10px -35px auto 0;
 }
 
-.graph .detail {
+.graph .detail, .extended-graph .detail {
   width: 100%;
   position: relative;
   right: -20px;
@@ -994,29 +1006,24 @@ border: 2px solid #0089BF;
   align-items: center;
   justify-content: center;
 }
-.graph .detail h1{
+.graph .detail h1, .extended-graph .detail h1{
   color: #0089BF;
   font-size: 100px;
   font-weight: 400;
 }
-.graph .detail h2{
+.graph .detail h2, .extended-graph .detail h2{
   font-size: 20px;
   color: gray;
   font-weight: 400;
 }
-.graph .detail h3{
+.graph .detail h3, .extended-graph .detail h3{
   font-size: 40px;
   color: #0089BF;
   font-weight: 400;
 }
 
-.graph hr {
-  width: 80%;
-  margin: 0px auto 0px auto;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-}
+
+
 
 /* ======== SUPPORT PAGE ========= */
 .wrapper-supportPage {

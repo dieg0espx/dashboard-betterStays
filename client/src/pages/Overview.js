@@ -14,6 +14,10 @@ function Overview() {
     const [monthlyIncome,setMonthlyIncome] = useState([])
     const [platforms, setPlatforms] = useState([])
     const [currentMonth, setCurrentMonth] = useState([])
+    const [graphSizes, setGraphSizes] = useState([])
+
+    let graphs = [false, false, false, false, false, false]
+
 
     let properties = [
         {name: "The Pool House",     id:"638a965985cf74003f7b34e6"},
@@ -173,6 +177,15 @@ function Overview() {
         setCurrentMonth(currentReservations)
     }
 
+    function resizeGraph(graph) {
+        setGraphSizes(prevGraphSizes => {
+          const newGraphSizes = [...prevGraphSizes];
+          newGraphSizes[graph] = !newGraphSizes[graph];
+          return newGraphSizes;
+        });
+    }
+    
+
 
 
   return (
@@ -181,7 +194,7 @@ function Overview() {
         <Sidebar />
       </div>
       <div className='content'>
-        <div className='graph'>
+        <div className={graphSizes[0] ? 'extended-graph':'graph'} onClick={()=>resizeGraph(0) }>
             <ResponsiveContainer width="95%" height="90%">
                 <BarChart data={reservationsPerProperty} barSize={35}  margin={{left: -10}}>
                   <XAxis dataKey="propertyName" scale="band" padding={{ left: 3, right: 3}} />
@@ -192,7 +205,7 @@ function Overview() {
             </ResponsiveContainer>
             <p> Property Reservations </p>
         </div>
-        <div className='graph'>
+        <div className={graphSizes[1] ? 'extended-graph':'graph'} onClick={()=>resizeGraph(1) }>
             <ResponsiveContainer width="100%" height="90%">
                 <AreaChart width={500} height={400} data={reservationsPerMonth} margin={{left: -10}}>
                   <XAxis dataKey="month" />
@@ -203,7 +216,7 @@ function Overview() {
             </ResponsiveContainer>
             <p> Monthly Reservations</p>
         </div>
-        <div className='graph'>
+        <div className={graphSizes[2] ? 'extended-graph':'graph'} onClick={()=>resizeGraph(2) }>
             <ResponsiveContainer width="95%" height="90%">
                 <BarChart data={averageNightsPerProperty} barSize={35}  margin={{left: -10}}>
                   <XAxis dataKey="property" scale="band" padding={{ left: 3, right: 3}} />
@@ -214,7 +227,7 @@ function Overview() {
             </ResponsiveContainer>
             <p> Average Nights </p>
         </div>
-        <div className='graph'>
+        <div className={graphSizes[3] ? 'extended-graph':'graph'} onClick={()=>resizeGraph(3) }>
             <ResponsiveContainer width="100%" height="90%">
                 <LineChart data={monthlyIncome}margin={{left: 20}}>
                     <XAxis dataKey="month" />
@@ -224,7 +237,7 @@ function Overview() {
             </ResponsiveContainer>
             <p> Monthly Income</p>
         </div>
-        <div className='graph'>
+        <div className={graphSizes[4] ? 'extended-graph':'graph'} onClick={()=>resizeGraph(4) }>
             <ResponsiveContainer width="100%" height="90%">
                 <PieChart>
                 <Pie
@@ -243,7 +256,7 @@ function Overview() {
             </ResponsiveContainer>
             <p> Platform Used </p>
         </div>
-        <div className='graph'>
+        <div className={graphSizes[5] ? 'extended-graph':'graph'} onClick={()=>resizeGraph(5) }>
             <div className='detail'>
                 <h1>{currentMonth.reservations}</h1> 
                 <h2> Nights Booked </h2>
