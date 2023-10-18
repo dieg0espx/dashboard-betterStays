@@ -472,7 +472,7 @@
   display: grid;
   grid-template-columns: auto auto;
   width: 90%;
-  margin: 10px auto 30px auto;
+  margin: 0px auto 30px auto;
   align-items: baseline;
 }
 
@@ -538,14 +538,14 @@
 }
 
 .sign {
-  width: 180px;
+  width: 100px;
+  height: 100px;
   margin: 0px auto 0 auto;
-  /* height: 200px; */
 }
 .sign img {
-  width: 100%;
-  max-width: 180px;
-  max-height: 180px;
+  object-fit: cover;
+  max-width: 150px !important;
+  max-height: 150px !important;
   border-bottom: 2px solid black;
   padding-bottom: 10px;
 }
