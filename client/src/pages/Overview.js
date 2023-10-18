@@ -12,9 +12,11 @@ function Overview() {
     const [reservationsPerMonth, setReservationsPerMonth] = useState([])
     const [averageNightsPerProperty, setAverageNightsPerProperty] = useState([])
     const [monthlyIncome,setMonthlyIncome] = useState([])
+    const [monthlyIncomePerProperty,setMonthlyIncomePerProperty] = useState([])
     const [platforms, setPlatforms] = useState([])
     const [currentMonth, setCurrentMonth] = useState([])
     const [graphSizes, setGraphSizes] = useState([])
+    // const [selectedProperty, setSelectedProperty] = useState('')
 
     let graphs = [false, false, false, false, false, false]
 
@@ -33,7 +35,7 @@ function Overview() {
     const monthNames = [
         'January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December'
-      ];
+    ];
 
     useEffect(()=>{
         getCalendar()
@@ -47,6 +49,7 @@ function Overview() {
             getAverageNightsPerProperty()
             getMonthlyIncome()
             getPlatforms()
+            getMonthlyIncomePerProperty('')
         }
     },[data])
 
@@ -177,6 +180,34 @@ function Overview() {
         setCurrentMonth(currentReservations)
     }
 
+    async function getMonthlyIncomePerProperty(propertyName) {
+        let listingId ='';
+        for(let a = 0; a < properties.length; a ++){
+            if(properties[a].name ==  propertyName){
+                listingId = properties[a].id
+                break
+            }
+        }
+
+        let incomes = [];
+        for (let i = 1; i <= 12; i++) {
+            let amount = 0;
+            for (let j = 0; j < data.length; j++) {
+                if (data[j].status == "booked" && data[j].listingId.includes(listingId)) {
+                    let currentMonth = data[j].date.split('-')[1];
+                    if (currentMonth == i) {
+                        amount += parseFloat(data[j].reservation.money.totalPaid);
+                    }
+                }
+            }
+            amount = parseFloat(amount.toFixed(2));
+            incomes.push({ month: monthNames[i - 1], USD: amount });
+        }
+        console.log("Montly Income per Property: " +  propertyName);
+        console.log(incomes);
+        setMonthlyIncomePerProperty(incomes);
+    }
+
     function resizeGraph(graph) {
         setGraphSizes(prevGraphSizes => {
           const newGraphSizes = [...prevGraphSizes];
@@ -194,8 +225,9 @@ function Overview() {
         <Sidebar />
       </div>
       <div className='content'>
-        <div className={graphSizes[0] ? 'extended-graph':'graph'} onClick={()=>resizeGraph(0) }>
-            <ResponsiveContainer width="95%" height="90%">
+        <div className={graphSizes[0] ? 'extended-graph':'graph'}>
+            <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(0)}></i>
+            <ResponsiveContainer width="95%" height="85%">
                 <BarChart data={reservationsPerProperty} barSize={35}  margin={{left: -10}}>
                   <XAxis dataKey="propertyName" scale="band" padding={{ left: 3, right: 3}} />
                   <YAxis />
@@ -205,8 +237,9 @@ function Overview() {
             </ResponsiveContainer>
             <p> Property Reservations </p>
         </div>
-        <div className={graphSizes[1] ? 'extended-graph':'graph'} onClick={()=>resizeGraph(1) }>
-            <ResponsiveContainer width="100%" height="90%">
+        <div className={graphSizes[1] ? 'extended-graph':'graph'}>
+            <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(1)}></i>
+            <ResponsiveContainer width="100%" height="85%">
                 <AreaChart width={500} height={400} data={reservationsPerMonth} margin={{left: -10}}>
                   <XAxis dataKey="month" />
                   <YAxis />
@@ -215,9 +248,16 @@ function Overview() {
                 </AreaChart>
             </ResponsiveContainer>
             <p> Monthly Reservations</p>
+            {/* <select onChange={(e)=>getMonthlyIncomePerProperty(e.target.value)} className='selectProperty'>
+                <option> All Properties </option>
+                {properties.map((property) => (
+                    <option key={property.id}>{property.name}</option>
+                ))}
+            </select> */}
         </div>
-        <div className={graphSizes[2] ? 'extended-graph':'graph'} onClick={()=>resizeGraph(2) }>
-            <ResponsiveContainer width="95%" height="90%">
+        <div className={graphSizes[2] ? 'extended-graph':'graph'}>
+            <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(2)}></i>
+            <ResponsiveContainer width="95%" height="85%">
                 <BarChart data={averageNightsPerProperty} barSize={35}  margin={{left: -10}}>
                   <XAxis dataKey="property" scale="band" padding={{ left: 3, right: 3}} />
                   <YAxis />
@@ -227,18 +267,26 @@ function Overview() {
             </ResponsiveContainer>
             <p> Average Nights </p>
         </div>
-        <div className={graphSizes[3] ? 'extended-graph':'graph'} onClick={()=>resizeGraph(3) }>
-            <ResponsiveContainer width="100%" height="90%">
-                <LineChart data={monthlyIncome}margin={{left: 20}}>
-                    <XAxis dataKey="month" />
-                    <Tooltip />
+        <div className={graphSizes[3] ? 'extended-graph':'graph'}>
+            <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(3)}></i>
+            <ResponsiveContainer width="100%" height="83 %">
+                <LineChart data={monthlyIncome} margin={{ left: 20 }}>
+                    <XAxis dataKey="month" tickFormatter={(value) => `$${value.toLocaleString()}`} />
+                    <Tooltip formatter={(value) => `$${value.toLocaleString()}`} />
                     <Line type="monotone" dataKey="USD" stroke="#0089BF" strokeWidth={2} />
                 </LineChart>
             </ResponsiveContainer>
-            <p> Monthly Income</p>
+            <p>Monthly Income</p>
+            <select onChange={(e)=>getMonthlyIncomePerProperty(e.target.value)} className='selectProperty'>
+                <option> All Properties </option>
+                {properties.map((property) => (
+                    <option key={property.id}>{property.name}</option>
+                ))}
+            </select>
         </div>
-        <div className={graphSizes[4] ? 'extended-graph':'graph'} onClick={()=>resizeGraph(4) }>
-            <ResponsiveContainer width="100%" height="90%">
+        <div className={graphSizes[4] ? 'extended-graph':'graph'}>
+            <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(4)}></i>
+            <ResponsiveContainer width="100%" height="85%">
                 <PieChart>
                 <Pie
                     dataKey="Reservations"
@@ -256,7 +304,8 @@ function Overview() {
             </ResponsiveContainer>
             <p> Platform Used </p>
         </div>
-        <div className={graphSizes[5] ? 'extended-graph':'graph'} onClick={()=>resizeGraph(5) }>
+        <div className={graphSizes[5] ? 'extended-graph':'graph'}>
+            <i className="bi bi-aspect-ratio resizeIcon" onClick={()=>resizeGraph(5)}></i>
             <div className='detail'>
                 <h1>{currentMonth.reservations}</h1> 
                 <h2> Nights Booked </h2>
