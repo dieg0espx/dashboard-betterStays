@@ -209,7 +209,7 @@ function Document() {
             setCustomerLastName(docSnap.data().customerLastName)
 
             setCheckIn(docSnap.data().inputs[12] + ', 20' + docSnap.data().inputs[13])
-            setCheckIn(docSnap.data().inputs[16] + ', 20' + docSnap.data().inputs[17])
+            setCheckOut(docSnap.data().inputs[16] + ', 20' + docSnap.data().inputs[17])
             setAddress(docSnap.data().inputs[7])
 
           }
