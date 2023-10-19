@@ -230,7 +230,7 @@ function Document() {
       let reservationID = '';
 
       // FINDING RESERVATION ID 
-      await fetch(mailerURL + '/api/getReservations')
+      await fetch(apiURL + '/api/getReservations')
       .then(response => response.json())
       .then(response => {
         let reservations = response.results
@@ -271,7 +271,7 @@ function Document() {
       
       await fetch(mailerURL + "/api/bookingConfirmation", requestOptions)
         .then(response => response.text())
-        .then(result => console.log("Email Sent: " + result))
+        .then(response => console.log("Email Sent: " + customerEmail + " | " +  response))
         .catch(error => console.log('== ERROR === ', error));
     }
 
