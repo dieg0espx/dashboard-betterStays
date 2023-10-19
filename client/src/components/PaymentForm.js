@@ -148,7 +148,7 @@ function PaymentForm(props) {
                 <p id="failed"> {error} </p>
             </div>
             <div style={{display: showBtn? "block":"none"}}>
-                <button id="btnPay" onClick={()=>setShowBtn(false)}>Pay ${props.balance} USD</button>
+                <button id="btnPay" onClick={()=>setShowBtn(false)}>Pay {parseFloat(props.balance).toLocaleString('en-US', {style: 'currency',currency: 'USD'})} USD</button>
             </div>
         </form>:""
         }     

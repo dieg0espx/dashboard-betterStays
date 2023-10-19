@@ -97,7 +97,7 @@ function Invoice() {
                 <p id="date"> <b> Issued: </b>{invoice.date}</p>
               </div>
               <div> 
-                  <p id="amount"> ${invoice.amount} USD </p>
+                  <p id="amount"> {parseFloat(invoice.amount).toLocaleString('en-US', { style: 'currency', currency: 'USD'})} USD </p>
                   <p id="name">  <i className="bi bi-check-circle-fill bulletIcon"></i> {invoice.name} </p>
                   <p id="phone"> <i className="bi bi-check-circle-fill bulletIcon"></i> {invoice.phone} </p>
                   <p id="email"> <i className="bi bi-check-circle-fill bulletIcon"></i> {invoice.email} </p>
