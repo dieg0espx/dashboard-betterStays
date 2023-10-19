@@ -208,10 +208,9 @@ function Document() {
             setCustomerName(docSnap.data().customerName)
             setCustomerLastName(docSnap.data().customerLastName)
 
-            setCheckIn(docSnap.data().inputs[12] + ', 20' + docSnap.data().inputs[13])
-            setCheckOut(docSnap.data().inputs[16] + ', 20' + docSnap.data().inputs[17])
-            setAddress(docSnap.data().inputs[7])
-
+            setCheckIn(docSnap.data().input[12] + ', 20' + docSnap.data().input[13])
+            setCheckOut(docSnap.data().input[16] + ', 20' + docSnap.data().input[17])
+            setAddress(docSnap.data().input[7])
           }
         } catch (error) {
           console.error("Error fetching data:", error);
