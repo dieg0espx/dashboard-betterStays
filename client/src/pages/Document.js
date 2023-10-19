@@ -56,7 +56,7 @@ function Document() {
     const [checkIn, setCheckIn] = useState('')
     const [checkOut, setCheckOut] = useState('')
     const [pricesBreakdown, setPricesBreakdown] = useState([])
-    const [adddress, setAddress] = useState('')
+    const [address, setAddress] = useState('')
     
 
 
@@ -259,7 +259,8 @@ function Document() {
       urlencoded.append("reservationID", reservationID);
       urlencoded.append("checkIn", checkIn);
       urlencoded.append("checkOut", checkOut);
-      urlencoded.append("address", adddress);
+      urlencoded.append("address", address);
+      urlencoded.append("propertyName", propertyName);
 
 
       var requestOptions = {
