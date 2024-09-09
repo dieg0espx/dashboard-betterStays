@@ -83,6 +83,10 @@ function CalendarPage() {
     }
   }, [calendar]);
 
+  useEffect(() => {
+    console.log("Events state:", events);
+}, [events]);
+
   function getRandomColor() {
   const getRandomComponent = () => Math.floor(Math.random() * 128 + 64).toString(16).padStart(2, '0');
   return `#${getRandomComponent()}${getRandomComponent()}${getRandomComponent()}`;

@@ -15,6 +15,20 @@ function PropertiesPage() {
     const [minNights, setMinNights] = useState(0)
     const [selectedProperty, setSelectedProperty] = useState([])
     const [selectedDates, setSelectedDates] = useState([])
+    const [landlordPopup, setLandlordPopup] = useState(false)
+    const [landlords, setLandlords] = useState([])
+    const [currentNickname, setCurrentNickName] = useState('')
+    
+
+
+    // State to store landlord data
+    const [landlordData, setLandlordData] = useState({
+        address: '',
+        email: '',
+        fullName: '',
+        mailingAddress: '',
+        phone: ''
+    });
 
     //FUNCTION TO FORMAT DATE YYYY-MM-DD
     const formatDate = (range) => {
@@ -24,10 +38,19 @@ function PropertiesPage() {
         return `${month}/${day}/${year}`;
     };
 
+    
     useEffect(()=>{
+        getLandlords()
         getProperties()
         getPropertiesData()
     },[])
+
+    useEffect(()=>{
+        if(properties.length > 0 && propertyData.length > 0){
+            defaultRules()
+        }
+    },[properties, propertyData])
+
 
     function getProperties() {
         fetch(apiURL + '/api/getProperties')
@@ -141,6 +164,96 @@ function PropertiesPage() {
             }
         }}
     }
+
+
+    const getLandlords = async () => {
+        const querySnapshot = await getDocs(collection(db, "Landlords"));
+        const landlordsData = [];
+        querySnapshot.forEach((doc) => {
+            landlordsData.push({ id: doc.id, ...doc.data() });
+        });
+        setLandlords(landlordsData);
+    };
+    
+
+    const handleLandlordInputChange = (e) => {
+        const { name, value } = e.target;
+        setLandlordData({
+            ...landlordData,
+            [name]: value
+        });
+    }
+
+
+    const closePopups = () =>{
+        setLandlordPopup(false)
+        setShowPopup(false)
+        setLandlordData({
+            address: '',
+            email: '',
+            fullName: '',
+            mailingAddress: '',
+            phone: ''
+        })
+    }
+
+    const onPropertySettings = (nickname) => {
+        setCurrentNickName(nickname)
+        setLandlordPopup(true);
+        const currentLandlord = landlords.find(landlord => landlord.id === nickname);
+        console.log(currentLandlord);
+        if (currentLandlord) {
+            setLandlordData({
+                address: currentLandlord.address || '',
+                email: currentLandlord.email || '',
+                fullName: currentLandlord.fullName || '',
+                mailingAddress: currentLandlord.mailingAddress || '',
+                phone: currentLandlord.phone || ''
+            });
+        }
+    };
+
+    const saveLandlord = async() => {
+        await setDoc(doc(db, "Landlords", currentNickname), landlordData);
+        alert("LandLord saved for : " + currentNickname)
+        closePopups()
+        await getLandlords()
+    }
+
+
+    const defaultRules = async () => {
+        let count = 0;
+        try {
+            for (let property of properties) {
+                // Check if the property.nickname exists in propertyData
+                const propertyExists = propertyData.some(data => data.id === property.nickname);
+    
+                // If it doesn't exist, create a new document in Firestore
+                if (!propertyExists) {
+                    console.log(property.nickname);
+                    
+                    await setDoc(doc(db, "Properties", property.nickname), {
+                        min: 1,
+                        max: 60
+                    });
+                    count ++
+                    console.log(`Default rules set for ${property.nickname}`);
+                }
+            }
+           if(count > 0) {
+            alert("Default rules have been set for properties that were missing.");
+           }
+        } catch (error) {
+            console.error("Error setting default rules: ", error);
+        }
+    };
+    
+
+
+
+
+    
+
     return (
     <div className='wrapper-propertiesPage'>
         <div>
@@ -164,6 +277,7 @@ function PropertiesPage() {
                                 <p className='labelMinMax'> Max: </p>
                                 <input type='tel' placeholder={getMax(property.nickname)} onChange={(e)=>updateMinMax('max', property.nickname, e.target.value)}/>
                             </div>
+                            <i className="bi bi-sliders" onClick={()=>onPropertySettings(property.nickname)}></i>
                         </div>
                         <div className='rules'>
                              {getRules(property.nickname)}
@@ -173,7 +287,7 @@ function PropertiesPage() {
             })}
             </div>
 
-            <div className='overlay' style={{display: showPopup? "block":"none"}} onClick={()=>setShowPopup(false)}></div>
+            <div className='overlay' style={{display: showPopup || landlordPopup? "block":"none"}} onClick={()=>closePopups()}></div>
             <div className='newRule-popup' style={{display: showPopup? "grid":"none"}}>
                 <h2> New Rule - {selectedProperty.nickname}</h2> 
                 <div className='content'>
@@ -197,6 +311,52 @@ function PropertiesPage() {
                         <button id="btnSave" onClick={()=>addNewRules()}> Save </button>
                     </div>
                 </div>
+            </div>
+
+            <div className='landlord-popup' style={{ display: landlordPopup ? 'flex' : 'none' }}>
+                <h2>Landlord Setup</h2>
+                <form onSubmit={(e) => {
+                    e.preventDefault();
+                    saveLandlord();
+                }}>
+
+                    <input 
+                        type='text' 
+                        placeholder='Property Address' 
+                        name='address' 
+                        value={landlordData.address} 
+                        onChange={handleLandlordInputChange} 
+                    />
+                    <input 
+                        type='text' 
+                        placeholder='Email Address' 
+                        name='email' 
+                        value={landlordData.email} 
+                        onChange={handleLandlordInputChange} 
+                    />
+                    <input 
+                        type='text' 
+                        placeholder='Full Name' 
+                        name='fullName' 
+                        value={landlordData.fullName} 
+                        onChange={handleLandlordInputChange} 
+                    />
+                    <input 
+                        type='text' 
+                        placeholder='Mailing Address' 
+                        name='mailingAddress' 
+                        value={landlordData.mailingAddress} 
+                        onChange={handleLandlordInputChange} 
+                    />
+                    <input 
+                        type='text' 
+                        placeholder='Phone' 
+                        name='phone' 
+                        value={landlordData.phone} 
+                        onChange={handleLandlordInputChange} 
+                    />
+                    <button type='submit'>Save</button>
+                </form>
             </div>
         </div>
     </div>
